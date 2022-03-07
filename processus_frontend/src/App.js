@@ -1,9 +1,9 @@
 
-import Login from './components/Login'
+import Reset from './components/Reset'
 function App() {
   return (
    
-      <Login />
+      <Reset />
       
   );
 }
