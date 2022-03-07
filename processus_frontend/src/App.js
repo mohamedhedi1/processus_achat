@@ -1,9 +1,9 @@
 
-import Reset from './components/Reset'
+import Nav from './components/Nav'
 function App() {
   return (
    
-      <Reset />
+      <Nav />
       
   );
 }
