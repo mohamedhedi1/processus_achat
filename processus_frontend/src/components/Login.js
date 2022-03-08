@@ -1,6 +1,66 @@
-import React from 'react'
+import React, {useState} from 'react'
+import { useNavigate } from 'react-router-dom';
+import AppServices from '../services/AppServices';
+import axios from "axios";
+
+
+
 
 const Login = () => {
+    const [user, setUser] = useState(
+        {
+         username:"admin@admin.com",
+         password:"admin"
+        }    
+        );
+        const navigate = useNavigate();
+        const handleChange = (e) =>
+     {
+         const value = e.target.value;
+         setUser(
+           {...user, [e.target.name]: value}
+         );
+ 
+     }
+     const login = async (e) =>
+     {
+         e.preventDefault();
+         axios.defaults.withCredentials = 'true';
+        axios.defaults.crossDomain = 'true';
+        axios.defaults.headers.post['Content-Type'] = 'application/json';
+        axios.defaults.headers.post['withCredentials'] = 'true';
+         AppServices.login(user)
+         .then((response) =>
+         {
+             console.log(response);
+             //navigate("/navbar")
+         })
+         .catch((error) =>{
+             console.log(error);
+         })
+    }  
+   /* const login =async (event) => {
+        event.preventDefault();
+        axios.defaults.withCredentials = 'true';
+        axios.defaults.crossDomain = 'true';
+        axios.defaults.headers.post['Content-Type'] = 'application/json';
+        axios.defaults.headers.post['withCredentials'] = 'true';
+        // eslint-disable-next-line no-console
+        
+        try {
+          
+            // make axios post request
+            //const response = await axios.post('http://localhost:8080/login',logindata);
+            AppServices.login(user)
+            console.log(user)
+          
+           
+          } catch(error) {
+            console.log(error)
+          }
+        
+      };*/
+ 
   return (
       <>
       
@@ -19,10 +79,14 @@ const Login = () => {
                 </div>
                 <h3 className="mb-4">Login</h3>
                 <div className="input-group mb-3">
-                    <input type="email" className="form-control" placeholder="Email" />
+                    <input type="email" 
+                    value={user.username} onChange={(e)=> handleChange(e)} 
+                    className="form-control" placeholder="Email" />
                 </div>
                 <div className="input-group mb-4">
-                    <input type="password" className="form-control" placeholder="password" />
+                    <input type="password" 
+                    value={user.password} onChange={(e)=> handleChange(e)} 
+                    className="form-control" placeholder="password" />
                 </div>
                 <div className="form-group text-left">
                     <div className="checkbox checkbox-fill d-inline">
@@ -30,7 +94,9 @@ const Login = () => {
                         <label for="checkbox-fill-a1" className="cr"> Save Details</label>
                     </div>
                 </div>
-                <button className="btn btn-primary shadow-2 mb-4">Login</button>
+                <button
+                onClick={login}
+                className="btn btn-primary shadow-2 mb-4">Login</button>
                 <p className="mb-2 text-muted">Forgot password? <a href="">Reset</a></p>
                 <p className="mb-0 text-muted">Don’t have an account? <a href="">Signup</a></p>
             </div>
@@ -43,5 +109,6 @@ const Login = () => {
 
   )
 }
+
 
 export default Login
