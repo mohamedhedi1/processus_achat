@@ -1,10 +1,7 @@
 package com.example.processus_backend.entity.user;
 
 import com.example.processus_backend.security.config.AppRole;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +13,7 @@ import java.util.Collections;
 @Getter
 @Setter
 @Entity
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="users")
@@ -41,24 +39,6 @@ public class User implements UserDetails{
     private AppRole appRole;
     private Boolean locked = false;
     private Boolean enabled = false;
-
-    public User(String emailId, String firstName, String lastName, String post, String cin, String password, AppRole appRole) {
-        this.emailId = emailId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.post = post;
-        this.cin = cin;
-        this.password = password;
-        this.appRole = appRole;
-    }
-
-    public User(String emailId, String firstName, String lastName, String post, String cin) {
-        this.emailId = emailId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.post = post;
-        this.cin = cin;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

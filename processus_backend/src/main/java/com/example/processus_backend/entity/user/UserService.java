@@ -1,6 +1,8 @@
 package com.example.processus_backend.entity.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -9,20 +11,28 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
     private  final UserRepository userRepository;
+    private final static String USER_NOT_FOUND_MSG =
+            "user with email %s not found";
+
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository)
+    {
         this.userRepository = userRepository;
     }
 
 
-
-
-
+    public User getUserById(long id){
+        return userRepository.findUserByuserId(id);
+    }
     public List<User> getUsers() {
-        return userRepository.findAll();
+        List<User> users= userRepository.findAll();
+        System.out.print("exit function");
+        if(users.isEmpty()){throw new IllegalStateException("Commission does not exists") ;}
+        return  users ;
+
     }
 
     public void deleteUser(Long id) {
@@ -62,14 +72,25 @@ public class UserService {
             }
             user.setEmailId(emailId);
         }
+        userRepository.save(user);
     }
 
     public void addUsers(User user) {
         userRepository.save(user);
     }
 
-    public void addUser0() {
-        User u0= new User("hedi.....")
-        userRepository.save()
+    @Override
+    public User loadUserByUsername(String emailId) throws UsernameNotFoundException {
+        User u= userRepository.findUserByEmail(emailId).orElseThrow(() ->
+                        new UsernameNotFoundException(
+                                String.format(USER_NOT_FOUND_MSG, emailId)));
+        System.out.print("test"+u.toString());
+        return  u ;
     }
+
+
+    /* void addUser0() {
+        User u0= new User("hedi.....");
+        userRepository.save()
+    }*/
 }

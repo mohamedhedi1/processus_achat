@@ -1,5 +1,6 @@
 package com.example.processus_backend.entity.user;
 
+import com.example.processus_backend.security.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,29 +10,40 @@ import java.util.List;
 @RequestMapping(path = "api/v1/user")
 public class UserController {
     private final UserService userService;
-
+    private  final PasswordEncoder passwordEncoder;
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
     @GetMapping
     public List<User> getUsers()
     {
         return userService.getUsers();
     }
-
+    /*
     @PostMapping(path = "/default")
     public void addUser0()
     {
         userService.addUser0();
-    }
+    }*/
     @PostMapping(path = "/addUser")
-    public void addUser(@RequestBody User user)
+    public void addUser(@RequestBody UserRequest userRequest)
     {
+        //check email
+        User user= User.builder()
+                .cin(userRequest.getCin())
+                .emailId(userRequest.getEmailId())
+                .post(userRequest.getPost())
+                .appRole(userRequest.getAppRole())
+                .firstName(userRequest.getFirstName())
+                .lastName(userRequest.getLastName())
+                .enabled(true)
+                .locked(false)
+                .password(passwordEncoder.bCryptPasswordEncoder().encode(userRequest.getPassword()))
+                .build();
         userService.addUsers(user);
-
-
-
+        //send mail
     }
 
     @DeleteMapping(path="{id}")
@@ -45,15 +57,7 @@ public class UserController {
     @GetMapping(path="{id}")
     public User getUserById(@PathVariable("id") Long id )
     {
-
-        List<User> s= userService.getUsers();
-        return s.stream()
-                .filter(user -> id.equals(user.getUserId()))
-                .findFirst()
-                .orElseThrow(
-                        ()-> new IllegalStateException("User "+id+"does not exists"));
-
-
+         return userService.getUserById(id);
     }
     @PutMapping(path="{id}")
     public void updateStudent(
