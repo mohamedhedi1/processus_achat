@@ -22,24 +22,34 @@ const Login = () => {
          );
  
      }
+     /*
+     
      const login = async (e) =>
      {
          e.preventDefault();
-         axios.defaults.withCredentials = 'true';
-        axios.defaults.crossDomain = 'true';
-        axios.defaults.headers.post['Content-Type'] = 'application/json';
-        axios.defaults.headers.post['withCredentials'] = 'true';
+     
          AppServices.login(user)
          .then((response) =>
          {
              console.log(response);
+             console.log("done");
              //navigate("/navbar")
          })
          .catch((error) =>{
              console.log(error);
          })
-    }  
-   /* const login =async (event) => {
+    } **/
+    const getapi = async (event) => {
+        event.preventDefault();
+        try {
+        const response = await axios.get('http://localhost:8080/api/v1/user');
+        console.log(response)}
+        catch(error) {
+          console.log(error)
+        }
+
+    }
+    const login =async (event) => {
         event.preventDefault();
         axios.defaults.withCredentials = 'true';
         axios.defaults.crossDomain = 'true';
@@ -49,9 +59,13 @@ const Login = () => {
         
         try {
           
-            // make axios post request
-            //const response = await axios.post('http://localhost:8080/login',logindata);
-            AppServices.login(user)
+            //make axios post request
+            const f=new FormData();
+            f.append('username',user.username);
+            f.append('password',user.password)
+            console.log(f);
+            const response = await axios.post('http://localhost:8080/login',f);
+           // AppServices.login(user)
             console.log(user)
           
            
@@ -59,7 +73,7 @@ const Login = () => {
             console.log(error)
           }
         
-      };*/
+      };
  
   return (
       <>
@@ -98,6 +112,9 @@ const Login = () => {
                 onClick={login}
                 className="btn btn-primary shadow-2 mb-4">Login</button>
                 <p className="mb-2 text-muted">Forgot password? <a href="">Reset</a></p>
+                <button
+                onClick={getapi}
+                className="btn btn-primary shadow-2 mb-4">test</button>
                 <p className="mb-0 text-muted">Don’t have an account? <a href="">Signup</a></p>
             </div>
         </div>
