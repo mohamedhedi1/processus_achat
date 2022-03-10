@@ -1,9 +1,12 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Nav from './components/Nav'
+import AddUser from './components/user/AddUser'
 
 import Login from './components/Login'
-function App() {
+/*function App() {
   return (
     <>
+    
     <BrowserRouter>
     
     <Routes>
@@ -11,9 +14,22 @@ function App() {
       <Route path="/" element={<Login/>}></Route>
       <Route path="/login" element={<Login/>}></Route>
       
+      
     </Routes>
-    </BrowserRouter>
+    </BrowserRouter> 
   
+  </>
+   
+      
+      
+  );
+}*/
+function App() {
+  return (
+    <>
+    
+    <Nav/>
+    <AddUser/>
   </>
    
       
