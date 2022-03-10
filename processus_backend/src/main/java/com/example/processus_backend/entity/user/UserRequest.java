@@ -1,15 +1,13 @@
 package com.example.processus_backend.entity.user;
 
 import com.example.processus_backend.security.config.AppRole;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
+@Builder
 public class UserRequest {
     private String emailId;
     private String firstName;

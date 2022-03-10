@@ -1,29 +1,48 @@
 package com.example.processus_backend.entity.user;
 
+import com.example.processus_backend.entity.user.AccountActivation.ConfirmationToken;
+import com.example.processus_backend.entity.user.AccountActivation.ConfirmationTokenRepository;
+import com.example.processus_backend.entity.user.AccountActivation.ConfirmationTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
+import com.example.processus_backend.security.PasswordEncoder;
 
 @Service
 public class UserService implements UserDetailsService {
+    private final ConfirmationTokenService confirmationTokenService;
     private  final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private  final  ConfirmationTokenRepository confirmationTokenRepository;
     private final static String USER_NOT_FOUND_MSG =
             "user with email %s not found";
 
 
     @Autowired
-    public UserService(UserRepository userRepository)
+    public UserService(ConfirmationTokenService confirmationTokenService, UserRepository userRepository, PasswordEncoder passwordEncoder, ConfirmationTokenRepository confirmationTokenRepository)
     {
+        this.confirmationTokenService = confirmationTokenService;
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.confirmationTokenRepository = confirmationTokenRepository;
     }
 
+    public void confirmUser(String token){
+        Long id= confirmationTokenService.getToken(token);
+        User u=userRepository.findUserByuserId(id);
+        //chek user
+        u.setEnabled(true);
+        userRepository.save(u);
 
+    }
     public User getUserById(long id){
         return userRepository.findUserByuserId(id);
     }
@@ -87,7 +106,6 @@ public class UserService implements UserDetailsService {
         System.out.print("test"+u.toString());
         return  u ;
     }
-
 
     /* void addUser0() {
         User u0= new User("hedi.....");
