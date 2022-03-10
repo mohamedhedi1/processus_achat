@@ -19,20 +19,6 @@ class UserRepositoryTest {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
     }
-    /*
-    @Test
-    public void insertUser(){
-        UserRequest userRequest= UserRequest.builder()
-                .cin("012453")
-                .emailId("userlast@admin.com")
-                .post("user2")
-                .appRole(AppRole.ADMIN)
-                .firstName("user")
-                .lastName("user")
-                .password("admin")
-                .build();
-        userService.test(userRequest);
-    }*/
     @Test
     public void insertAdmin(){
         User user= User.builder()
