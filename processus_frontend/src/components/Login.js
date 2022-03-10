@@ -91,7 +91,7 @@ const Login = () => {
                 <div className="mb-4">
                     <i className="feather icon-unlock auth-icon"></i>
                 </div>
-                <h3 className="mb-4">Login</h3>
+                <h3 className="mb-4">Se connecter</h3>
                 <div className="input-group mb-3">
                     <input type="email" 
                     value={user.username} onChange={(e)=> handleChange(e)} 
@@ -102,20 +102,12 @@ const Login = () => {
                     value={user.password} onChange={(e)=> handleChange(e)} 
                     className="form-control" placeholder="password" />
                 </div>
-                <div className="form-group text-left">
-                    <div className="checkbox checkbox-fill d-inline">
-                        <input type="checkbox" name="checkbox-fill-1" id="checkbox-fill-a1" checked="" />
-                        <label for="checkbox-fill-a1" className="cr"> Save Details</label>
-                    </div>
-                </div>
+               
                 <button
                 onClick={login}
-                className="btn btn-primary shadow-2 mb-4">Login</button>
-                <p className="mb-2 text-muted">Forgot password? <a href="">Reset</a></p>
-                <button
-                onClick={getapi}
-                className="btn btn-primary shadow-2 mb-4">test</button>
-                <p className="mb-0 text-muted">Don’t have an account? <a href="">Signup</a></p>
+                className="btn btn-primary shadow-2 mb-4">Connexion</button>
+                <p className="mb-2 text-muted"> <a href="">Mot de passe oublié ?</a></p>
+           
             </div>
         </div>
     </div>
