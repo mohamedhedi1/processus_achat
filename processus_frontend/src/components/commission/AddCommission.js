@@ -1,8 +1,8 @@
 import React from 'react'
 
-const AddUser = () => {
-  return (  <>
-   <div className="pcoded-main-container">
+const AddCommission = () => {
+  return (
+    <div className="pcoded-main-container">
         <div className="pcoded-wrapper">
             <div className="pcoded-content">
                 <div className="pcoded-inner-content">
@@ -18,7 +18,7 @@ const AddUser = () => {
                                 <div className="col-sm-12">
                                     <div className="card">
                                         <div className="card-header">
-                                            <h5>Ajouter un utilisateur</h5>
+                                            <h5>Ajouter une commission</h5>
                                         </div>
                                         <div className="card-body">
                                            
@@ -27,28 +27,23 @@ const AddUser = () => {
                                                 <div className="col-md-6">
                                                     <form>
                                                         <div className="form-group">
-                                                            <label for="exampleInputEmail1">Email</label>
-                                                            <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="email" />
+                                                            <label for="exampleInputEmail1">Nom du commission</label>
+                                                            <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nom du commission" />
                                                         </div>
                                                         <div className="form-group">
-                                                            <label for="nom">Nom</label>
-                                                            <input type="text" className="form-control" id="nom" aria-describedby="emailHelp" placeholder="Nom" />
+                                                            <label for="nom">Role du commission</label>
+                                                            <input type="text" className="form-control" id="nom" aria-describedby="emailHelp" placeholder="Role du commission" />
                                                         </div>
                                                         <div className="form-group">
-                                                            <label for="prenom">Prénom</label>
-                                                            <input type="text" className="form-control" id="prenom" aria-describedby="emailHelp" placeholder="Prénom" />
+                                                            <label for="Abriviation">Abriviation</label>
+                                                            <input type="text" className="form-control" id="Abriviation" aria-describedby="emailHelp" placeholder="Abriviation" />
                                                         </div>
-                                                        <div className="form-group">
-                                                            <label for="poste">Poste</label>
-                                                            <input type="text" className="form-control" id="poste" aria-describedby="emailHelp" placeholder="Poste" />
-                                                        </div>
-                                                        <select class="mb-3 form-control">
-                                                        <option>Choisir role</option>
-                                                    </select>
-                                                        <div className="form-group">
-                                                            <label for="cin">pass hidden</label>
-                                                            <input type="text" className="form-control" id="cin" aria-describedby="emailHelp" placeholder="Cin" />
-                                                        </div>
+                                                        <h5 class="mt-3">Les membres de la commission</h5>
+                                                        <hr/>
+                                                        <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck1"/>
+                                                <label class="custom-control-label" for="customCheck1">user n</label>
+                                            </div>
 
                                                         
                                                         <button type="submit" className="btn btn-primary">Ajouter</button>
@@ -65,10 +60,7 @@ const AddUser = () => {
             </div>
         </div>
     </div>
-      </>
-     
-    
   )
 }
 
-export default AddUser
+export default AddCommission
