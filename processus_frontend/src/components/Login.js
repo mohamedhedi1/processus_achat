@@ -1,24 +1,30 @@
 import React, {useState} from 'react'
-import { useNavigate } from 'react-router-dom';
+
 import AppServices from '../services/AppServices';
 import axios from "axios";
-
+import useAuth from '../components/hooks/useAuth';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 
 
 const Login = () => {
-    const [user, setUser] = useState(
+    const { setAuth } = useAuth();
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
+    const [appUser, setUser] = useState(
         {
-         username:"admin@admin.com",
-         password:"admin"
+         username:"",
+         password:""
         }    
         );
-        const navigate = useNavigate();
-        const handleChange = (e) =>
+    
+    const handleChange = (e) =>
      {
          const value = e.target.value;
          setUser(
-           {...user, [e.target.name]: value}
+           {...appUser, [e.target.name]: value}
          );
  
      }
@@ -61,12 +67,18 @@ const Login = () => {
           
             //make axios post request
             const f=new FormData();
-            f.append('username',user.username);
-            f.append('password',user.password)
+            
+            f.append('username',appUser.username);
+            f.append('password',appUser.password)
             console.log(f);
             const response = await axios.post('http://localhost:8080/login',f);
-           // AppServices.login(user)
-            console.log(user)
+            const roles=['ADMIN','USER']
+            const user=appUser.username
+            const nothin=''
+            const n=''
+            setAuth({ user,nothin,roles,n});
+        
+            navigate(from, { replace: true });
           
            
           } catch(error) {
@@ -94,12 +106,12 @@ const Login = () => {
                 <h3 className="mb-4">Se connecter</h3>
                 <div className="input-group mb-3">
                     <input type="email" 
-                    value={user.username} onChange={(e)=> handleChange(e)} 
+                    value={appUser.username} onChange={(e)=> handleChange(e)} 
                     className="form-control" placeholder="Email" />
                 </div>
                 <div className="input-group mb-4">
                     <input type="password" 
-                    value={user.password} onChange={(e)=> handleChange(e)} 
+                    value={appUser.password} onChange={(e)=> handleChange(e)} 
                     className="form-control" placeholder="password" />
                 </div>
                

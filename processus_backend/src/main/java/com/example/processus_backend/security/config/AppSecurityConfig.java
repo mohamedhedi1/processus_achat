@@ -1,6 +1,6 @@
 package com.example.processus_backend.security.config;
 
-import com.example.processus_backend.entity.user.UserService;
+import com.example.processus_backend.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +33,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //.antMatchers(HttpMethod.POST,"/api/v1/course").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST,"/api/v1/user/default")
+                .permitAll()
+                .antMatchers("/**")
                 .permitAll()
                 //.antMatchers(HttpMethod.POST,"/api/v1/student").hasRole("ADMIN")
                 .anyRequest()
