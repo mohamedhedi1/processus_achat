@@ -10,7 +10,7 @@ import Missing from './components/Missing';
 import Unauthorized from './components/Unauthorized';
 import RequireAuth from './components/RequireAuth';
 import User from './components/user/User';
-
+import AddCommission from './components/commission/AddCommission';
 function App() {
   const ROLES = {
     'User': 2001,
@@ -23,6 +23,7 @@ function App() {
      <Routes>
       <Route path="/" element={<Layout />}>
         {/* public routes */}
+        <Route path="com" element={<AddCommission/>} />
         <Route path="l" element={<User />} />
         <Route path="login" element={<Login />} />
         <Route path="user" element={<AddUser />} />

@@ -48,9 +48,6 @@ public class UserService implements UserDetailsService {
 
     }
 
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
-    }
 
     @Transactional
     public void updateUser(Long id, String email, String firstName, String lastName, String post, String cin) {
@@ -119,9 +116,9 @@ public class UserService implements UserDetailsService {
     public void getUser(){
         User user= userRepository.getByEmail("jihedgaraouch@gmail.com");
     }
-    public void deleteUser(String email){
-        User user=userRepository.getByEmail(email);
-        userRepository.delete(user);
+    public void deleteUser(Long id){
+        confirmationTokenService.deleteByIdUser(id);
+        userRepository.deleteById(id);
     }
     public String signUpUser(User user) {
         User userExists = userRepository

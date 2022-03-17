@@ -17,5 +17,6 @@ public class CommissionRequest {
     private String role ;
     private LocalDate dateOfCreation;
     private  String abrivation ;
+    private String type;
     private List<String> emails;
 }

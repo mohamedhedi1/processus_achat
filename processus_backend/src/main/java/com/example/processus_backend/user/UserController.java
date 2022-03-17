@@ -117,7 +117,7 @@ public class UserController {
         userService.updateUser(id,email,firstName,lastName,post,cin);
     }
     @PutMapping("/update")
-    public  boolean  update(UserTableRow userTableRow){
+    public  boolean  update(@RequestBody UserTableRow userTableRow){
         return userService.update(userTableRow);
     }
     @GetMapping(path = "setLockUser/{id}")

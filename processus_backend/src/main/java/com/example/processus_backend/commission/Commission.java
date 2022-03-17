@@ -31,6 +31,7 @@ public class Commission {
     private String name  ;
     private String role ;
     private LocalDate dateOfCreation;
+    private String type;
     private  String abrivation ;
     @ManyToMany(
             fetch = FetchType.EAGER

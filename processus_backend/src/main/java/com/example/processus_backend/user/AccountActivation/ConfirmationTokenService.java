@@ -11,8 +11,6 @@ public class ConfirmationTokenService {
     private final ConfirmationTokenRepository confirmationTokenRepository;
 
     public void saveConfirmationToken(ConfirmationToken token) {
-
-
         confirmationTokenRepository.save(token);
     }
 
@@ -21,9 +19,17 @@ public class ConfirmationTokenService {
         System.out.print(token1);
         return  token1;
     }
+    public void deleteByIdUser(long id){
+       confirmationTokenRepository.deletebyuserid(id);
+       /* ConfirmationToken confirmationToken = confirmationTokenRepository.findbyid(id);
+        if(confirmationToken!=null){
+        confirmationTokenRepository.delete(confirmationToken);}*/
+    }
+
 
     public int setConfirmedAt(String token) {
         return confirmationTokenRepository.updateConfirmedAt(
                 token, LocalDateTime.now());
     }
+
 }

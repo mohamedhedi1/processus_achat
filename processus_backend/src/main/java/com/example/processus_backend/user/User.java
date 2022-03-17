@@ -45,7 +45,7 @@ public class User implements UserDetails{
     private Boolean locked = false;
     private Boolean enabled = false;
     @ManyToOne(
-            cascade = CascadeType.ALL,
+
             fetch = FetchType.EAGER
     )
     @JoinColumn(

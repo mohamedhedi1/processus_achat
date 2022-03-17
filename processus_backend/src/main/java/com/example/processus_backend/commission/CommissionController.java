@@ -27,6 +27,7 @@ public class CommissionController {
                 .name(commissionRequest.getName())
                 .dateOfCreation(commissionRequest.getDateOfCreation())
                 .abrivation(commissionRequest.getAbrivation())
+                .type(commissionRequest.getType())
                 .build();
         commissionService.addCommission(commission,commissionRequest.getEmails());
 

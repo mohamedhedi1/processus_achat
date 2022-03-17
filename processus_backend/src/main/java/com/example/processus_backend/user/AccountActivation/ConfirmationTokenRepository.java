@@ -12,6 +12,10 @@ import java.time.LocalDateTime;
 public interface ConfirmationTokenRepository
         extends JpaRepository<ConfirmationToken, Long> {
     ConfirmationToken findByToken(String token);
+    @Transactional
+    @Modifying
+    @Query(value = "Delete from confirmation_token where app_user_id=?1",nativeQuery = true)
+    void deletebyuserid(Long id);
 
     @Transactional
     @Modifying

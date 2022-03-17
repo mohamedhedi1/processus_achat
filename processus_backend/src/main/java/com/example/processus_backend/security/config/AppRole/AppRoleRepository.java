@@ -11,6 +11,6 @@ public interface AppRoleRepository extends JpaRepository<AppRole,Long> {
     AppRole findByName(String name);
     @Query("select new com.example.processus_backend.security.config.AppRole.AppRoleNameAndId(a.appRoleId,a.name ) from AppRole a ")
     List<AppRoleNameAndId> getAppRoleNameAndId();
-    @Query("Select u.name from AppRole u ")
+    @Query("Select u from AppRole u where u.name=?1 ")
     AppRole getByName(String name);
 }
