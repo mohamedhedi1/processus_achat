@@ -4,12 +4,12 @@ import AddUser from './components/user/AddUser'
 import ResetPassword from "./components/ResetPassword"
 import Login from './components/Login'
 import Header from './components/Header'
-import DataTable from './components/user/UserTable';
 import Layout from './components/Layout';
 import Missing from './components/Missing';
 import Unauthorized from './components/Unauthorized';
 import RequireAuth from './components/RequireAuth';
 import User from './components/user/User';
+import DataTable from './components/commission/CommissionTable'
 import AddCommission from './components/commission/AddCommission';
 function App() {
   const ROLES = {
@@ -23,6 +23,7 @@ function App() {
      <Routes>
       <Route path="/" element={<Layout />}>
         {/* public routes */}
+        <Route path="comtable" element={<DataTable/>} />
         <Route path="com" element={<AddCommission/>} />
         <Route path="l" element={<User />} />
         <Route path="login" element={<Login />} />

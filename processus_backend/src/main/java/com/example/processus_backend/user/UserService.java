@@ -106,6 +106,9 @@ public class UserService implements UserDetailsService {
         List<User> userList= structureRepository.gettuser(structureName);
 
     }
+    public List<String> getAllMails(){
+       return userRepository.getALLmail() ;
+    }
     public void getCommissionNameByUser(String email){
         List<String> names=userRepository.getAllCommissionNameByUser(email);
     }

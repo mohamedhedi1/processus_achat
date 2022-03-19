@@ -9,7 +9,7 @@ import { ReportGmailerrorred } from '@mui/icons-material'
 import { blue, green } from '@mui/material/colors';
 import { createRef } from 'react';
 
-const AddCommission = () => {
+const AddStructure= () => {
     const myRef= createRef();
     const [emailsList,setEmailsList]=useState([])
     const [appRolesList,setAppRolesList]=useState([{
@@ -40,7 +40,7 @@ const AddCommission = () => {
         
       }, [setAppRolesList,setEmailsList]);
      const [commission,setCommission]=useState({
-       name:"",role:"",abrivation:"",type:"",emails:[]})
+       name:"",role:"",abrivation:"",emails:[]})
        const handleChange=(e)=>{
         const value = e.target.value;
         console.log(value)
@@ -55,15 +55,6 @@ const AddCommission = () => {
                  const value = e.target.value;
                  setCommission(
                    {...commission,role:value}
-                 );
-                }
-        const handleChangeSelectType= (e) =>
-                {
-                    console.log(commission)
-                 const value = e.target.value;
-                 
-                 setCommission(
-                   {...commission,type:value}
                  );
                 }
          const post=async(event)=>{
@@ -166,14 +157,7 @@ const AddCommission = () => {
                                                          </div>
                                                        
                                                         
-                                                        <div className="form-group">
-                                                            <label for="structure">Type</label>
-                                                            <select value={commission.type}   onChange={(e)=> handleChangeSelectType(e) }  className="mb-3 form-control">
-                                                            <option value="">choisir un type</option>
-                                                            <option value="permanante">permanante</option>
-                                                            <option value="nonpermanante">nonpermanante</option>  
-                                                         </select>
-                                                        </div>                        
+                                                    
                                                         <button type="submit" onClick={post} className="btn btn-primary">Ajouter</button>
                                                     </form>
                                                 </div>
@@ -206,4 +190,4 @@ const AddCommission = () => {
   )
 }
 
-export default AddCommission
+export default AddStructure

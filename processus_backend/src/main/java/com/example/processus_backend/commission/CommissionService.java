@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 @Service
 public class CommissionService {
@@ -30,6 +31,8 @@ public class CommissionService {
         boolean commission_exists= commissionRepository.existsByName(commission.getName());
         if(commission_exists) {throw new IllegalStateException("Commission does  exists") ;}
         commission.addUsers(users);
+        System.out.print("addign user");
+        System.out.print(commission.getRole().getName());
         commissionRepository.save(commission);
     }
     public void addUserToCommission(String commissionName,String email){
@@ -82,19 +85,14 @@ public class CommissionService {
         commission.deleteUsers(users);
         commissionRepository.save(commission);
     }
-    public void updateCommission(Commission commission, List<String> emails, Long id){
-        boolean commission_exists= commissionRepository.existsById(id);
-        if(!commission_exists) {throw new IllegalStateException("Commission does  exists") ;}
-        if (!emails.isEmpty()){
+    public void updateCommission( Commission commission ,List<String> emails){
         List<User> users =  emails.stream().map(email ->{
             boolean user_exists = userRepository.existsByEmail(email);
             if(!user_exists) {throw new IllegalStateException("user does not exists") ;}
             User user = userRepository.getByEmail(email);
             return user ;
-        }).collect(Collectors.toList()) ;
-        commission.addUsers(users);
-        }
-        commission.setCommissionId(id);
+        }).collect(Collectors.toList());
+        if(users.isEmpty()){};
         commissionRepository.save(commission);
     }
     public void deleteCommission(Commission commission){
@@ -113,4 +111,8 @@ public class CommissionService {
         return  commissionRepository.findByName(name);
     }
 
+    public void deleteCommission(Long id) {
+        Commission commission = commissionRepository.findById(id).orElseThrow();
+        commissionRepository.delete(commission);
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.processus_backend.commission;
 
+import com.example.processus_backend.security.config.AppRole.AppRole;
 import com.example.processus_backend.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +10,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -29,7 +32,10 @@ public class Commission {
     )
     private Long commissionId;
     private String name  ;
-    private String role ;
+    @OneToOne(
+            fetch = FetchType.EAGER
+    )
+    private AppRole role ;
     private LocalDate dateOfCreation;
     private String type;
     private  String abrivation ;
@@ -48,16 +54,16 @@ public class Commission {
             )
 
     )
-    private List<User> userList;
+    private Set<User> userList=new HashSet<User>();
     public void addUser(User user) {
         if(this.userList==null){
-            this.userList=new ArrayList<User>();
+            this.userList=new HashSet<User>();
         }
         this.userList.add(user);
     }
     public void addUsers(List<User> userList) {
         if(this.userList==null){
-            this.userList=new ArrayList<User>();
+            this.userList=new HashSet<User>();
         }
         this.userList.addAll(userList);
     }

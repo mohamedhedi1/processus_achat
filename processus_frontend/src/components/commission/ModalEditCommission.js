@@ -1,17 +1,31 @@
-import axios from 'axios'
-import React from 'react'
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import { Chip } from '@mui/material';
+import axios from 'axios';
 import { useState } from 'react'
 import { useEffect } from 'react'
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import { Chip } from '@mui/material';
-import { FormLabel,FormGroup,FormControlLabel,Checkbox, } from '@mui/material'
-import { ReportGmailerrorred } from '@mui/icons-material'
-import { blue, green } from '@mui/material/colors';
 import { createRef } from 'react';
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 700,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
-const AddCommission = () => {
-    const myRef= createRef();
-    const [emailsList,setEmailsList]=useState([])
+export default function ModalEditCommission(props) {
+   const commission=props.commission
+   const setCommission=props.setCommission
+   const myRef= createRef();
+   const [emailsList,setEmailsList]=useState([])
+  
     const [appRolesList,setAppRolesList]=useState([{
         label:'',
         value:0
@@ -33,14 +47,22 @@ const AddCommission = () => {
                 myRef:createRef()
              })
           })
-          console.log(l)
+          console.log("l=="+l)
           setEmailsList(l)
+          
         }
        fetchData();
+         
+       
         
       }, [setAppRolesList,setEmailsList]);
-     const [commission,setCommission]=useState({
-       name:"",role:"",abrivation:"",type:"",emails:[]})
+      const checkEmails=()=>{
+        emailsList.map(email =>{
+          if(commission.email.includes(email.label)){
+            console.log("checking mail")
+           email.checked=true
+           email.myRef.current.style.backgroundColor = "blue";
+      }})}
        const handleChange=(e)=>{
         const value = e.target.value;
         console.log(value)
@@ -49,6 +71,39 @@ const AddCommission = () => {
                {...commission, [e.target.name]: value}
                 );
         }
+        const handleCheckbox =(e)=>{
+          
+            
+           
+          console.log(e)
+          console.log(e.target.textContent)
+          e.preventDefault();
+         emailsList.map(email =>{
+             
+              if(email.label==e.target.textContent){
+                  
+                if(email.checked==true){
+                    console.log("trying 1if")
+                      email.checked=false
+                      email.myRef.current.style.backgroundColor = "cyan";
+                     
+
+                  }
+                 else if(email.checked==false){
+                     console.log("trying  2 if")
+                      email.checked=true
+                      email.myRef.current.style.backgroundColor = "blue";
+                      
+                     
+                      
+                  }
+                 
+                 }
+          })
+        
+          setEmailsList(emailsList)
+
+      }
        
         const handleChangeSelectAppRole= (e) =>
                 {
@@ -69,7 +124,8 @@ const AddCommission = () => {
          const post=async(event)=>{
             event.preventDefault();
             let commission2=commission;
-            
+            commission2.emails=[]
+            console.log(commission2)
             emailsList.map(email=>{
                 console.log(email)
                 if(email.checked===true){
@@ -78,71 +134,35 @@ const AddCommission = () => {
                 }
                 
             })
-            setCommission(commission2)
-            console.log(commission2)
-            const response=await axios.post("http://localhost:8080/api/v1/commission/addCommission",commission2)
+            axios.defaults.crossDomain = 'true';
+            const r=axios.put("http://localhost:8080/api/v1/commission/updateCommission/",commission2)
+            console.log(r)
+            let  l=props.commissions.filter((item) => item.id !== commission.id);
+            l.push(commission2)
+            props.setCommissions(l)
+          }
       
-         }
-         const handleCheckbox =(e)=>{
-          
+         
+         
             
-           
-             console.log(e)
-             console.log(e.target.textContent)
-             e.preventDefault();
-            emailsList.map(email =>{
-                
-                 if(email.label==e.target.textContent){
-                     
-                   if(email.checked==true){
-                       console.log("trying 1if")
-                         email.checked=false
-                         email.myRef.current.style.backgroundColor = "cyan";
-                        
 
-                     }
-                    else if(email.checked==false){
-                        console.log("trying  2 if")
-                         email.checked=true
-                         email.myRef.current.style.backgroundColor = "blue";
-                         
-                        
-                         
-                     }
-                    
-                    }
-             })
-           
-             setEmailsList(emailsList)
-
-         }
-         
-         
-
-
-
-         //getRole
-         //get
-  return (  <>
-   <div className="pcoded-main-container">
-        <div className="pcoded-wrapper">
-            <div className="pcoded-content">
-                <div className="pcoded-inner-content">
-                    <div className="main-body">
-                        <div className="page-wrapper">
-                            <div className="row">
-                                <div className="col-sm-8">
-                                    <div className="card">
-                                        <div className="card-header">
-                                            <h5>Ajouter un commission</h5>
-                                        </div>
-                                        <div className="card-body">
+  return (
+    <div>
+    
+    <Modal
+        open={props.open}
+        handleClose = {props.handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+        <div className="card-body">
                                            
                                             
-                                            <div className="row">
-                                                <div className="col-md-8">
-                                                    <form>
-                                                        <div className="form-group">
+                                           <div className="row">
+                                               <div className="col-md-8">
+                                                   <form>
+                                                   <div className="form-group">
                                                             <label for="name">Name</label>
                                                             <input defaultValue={commission.name} name="name" onChange={(e)=> handleChange(e)} 
                                                             type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="email" />
@@ -173,12 +193,14 @@ const AddCommission = () => {
                                                             <option value="permanante">permanante</option>
                                                             <option value="nonpermanante">nonpermanante</option>  
                                                          </select>
-                                                        </div>                        
-                                                        <button type="submit" onClick={post} className="btn btn-primary">Ajouter</button>
-                                                    </form>
-                                                </div>
-                                                <div className="col-md-4">
-                                               
+                                                        </div>       
+
+                                                       
+                                                       <button type="submit" onClick={post} className="btn btn-primary">Ajouter</button>
+                                                   </form>
+                                               </div>
+                                               <div className="col-md-4">
+                                                              <h4>Users</h4>
                                                                {emailsList.map((email)=>(
                                                                    
                                                                <Chip ref={email.myRef} key={emailsList.indexOf(email)} label={email.label}   
@@ -188,22 +210,14 @@ const AddCommission = () => {
                                                                 
                                                                
                                                         ))}
+                                                       
                                                 </div>
                                             </div>
-                                        </div> 
-                                    </div>
-                                </div>
-                            </div>   
-                        </div>   
-                    </div>
-                </div>
-            </div>
-        </div>
+                                        </div>
+                                    
+          <Button onClick={props.handleClose}>close</Button>
+        </Box>
+      </Modal>
     </div>
-      </>
-     
-    
-  )
+  );
 }
-
-export default AddCommission

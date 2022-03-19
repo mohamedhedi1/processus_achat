@@ -97,6 +97,10 @@ public class UserController {
 
 
     }
+    @GetMapping(path = "AllMails")
+    public  List<String> getMails(){
+        return  userService.getAllMails();
+    }
 
     @GetMapping(path="{id}")
     public User getUserById(@PathVariable("id") Long id )
