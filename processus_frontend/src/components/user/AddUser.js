@@ -2,6 +2,7 @@ import axios from 'axios'
 import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 const AddUser = () => {
     const [structuresList,setStructureList]=useState([{
         label:'',
@@ -11,6 +12,7 @@ const AddUser = () => {
         label:'',
         value:0
     }])
+    const navigate=useNavigate();
     useEffect(  () => {
         async function fetchData() {
           const response = await axios.get("http://localhost:8080/api/structure/structureAndId")
@@ -54,6 +56,7 @@ const AddUser = () => {
             event.preventDefault();
            const res = await axios.post("http://localhost:8080/api/v1/user/addUser",user);
            console.log(res)
+           navigate("users")
          }
 
          //getRole

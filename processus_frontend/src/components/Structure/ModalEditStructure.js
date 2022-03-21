@@ -135,7 +135,7 @@ export default function ModalEditStructure(props) {
                 
             })
             axios.defaults.crossDomain = 'true';
-            const r=axios.put("http://localhost:8080/api/v1/commission/updateCommission/",commission2)
+            const r=axios.put("http://localhost:8080/api/structure/updateStructure",commission2)
             console.log(r)
             let  l=props.commissions.filter((item) => item.id !== commission.id);
             l.push(commission2)

@@ -1,5 +1,6 @@
 package com.example.processus_backend.Structure;
 
+import com.example.processus_backend.security.config.AppRole.AppRole;
 import com.example.processus_backend.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,7 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -28,8 +31,11 @@ public class Structure {
 
     private Long structureId;
     private String name  ;
-    private String role ;
-    private  String abrivation ;
+    @OneToOne(
+            fetch = FetchType.EAGER)
+    @JoinColumn(name = "app_role_id", referencedColumnName = "appRoleId")
+    private AppRole role ;
+    private String abrivation ;
     @OneToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER
@@ -38,13 +44,22 @@ public class Structure {
             name="structureId",
             referencedColumnName = "structureId"
     )
-    private List<User> userList;
+
+    private Set<User> userList=new HashSet<User>();
+
     public void addUserToStructure(User user){
-        userList.add(user);
+
+        if(this.userList==null){
+            this.userList=new HashSet<User>();
+        }
+        this.userList.add(user);
     }
 
     public void addUsersToStructure(List<User> users) {
-        userList.addAll(users);
+        if(this.userList==null){
+            this.userList=new HashSet<User>();
+        }
+        this.userList.addAll(userList);
     }
 
     public void deleteUsers(List<User> users) {

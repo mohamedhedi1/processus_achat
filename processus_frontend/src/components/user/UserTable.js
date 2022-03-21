@@ -132,7 +132,7 @@ useEffect(  () => {
       <h4>
       <Chip  className="label theme-bg2 text-white f-12" label="Utilisateurs" icon={<PersonRoundedIcon />} />
         </h4>
-        <Fab  onClick={()=>{navigate('/user')}} className="label theme-bg2 text-white f-12" variant="extended">
+        <Fab  onClick={()=>{navigate('/addUser')}} className="label theme-bg2 text-white f-12" variant="extended">
         <AddIcon size="small"  sx={{ mr: 1 }} />
            Ajouter un utilisateur
              </Fab>

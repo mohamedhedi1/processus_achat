@@ -23,7 +23,7 @@ import PeopleIcon from '@mui/icons-material/People';
 
 import { Card } from '@mui/material';
 import { ModelTraining } from '@mui/icons-material';
-export default function DataTable() {
+export default function CommissionDataTable() {
 const columns = [
   { field: 'name', headerName: 'Nom', width: 130 ,editable: false},
   {field: 'role', headerName: 'Role', width: 130 ,editable: false},
@@ -115,7 +115,7 @@ useEffect(  () => {
       <h4>
       <Chip  className="label theme-bg2 text-white f-12" label="Utilisateurs" icon={<PersonRoundedIcon />} />
         </h4>
-        <Fab  onClick={()=>{navigate('/com')}} className="label theme-bg2 text-white f-12" variant="extended">
+        <Fab  onClick={()=>{navigate('/addCommission')}} className="label theme-bg2 text-white f-12" variant="extended">
         <AddIcon size="small"  sx={{ mr: 1 }} />
            Ajouter un COmmission
              </Fab>

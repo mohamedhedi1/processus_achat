@@ -17,13 +17,13 @@ import { useState } from 'react';
 import { Stack } from '@mui/material';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import AddIcon from '@mui/icons-material/Add'
-import ModalEditCommission from'../commission/ModalEditCommission'
+import ModalEditStructure from './ModalEditStructure';
 import { useNavigate } from 'react-router-dom';
 import PeopleIcon from '@mui/icons-material/People';
 
 import { Card } from '@mui/material';
 import { ModelTraining } from '@mui/icons-material';
-export default function DataTable() {
+export default function StructureTable() {
 const columns = [
   { field: 'name', headerName: 'Nom', width: 130 ,editable: false},
   {field: 'role', headerName: 'Role', width: 130 ,editable: false},
@@ -61,7 +61,7 @@ const deleteCommission=async (cellValues)=>{
   
   const id=cellValues.row.id 
   console.log("deleteling commission "+id)
-  const response = await axios.delete("http://localhost:8080/api/v1/commission/"+id)//delte users
+  const response = await axios.delete("http://localhost:8080/api/structure/"+id)//delte users
   const newCommission = commissions.filter((item) => item.id !== cellValues.row.id);
   
   setCommissions(newCommission);
@@ -75,7 +75,7 @@ const set_commission=(cellValues)=>{
 }
 useEffect(  () => {
   async function fetchData() {
-    const response = await axios.get("http://localhost:8080/api/v1/commission")
+    const response = await axios.get("http://localhost:8080/api/structure")
     const l =await response.data
     console.log(l)
     setCommissions(l)
@@ -90,7 +90,7 @@ useEffect(  () => {
 }, [setCommissions]);
   return (
     <Container mb={2}>
-      <ModalEditCommission
+      <ModalEditStructure
           commission={commission}
           open={open}
           commissions={commissions}
@@ -102,7 +102,7 @@ useEffect(  () => {
       <h4>
       <Chip  className="label theme-bg2 text-white f-12" label="Utilisateurs" icon={<PersonRoundedIcon />} />
         </h4>
-        <Fab  onClick={()=>{navigate('/com')}} className="label theme-bg2 text-white f-12" variant="extended">
+        <Fab  onClick={()=>{navigate('/addStructure')}} className="label theme-bg2 text-white f-12" variant="extended">
         <AddIcon size="small"  sx={{ mr: 1 }} />
            Ajouter un COmmission
              </Fab>

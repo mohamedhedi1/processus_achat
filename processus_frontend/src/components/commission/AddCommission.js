@@ -8,6 +8,7 @@ import { FormLabel,FormGroup,FormControlLabel,Checkbox, } from '@mui/material'
 import { ReportGmailerrorred } from '@mui/icons-material'
 import { blue, green } from '@mui/material/colors';
 import { createRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AddCommission = () => {
     const myRef= createRef();
@@ -16,6 +17,7 @@ const AddCommission = () => {
         label:'',
         value:0
     }])
+    const navigate=useNavigate()
     useEffect(  () => {
         async function fetchData() {
           
@@ -81,7 +83,7 @@ const AddCommission = () => {
             setCommission(commission2)
             console.log(commission2)
             const response=await axios.post("http://localhost:8080/api/v1/commission/addCommission",commission2)
-      
+            navigate('commission')
          }
          const handleCheckbox =(e)=>{
           
@@ -124,6 +126,7 @@ const AddCommission = () => {
          //getRole
          //get
   return (  <>
+  
    <div className="pcoded-main-container">
         <div className="pcoded-wrapper">
             <div className="pcoded-content">
