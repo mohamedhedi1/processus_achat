@@ -16,47 +16,72 @@ import Structure from './components/Structure/Structure';
 import Admine from './components/AdminHome';
 import Commission from './components/commission/commission';
 import NavAdmin from './components/NavAdmin';
+import CheckBoxPrivelage from './components/AppRole/CheckBoxPrivelage';
+import AppRole from './components/AppRole/AppRole'
 function App() {
   const ROLES = {
     'User': 2001,
     'Editor': 1984,
-    'Admin': 5150
+    'Admin': 1
   }
   return (
     <>
      
      <Routes>
       <Route path="/" element={<Layout />}>
-      <Route path="addStructure" element={
+      <Route path="login" element={<Login/>}/>
+      <Route path="users" element={<User />} />
+      <Route path="role" element={<AppRole />} />
+      
+        
+        <Route path="unauthorized" element={<Unauthorized />} />
+       
+        <Route path="commission" element={<Commission/>} />
+        <Route path="users" element={<User />} />
+        <Route path="structure" element={<Structure/>} />
+        <Route path="addStructure" element={
         <div>
       <NavAdmin></NavAdmin>
       <AddStructure/>
       </div>} />
       
-        {/* public routes */}
+        
         <Route path="addCommission" element={
         <div>
           <NavAdmin></NavAdmin>
         <AddCommission/>
         </div>
         } />
-        
-        <Route path="commission" element={<Commission/>} />
-        <Route path="users" element={<User />} />
-        <Route path="structure" element={<Structure/>} />
-        <Route path="login" element={<Login />} />
-        <Route path="addUser" element={
+          <Route path="addUser" element={
         <div>
           <NavAdmin></NavAdmin>
            <AddUser />
         </div>
       } />
-        <Route path="unauthorized" element={<Unauthorized />} />
-       
-       
         {/* we want to protect these routes */}
-        <Route element={<RequireAuth allowedRoles={['ADMIN']} />}>
-          <Route path="admin" element={<Admine />} />
+        <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
+        <Route path="commission" element={<Commission/>} />
+        <Route path="users" element={<User />} />
+        <Route path="structure" element={<Structure/>} />
+        <Route path="addStructure" element={
+        <div>
+      <NavAdmin></NavAdmin>
+      <AddStructure/>
+      </div>} />
+      
+        
+        <Route path="addCommission" element={
+        <div>
+          <NavAdmin></NavAdmin>
+        <AddCommission/>
+        </div>
+        } />
+          <Route path="addUser" element={
+        <div>
+          <NavAdmin></NavAdmin>
+           <AddUser />
+        </div>
+      } />
           
         </Route>
 

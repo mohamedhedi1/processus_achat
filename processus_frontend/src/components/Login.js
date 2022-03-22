@@ -21,7 +21,8 @@ const Login = () => {
         );
     
     const handleChange = (e) =>
-     {
+     {   console.log(e.target.name)
+        console.log(e.target.value)
          const value = e.target.value;
          setUser(
            {...appUser, [e.target.name]: value}
@@ -70,20 +71,22 @@ const Login = () => {
             
             f.append('username',appUser.username);
             f.append('password',appUser.password)
-            console.log(f);
+            console.log(appUser);
             const response = await axios.post('http://localhost:8080/login',f);
-            const roles=['ADMIN','USER']
+            const roles=['ADMIN']
             const user=appUser.username
             const nothin=''
             const n=''
             setAuth({ user,nothin,roles,n});
-        
-            navigate(from, { replace: true });
+            
+            
+            
           
            
           } catch(error) {
             console.log(error)
           }
+          navigate("/users")
         
       };
  
@@ -105,13 +108,13 @@ const Login = () => {
                 </div>
                 <h3 className="mb-4">Se connecter</h3>
                 <div className="input-group mb-3">
-                    <input type="email" 
-                    value={appUser.username} onChange={(e)=> handleChange(e)} 
+                    <input type="email" name="username"
+                    defaultValue={appUser.username} onChange={(e)=> handleChange(e)} 
                     className="form-control" placeholder="Email" />
                 </div>
                 <div className="input-group mb-4">
-                    <input type="password" 
-                    value={appUser.password} onChange={(e)=> handleChange(e)} 
+                    <input type="password"  name="password"
+                    defaultValue={appUser.password} onChange={(e)=> handleChange(e)} 
                     className="form-control" placeholder="password" />
                 </div>
                
