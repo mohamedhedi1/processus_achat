@@ -18,7 +18,12 @@ import Commission from './components/commission/commission';
 import NavAdmin from './components/NavAdmin';
 import CheckBoxPrivelage from './components/AppRole/CheckBoxPrivelage';
 import AppRole from './components/AppRole/AppRole'
+import AddDossier from './components/dossierAchat/AddDossier';
 function App() {
+  
+ 
+
+  
   const ROLES = {
     'User': 2001,
     'Editor': 1984,
@@ -58,7 +63,7 @@ function App() {
            <AddUser />
         </div>
       } />
-        {/* we want to protect these routes */}
+       
         <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
         <Route path="commission" element={<Commission/>} />
         <Route path="users" element={<User />} />
@@ -85,14 +90,23 @@ function App() {
           
         </Route>
 
-      
+        
 
 
         
 
-        {/* catch all */}
+        
         <Route path="*" element={<Missing />} />
       </Route>
+
+      <Route path="addDossier" element={
+        <div>
+          <NavAdmin></NavAdmin>
+           <AddDossier />
+        </div>
+      } />
+          
+       
     </Routes>
   
    
@@ -101,6 +115,7 @@ function App() {
       
       
   );
+
 }
 /*
 function App() {
