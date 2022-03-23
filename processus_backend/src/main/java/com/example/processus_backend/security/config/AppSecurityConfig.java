@@ -41,7 +41,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .formLogin()
-                .defaultSuccessUrl("/yes")
+
 
         ;
     }

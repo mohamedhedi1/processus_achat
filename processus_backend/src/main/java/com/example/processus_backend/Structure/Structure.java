@@ -44,9 +44,7 @@ public class Structure {
             name="structureId",
             referencedColumnName = "structureId"
     )
-
     private Set<User> userList=new HashSet<User>();
-
     public void addUserToStructure(User user){
 
         if(this.userList==null){
@@ -54,14 +52,12 @@ public class Structure {
         }
         this.userList.add(user);
     }
-
     public void addUsersToStructure(List<User> users) {
         if(this.userList==null){
             this.userList=new HashSet<User>();
         }
         this.userList.addAll(userList);
     }
-
     public void deleteUsers(List<User> users) {
         userList.removeAll(users);
     }
