@@ -19,115 +19,19 @@ import NavAdmin from './components/NavAdmin';
 import CheckBoxPrivelage from './components/AppRole/CheckBoxPrivelage';
 import AppRole from './components/AppRole/AppRole'
 import AddDossier from './components/dossierAchat/AddDossier';
-function App() {
-  
- 
-
-  
-  const ROLES = {
-    'User': 2001,
-    'Editor': 1984,
-    'Admin': 1
-  }
-  return (
-    <>
-     
-     <Routes>
-      <Route path="/" element={<Layout />}>
-      <Route path="login" element={<Login/>}/>
-      <Route path="users" element={<User />} />
-      <Route path="role" element={<AppRole />} />
-      
-        
-        <Route path="unauthorized" element={<Unauthorized />} />
-       
-        <Route path="commission" element={<Commission/>} />
-        <Route path="users" element={<User />} />
-        <Route path="structure" element={<Structure/>} />
-        <Route path="addStructure" element={
-        <div>
-      <NavAdmin></NavAdmin>
-      <AddStructure/>
-      </div>} />
-      
-        
-        <Route path="addCommission" element={
-        <div>
-          <NavAdmin></NavAdmin>
-        <AddCommission/>
-        </div>
-        } />
-          <Route path="addUser" element={
-        <div>
-          <NavAdmin></NavAdmin>
-           <AddUser />
-        </div>
-      } />
-       
-        <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-        <Route path="commission" element={<Commission/>} />
-        <Route path="users" element={<User />} />
-        <Route path="structure" element={<Structure/>} />
-        <Route path="addStructure" element={
-        <div>
-      <NavAdmin></NavAdmin>
-      <AddStructure/>
-      </div>} />
-      
-        
-        <Route path="addCommission" element={
-        <div>
-          <NavAdmin></NavAdmin>
-        <AddCommission/>
-        </div>
-        } />
-          <Route path="addUser" element={
-        <div>
-          <NavAdmin></NavAdmin>
-           <AddUser />
-        </div>
-      } />
-          
-        </Route>
-
-        
+import FileApp from './components/dossierAchat/FileApp';
 
 
-        
-
-        
-        <Route path="*" element={<Missing />} />
-      </Route>
-
-      <Route path="addDossier" element={
-        <div>
-          <NavAdmin></NavAdmin>
-           <AddDossier />
-        </div>
-      } />
-          
-       
-    </Routes>
-  
-   
-  </>
-   
-      
-      
-  );
-
-}
-/*
 function App() {
   return (
     <>
     
-   <Login />
+   <FileApp />
   </>
    
       
       
   );
 }
-*/
+
 export default App;
