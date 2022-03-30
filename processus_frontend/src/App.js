@@ -20,13 +20,23 @@ import CheckBoxPrivelage from './components/AppRole/CheckBoxPrivelage';
 import AppRole from './components/AppRole/AppRole'
 import AddDossier from './components/dossierAchat/AddDossier';
 import FileApp from './components/dossierAchat/FileApp';
+import FilePdf from './components/dossierAchat/FilePdf'
+import DemandeAchatTable from './components/dossierAchat/DemandeAchatTable';
+import ListeDemandeEnregistrer from './components/dossierAchat/tableauxDemande/ListeDemandeEnregistrer';
 
 
 function App() {
+ 
+
   return (
-    <>
+   <>
+   <NavAdmin /> 
+   
+    {/*<ListeDemandeEnregistrer /> <AddDossier />   */}
+    <DemandeAchatTable/>
     
-   <FileApp />
+
+  
   </>
    
       
