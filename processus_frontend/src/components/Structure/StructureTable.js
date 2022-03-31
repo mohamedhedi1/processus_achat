@@ -20,14 +20,24 @@ import AddIcon from '@mui/icons-material/Add'
 import ModalEditStructure from './ModalEditStructure';
 import { useNavigate } from 'react-router-dom';
 import PeopleIcon from '@mui/icons-material/People';
-
+import AppRole from '../AppRole/AppRole'
 import { Card } from '@mui/material';
 import { ModelTraining } from '@mui/icons-material';
 export default function StructureTable() {
 const columns = [
   { field: 'name', headerName: 'Nom', width: 130 ,editable: false},
-  {field: 'role', headerName: 'Role', width: 130 ,editable: false},
+
   {field: 'abrivation',headerName: 'ABRIVAITION',width: 90,editable: false
+  },
+  {
+    field: "Activtie",width:160,
+    renderCell: (cellValues) => {
+      return (
+        <div >
+        <AppRole upUrl="http://localhost:8080/api/v1/appPermission/structure/" getUrl="http://localhost:8080/api/v1/appPermission/structure/" id={cellValues.row.id}></AppRole>
+        </div>
+      );
+    }
   },
   {
     field: "Action",width:160,
@@ -52,10 +62,10 @@ const handleOpen = () => {
 let navigate = useNavigate();
 const handleClose = () => setOpen(false);
 const[commissions,setCommissions]=useState([{
-  id:0,name:"",role:"",abrivation:"",emails:[]
+  id:0,name:"",permission:[],abrivation:"",emails:[]
 }])
 const [commission,setCommission]=useState({
-  id:0,name:"",role:"",abrivation:"",emails:[]
+  id:0,name:"",permission:[],abrivation:"",emails:[]
 })
 const deleteCommission=async (cellValues)=>{
   
@@ -113,8 +123,7 @@ useEffect(  () => {
       <DataGrid
         rows={commissions}
         columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
+        
       />
 
     </div>

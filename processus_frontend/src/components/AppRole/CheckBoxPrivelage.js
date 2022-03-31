@@ -11,78 +11,36 @@ import { createRef } from "react";
 import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import { PropaneSharp } from "@mui/icons-material";
+import axios from "axios";
 export default function CheckBoxPrivelage(props) {
-  const body=props.body
-  const [state, setState] = React.useState(
-    {
-      privelage1:false,
-      privelage2:false ,
-      privelage3:false,
-      privelage4:false
-    }
-     );
+  const  state=props.state
+  const setState =props.setState
+  const id =props.id 
+  const updateUrl=props.updateUrl
+  
      const privelageName=[
-       "privelage1","privelage2","privelage3","privelage4","privelage5"
+       "privelage1","privelage2","privelage3","privelage4","privelage5","privelage6","privelage7"
      ]
-     const [roleName,setName]=React.useState("")
-
+     const Labels=["traitement la demane d'achat","Approuvation de CPT","Préparation de projet de CCAP","Finalisation le CC et Preparation la methodologie de depouillement"
+    ,"Approuvation le CC","Affectaion de dossier d'achat a une structure d 'achat",
+    "Plantification les date de lancement de l'AO et de La séance d'ouvertur de plis","designation les membres de ma commission d'evaluation"
+    ]
+     
+   
   const handleChange = (event) => {
-    
+    console.log(state)
     setState({
       ...state,
       [event.target.name]: event.target.checked,
     }); 
-    let t=[]
-    Object.entries(state).map(p=>{
-      if(p[1]==true){
-        t.push(p[0])
-      }
-    })
-    t.push(event.target.name)    
-    props.setBody({
-      ...body,
-      privelages: t
-
-    })
-  };
-  const handleValue=(e)=>{
-    props.setBody({...body,name:e.target.value})
     
-  }
+  };
+  
 
-  const post=()=>{
-    /*let body={
-      name:roleName,
-      privelages:[]
-    }
-    Object.entries(state).map(p=>{
-      if(p[1]==true){
-        body.privelages.push(p[0])
-      }
-    })*/
-    console.log(body)
-     
-  }
+  
   return (
     <Box sx={{ display: "flex" }}>
       <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-      <FormLabel component="legend"><h5>Nom de role:</h5></FormLabel>
-      <TextField
-          onChange={(e) => handleValue(e)}
-          required
-          id="name"
-          label="obligatoire"
-          defaultValue=""
-        />
-        <Box
-      sx={{
-        height: 20,
-        backgroundColor: (theme) =>
-          theme.palette.mode === 'light'
-            ? 'rgba(0, 0, 0, 0)'
-            : 'rgb(255 132 132 / 25%)',
-      }}
-    />
         <FormLabel component="legend"><h5> choisir un des privelage</h5></FormLabel>
         <FormGroup>
           {privelageName.map((p) => (
@@ -91,20 +49,18 @@ export default function CheckBoxPrivelage(props) {
               control={
                  
                 <Checkbox
-                
+                 
                   key={p}
-                  checked={state[privelageName.indexOf(p)]}
+                  checked={state[p]}
                   onChange={(event) => handleChange(event)}
                   name={p}
                 />
               }
-              label={p}
+              label={Labels[privelageName.indexOf(p)]}
             />
           ))}
 
         </FormGroup>
-        
-       <Button onClick={post}  >Post</Button>
       </FormControl>
      
       

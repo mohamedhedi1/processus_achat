@@ -9,6 +9,7 @@ import Box from '@mui/material/Box';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { Link } from "react-router-dom";
+import AppRole from '../AppRole/AppRole'
 import { useEffect } from 'react';
 import axios from 'axios';
 import { Container } from '@mui/material';
@@ -32,7 +33,15 @@ const columns = [
   },
   {field: 'post',headerName: 'Poste',width: 90,editable: false
   },
-  {field: 'appRoleName',headerName: 'Role Name',width: 90,editable: false
+  {
+    field: "Activtie",width:160,
+    renderCell: (cellValues) => {
+      return (
+        <div >
+        <AppRole upUrl="http://localhost:8080/api/v1/appPermission/user/" getUrl="http://localhost:8080/api/v1/appPermission/user/" id={cellValues.row.id}></AppRole>
+        </div>
+      );
+    }
   },
   { field:'locked',headerName: "Locked",width:80,editable: false,
     renderCell: (cellValues) => {
@@ -143,8 +152,7 @@ useEffect(  () => {
       <DataGrid
         rows={users}
         columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
+        
       />
 
     </div>

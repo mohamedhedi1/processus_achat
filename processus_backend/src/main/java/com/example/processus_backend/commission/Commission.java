@@ -35,7 +35,6 @@ public class Commission {
     @OneToOne(
             fetch = FetchType.EAGER
     )
-    @JoinColumn(name = "app_role_id", referencedColumnName = "appRoleId")
     private AppRole role ;
     private LocalDate dateOfCreation;
     private String type;

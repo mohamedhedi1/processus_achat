@@ -9,21 +9,44 @@ import { ReportGmailerrorred } from '@mui/icons-material'
 import { blue, green } from '@mui/material/colors';
 import { createRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { Box } from '@mui/material';
 const AddStructure= () => {
     const myRef= createRef();
     const [emailsList,setEmailsList]=useState([])
-    const [appRolesList,setAppRolesList]=useState([{
-        label:'',
-        value:0
-    }])
+    
+    const [state, setState] = React.useState(
+        {
+          privelage1:false,
+          privelage2:false ,
+          privelage3:false,
+          privelage4:false,
+          privelage5:false,
+          privelage6:false,
+          privelage7:false,
+        
+    
+        }
+         );
+         const privelageName=[
+           "privelage1","privelage2","privelage3","privelage4","privelage5","privelage6","privelage7"
+         ]
+         const Labels=["traitement la demane d'achat","Approuvation de CPT","Préparation de projet de CCAP","Finalisation le CC et Preparation la methodologie de depouillement"
+        ,"Approuvation le CC","Affectaion de dossier d'achat a une structure d 'achat",
+        "Plantification les date de lancement de l'AO et de La séance d'ouvertur de plis","designation les membres de ma commission d'evaluation"
+        ]
+        const handleChangeAppPermission = (event) => {
+        
+            setState({
+              ...state,
+              [event.target.name]: event.target.checked,
+            }); 
+            
+          };
     const navigate=useNavigate();
     useEffect(  () => {
         async function fetchData() {
           
-          const res=await axios.get("http://localhost:8080/api/v1/AppRole/NameAndId")
-          const r=await res.data
-          setAppRolesList(r)
+         
           const response=await axios.get("http://localhost:8080/api/v1/user/AllMails")
           const r2=await response.data
           console.log(r2)
@@ -40,9 +63,9 @@ const AddStructure= () => {
         }
        fetchData();
         
-      }, [setAppRolesList,setEmailsList]);
+      }, [setEmailsList]);
      const [commission,setCommission]=useState({
-       name:"",role:"",abrivation:"",emails:[]})
+       name:"",permission:[],abrivation:"",emails:[]})
        const handleChange=(e)=>{
         const value = e.target.value;
         console.log(value)
@@ -52,13 +75,7 @@ const AddStructure= () => {
                 );
         }
        
-        const handleChangeSelectAppRole= (e) =>
-                {
-                 const value = e.target.value;
-                 setCommission(
-                   {...commission,role:value}
-                 );
-                }
+        
          const post=async(event)=>{
             event.preventDefault();
             let commission2=commission;
@@ -71,10 +88,41 @@ const AddStructure= () => {
                 }
                 
             })
+            let t=[]
+            Object.entries(state).map(p=>{
+              if(p[1]==true){
+                  switch(p[0]){
+                      case "privelage1":
+                          t.push(1)
+                          break
+                      case "privelage2":
+                           t.push(2)
+                           break
+                      case "privelage3":
+                           t.push(3)
+                           break
+                      case "privelage4":
+                          t.push(4)
+                          break
+                      case "privelage5":
+                           t.push(5)
+                           break
+                      case "privelage6":
+                           t.push(6)
+                           break
+                      case "privelage7":
+                          t.push(7)
+                          break
+              }
+             }
+         }
+             
+            )
+            commission2.permission=t
             setCommission(commission2)
             console.log(commission2)
             const response=await axios.post("http://localhost:8080/api/structure/addStructure",commission2)
-            navigate("/structure")
+            //navigate("/structure")
       
          }
          const handleCheckbox =(e)=>{
@@ -146,19 +194,29 @@ const AddStructure= () => {
                                                             <input defaultValue={commission.abrivation} name="abrivation" onChange={(e)=> handleChange(e)} 
                                                        type="text" className="form-control" id="nom" aria-describedby="emailHelp" placeholder="Nom" />
                                                         </div>
+                                                        <FormLabel component="legend"><h5> choisir un des privelage</h5></FormLabel>
+                                                        <FormGroup>
+                                                      {privelageName.map((p) => (
+                                                     <FormControlLabel
+            
+                                                        control={
+                 
+                                                           <Checkbox
+                
+                                                                key={p}
+                                                                    checked={state[privelageName.indexOf(p)]}
+                                                              onChange={(event) => handleChangeAppPermission(event)}
+                                                               name={p}
+                                                              />
+                                                                 }
+                                                        label={Labels[privelageName.indexOf(p)]}
+                                                                />
+                                                              ))}
+
+                                                     </FormGroup>
                                                         
                                                       
-                                                        <div className="form-group">
-                                                            <label for="role">Role</label>
-                                                        <select value={commission.role} onChange={(e)=> handleChangeSelectAppRole(e)} 
-                                                        class="mb-3 form-control">
-                                                            <option value="0">choisir un role</option>
-                                                         {appRolesList.map((appRole) => (
-                                                          <option value={appRole.label}>{appRole.label}</option>
-                                                           ))}
-                                                         </select>
-                                                         </div>
-                                                       
+                                                      
                                                         
                                                     
                                                         <button type="submit" onClick={post} className="btn btn-primary">Ajouter</button>
@@ -167,12 +225,21 @@ const AddStructure= () => {
                                                 <div className="col-md-4">
                                                
                                                                {emailsList.map((email)=>(
-                                                                   
+                                                               <div>    
                                                                <Chip ref={email.myRef} key={emailsList.indexOf(email)} label={email.label}   
                                                                
                                                                onClick={handleCheckbox} id={email.label}  size="small"  />
 
-                                                                
+                                                               <Box
+                                                               sx={{
+                                                                 height: 20,
+                                                                 backgroundColor: (theme) =>
+                                                                   theme.palette.mode === 'light'
+                                                                     ? 'rgba(0, 0, 0, 0)'
+                                                                     : 'rgb(255 132 132 / 25%)',
+                                                               }}
+                                                             />
+                                                             </div>
                                                                
                                                         ))}
                                                 </div>

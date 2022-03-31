@@ -18,6 +18,7 @@ import Commission from './components/commission/commission';
 import NavAdmin from './components/NavAdmin';
 import CheckBoxPrivelage from './components/AppRole/CheckBoxPrivelage';
 import AppRole from './components/AppRole/AppRole'
+import FileApp from './components/dossierAchat/FileApp';
 function App() {
   const ROLES = {
     'User': 2001,
@@ -33,7 +34,7 @@ function App() {
       <Route path="users" element={<User />} />
       <Route path="role" element={<AppRole />} />
       
-        
+      <Route path="file" element={<FileApp></FileApp>}></Route>
         <Route path="unauthorized" element={<Unauthorized />} />
        
         <Route path="commission" element={<Commission/>} />

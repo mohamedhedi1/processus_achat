@@ -174,16 +174,7 @@ export default function ModalEditStructure(props) {
                                                         </div>
                                                         
                                                       
-                                                        <div className="form-group">
-                                                            <label for="role">Role</label>
-                                                        <select value={commission.role} onChange={(e)=> handleChangeSelectAppRole(e)} 
-                                                        class="mb-3 form-control">
-                                                            <option value="0">choisir un role</option>
-                                                         {appRolesList.map((appRole) => (
-                                                          <option value={appRole.label}>{appRole.label}</option>
-                                                           ))}
-                                                         </select>
-                                                         </div>
+                                                        
                                                        
                                                         
                                                     
