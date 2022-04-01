@@ -1,7 +1,8 @@
 package com.example.processus_backend.user;
 
 import com.example.processus_backend.Structure.Structure;
-import com.example.processus_backend.security.config.AppRole.AppRole;
+
+import com.example.processus_backend.security.config.AppPermission.AppPermission;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,6 +12,8 @@ import javax.persistence.*;
 import java.sql.Struct;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -38,10 +41,22 @@ public class User implements UserDetails{
     private String cin;
     private String password;
     // @Enumerated(EnumType.STRING)
-    @OneToOne(
+    @ManyToMany(
             fetch = FetchType.EAGER
     )
-    private AppRole appRole;
+    @JoinTable(
+            name="app_permission_user_map",
+            joinColumns = @JoinColumn(
+                    name = "userId",
+                    referencedColumnName = "userId"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "appPermissionId",
+                    referencedColumnName = "appPermissionId"
+            )
+
+    )
+    private List<AppPermission> appPermission;
     private Boolean locked = false;
     private Boolean enabled = false;
     @ManyToOne(
@@ -55,9 +70,11 @@ public class User implements UserDetails{
     private Structure structure;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority =
-                new SimpleGrantedAuthority(appRole.getName());
-        return Collections.singletonList(authority);
+        List<SimpleGrantedAuthority> authority = appPermission.stream().map( p->{
+           return      new SimpleGrantedAuthority(p.getPermission());
+        }).collect(Collectors.toList());
+
+        return authority;
     }
 
     @Override

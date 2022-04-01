@@ -51,7 +51,7 @@ public class AppPermissionController {
     public void updatePermissionStructure(@PathVariable  Long Id,@RequestBody List<Long> ids){
         Structure s =structureRepository.findBySturctureId(Id);
         List<AppPermission> allById = appPermissionRepository.findAllById(ids);
-        s.setAppPermissions(allById);
+        s.setAppPermission(allById);
         structureRepository.save(s);
 
 
@@ -60,7 +60,7 @@ public class AppPermissionController {
     public void updatePermissionCommission(@PathVariable  Long Id,@RequestBody List<Long> ids){
         Commission s =commissionRepository.getById(Id);
         List<AppPermission> allById = appPermissionRepository.findAllById(ids);
-        s.setAppPermissions(allById);
+        s.setAppPermission(allById);
         commissionRepository.save(s);
 
     }
@@ -68,7 +68,7 @@ public class AppPermissionController {
     public void updatePermissionUser(@PathVariable  Long Id,@RequestBody List<Long> ids){
             User s =userRepository.getById(Id);
             List<AppPermission> allById = appPermissionRepository.findAllById(ids);
-            s.setAppPermissions(allById);
+            s.setAppPermission(allById);
             userRepository.save(s);
     }
 }

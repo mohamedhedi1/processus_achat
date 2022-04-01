@@ -1,6 +1,7 @@
 package com.example.processus_backend.commission;
 
-import com.example.processus_backend.security.config.AppRole.AppRole;
+
+import com.example.processus_backend.security.config.AppPermission.AppPermission;
 import com.example.processus_backend.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,10 +33,22 @@ public class Commission {
     )
     private Long commissionId;
     private String name  ;
-    @OneToOne(
+    @ManyToMany(
             fetch = FetchType.EAGER
     )
-    private AppRole role ;
+    @JoinTable(
+            name="app_permission_commission_map",
+            joinColumns = @JoinColumn(
+                    name = "commissionId",
+                    referencedColumnName = "commissionId"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "appPermissionId",
+                    referencedColumnName = "appPermissionId"
+            )
+
+    )
+    private List<AppPermission> appPermission;
     private LocalDate dateOfCreation;
     private String type;
     private  String abrivation ;

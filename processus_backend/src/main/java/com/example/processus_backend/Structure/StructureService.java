@@ -1,7 +1,7 @@
 package com.example.processus_backend.Structure;
 
-import com.example.processus_backend.security.config.AppRole.AppRole;
-import com.example.processus_backend.security.config.AppRole.AppRoleService;
+
+import com.example.processus_backend.security.config.AppPermission.AppPermissionService;
 import com.example.processus_backend.user.User;
 import com.example.processus_backend.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +16,13 @@ public class StructureService {
     private  final StructureRepository structureRepository ;
     @Autowired
     private  final UserRepository userRepository;
-    private  final AppRoleService appRoleService;
+    private  final AppPermissionService appPermissionService;
 
-    public StructureService(StructureRepository structureRepository, UserRepository userRepository, AppRoleService appRoleService) {
+    public StructureService(StructureRepository structureRepository, UserRepository userRepository,AppPermissionService appPermissionService) {
         this.structureRepository = structureRepository;
         this.userRepository = userRepository;
-        this.appRoleService = appRoleService;
+        this.appPermissionService = appPermissionService;
+
     }
 
     public  void addStructure(Structure structure,List<String> emails){
@@ -77,10 +78,9 @@ public class StructureService {
                 return user ;
             }).collect(Collectors.toList()) ;
             structure.addUsersToStructure(users);}
-        AppRole appRole= appRoleService.getByName(s.getRole());
+
         structure.setStructureId(s.getId());
         structure.setName(s.getName());
-        structure.setRole(appRole);
         structure.setAbrivation(s.getAbrivation());
     structureRepository.save(structure);
     }

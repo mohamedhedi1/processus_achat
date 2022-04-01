@@ -1,6 +1,7 @@
 package com.example.processus_backend.Structure;
 
-import com.example.processus_backend.security.config.AppRole.AppRole;
+import com.example.processus_backend.security.config.AppPermission.AppPermission;
+
 import com.example.processus_backend.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,10 +32,22 @@ public class Structure {
 
     private Long structureId;
     private String name  ;
-    @OneToOne(
-            fetch = FetchType.EAGER)
-    @JoinColumn(name = "app_role_id", referencedColumnName = "appRoleId")
-    private AppRole role ;
+    @ManyToMany(
+            fetch = FetchType.LAZY
+    )
+    @JoinTable(
+            name="app_permission_structure_map",
+            joinColumns = @JoinColumn(
+                    name = "structureId",
+                    referencedColumnName = "structureId"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "appPermissionId",
+                    referencedColumnName = "appPermissionId"
+            )
+
+    )
+    private List<AppPermission> appPermission;
     private String abrivation ;
     @OneToMany(
             cascade = CascadeType.ALL,

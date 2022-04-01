@@ -19,11 +19,9 @@
     "clsx": "^1.1.1",
     "jsx-control-statements": "^3.2.8",
     "material-ui-dropzone": "^3.5.0",
-<<<<<<< HEAD
-=======
     "pdf-viewer-reactjs": "^2.2.3",
     "pdfjs-dist": "^2.12.313",
->>>>>>> d46ebd7667dada70b9e6fe3bc0c9ac0a64da747e
+
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-image-crop": "^10.0.0",

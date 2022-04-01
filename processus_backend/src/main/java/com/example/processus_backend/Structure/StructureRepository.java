@@ -12,6 +12,7 @@ import java.util.List;
 public interface StructureRepository extends JpaRepository<Structure,Long> {
     @Query("select u from Structure u where u.structureId = ?1")
     public Structure findBySturctureId(Long Id );
+    @Query("select u from Structure u where u.name= ?1")
     public Structure findByname(String name);
     public Boolean existsByName(String name);
     @Query("select s.userList from Structure s where s.name=?1 ")

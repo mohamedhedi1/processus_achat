@@ -18,9 +18,7 @@ import Commission from './components/commission/commission';
 import NavAdmin from './components/NavAdmin';
 import CheckBoxPrivelage from './components/AppRole/CheckBoxPrivelage';
 import AppRole from './components/AppRole/AppRole'
-<<<<<<< HEAD
-import FileApp from './components/dossierAchat/FileApp';
-=======
+
 import AddDossier from './components/dossierAchat/AddDossier';
 import FileApp from './components/dossierAchat/FileApp';
 import FilePdf from './components/dossierAchat/FilePdf'
@@ -28,12 +26,14 @@ import DemandeAchatTable from './components/dossierAchat/DemandeAchatTable';
 import ListeDemandeEnregistrer from './components/dossierAchat/tableauxDemande/ListeDemandeEnregistrer';
 
 
->>>>>>> d46ebd7667dada70b9e6fe3bc0c9ac0a64da747e
+
 function App() {
  
+  const ROLES={
+    ADMIN:1,
 
+  }
   return (
-<<<<<<< HEAD
     <>
      
      <Routes>
@@ -87,8 +87,8 @@ function App() {
         } />
           <Route path="addUser" element={
         <div>
-          <NavAdmin></NavAdmin>
-           <AddUser />
+           <NavAdmin></NavAdmin>
+           <AddUser/>
         </div>
       } />
           
@@ -105,12 +105,10 @@ function App() {
     </Routes>
   
 =======
-   <>
-   <NavAdmin /> 
->>>>>>> d46ebd7667dada70b9e6fe3bc0c9ac0a64da747e
-   
+
+
     {/*<ListeDemandeEnregistrer /> <AddDossier />   */}
-    <DemandeAchatTable/>
+
     
 
   

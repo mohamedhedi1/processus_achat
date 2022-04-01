@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     private final PasswordEncoder passwordEncoder;
     private  final UserService userService;
+    private  final  CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     @Autowired
-    public AppSecurityConfig(PasswordEncoder passwordEncoder, UserService userService) {
+    public AppSecurityConfig(PasswordEncoder passwordEncoder, UserService userService, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
         this.passwordEncoder = passwordEncoder;
         this.userService = userService;
+        this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception{
@@ -41,7 +43,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .formLogin()
-                .defaultSuccessUrl("/yes")
+                .successHandler(customAuthenticationSuccessHandler)
+
 
         ;
     }

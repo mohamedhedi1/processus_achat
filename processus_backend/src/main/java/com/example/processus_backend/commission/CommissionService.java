@@ -32,7 +32,7 @@ public class CommissionService {
         if(commission_exists) {throw new IllegalStateException("Commission does  exists") ;}
         commission.addUsers(users);
         System.out.print("addign user");
-        System.out.print(commission.getRole().getName());
+
         commissionRepository.save(commission);
     }
     public void addUserToCommission(String commissionName,String email){

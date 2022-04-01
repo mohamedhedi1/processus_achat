@@ -122,7 +122,7 @@ const AddStructure= () => {
             setCommission(commission2)
             console.log(commission2)
             const response=await axios.post("http://localhost:8080/api/structure/addStructure",commission2)
-            //navigate("/structure")
+            //dnavigate("/structure")
       
          }
          const handleCheckbox =(e)=>{

@@ -1,7 +1,8 @@
 package com.example.processus_backend.Structure;
 
-import com.example.processus_backend.security.config.AppRole.AppRole;
-import com.example.processus_backend.security.config.AppRole.AppRoleService;
+import com.example.processus_backend.security.config.AppPermission.AppPermission;
+import com.example.processus_backend.security.config.AppPermission.AppPermissionService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +14,11 @@ import java.util.List;
 public class StructureController {
     @Autowired
     private final StructureService structureService;
-    private final AppRoleService appRoleService;
-    public StructureController(StructureService structureService, AppRoleService appRoleService) {
+    private  final AppPermissionService appPermissionService ;
+    public StructureController(StructureService structureService, AppPermissionService appPermissionService) {
         this.structureService = structureService;
-        this.appRoleService = appRoleService;
+
+        this.appPermissionService = appPermissionService;
     }
     @GetMapping
     public List<StructureTableRow> getAllStructure(){
@@ -28,7 +30,7 @@ public class StructureController {
             return StructureTableRow.builder()
                     .id(structure.getStructureId())
                     .abrivation(structure.getAbrivation())
-                    .role(structure.getRole().getName())
+
                     .name(structure.getName())
                     .emails(e)
                     .build();
@@ -38,10 +40,10 @@ public class StructureController {
     }
     @PostMapping(path = "addStructure")
     public void addStructure(@RequestBody StructureRequest structureRequest){
-        AppRole appRole=appRoleService.getByName(structureRequest.getRole());
+        List<AppPermission> appPermissions=appPermissionService.getAllById(structureRequest.getPrivelages());
         Structure structure= Structure.builder()
                 .name(structureRequest.getName())
-                .role(appRole)
+                .appPermission(appPermissions)
                 .abrivation(structureRequest.getAbrivation())
                 .build();
         structureService.addStructure(structure,structureRequest.getEmails());

@@ -1,10 +1,12 @@
 package com.example.processus_backend.user;
 
-import com.example.processus_backend.security.config.AppRole.AppRole;
+
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -16,7 +18,7 @@ public class UserRequest {
     private String lastName;
     private String post;
     private String cin;
-    private Long approle;
+    private List<Long> privelages;
     private Long structureID;
 
 }

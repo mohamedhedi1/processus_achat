@@ -73,6 +73,7 @@ const Login = () => {
             f.append('password',appUser.password)
             console.log(appUser);
             const response = await axios.post('http://localhost:8080/login',f);
+            console.log(response)
             const roles=['ADMIN']
             const user=appUser.username
             const nothin=''

@@ -2,8 +2,7 @@ package com.example.processus_backend.user;
 
 import com.example.processus_backend.Structure.Structure;
 import com.example.processus_backend.Structure.StructureRepository;
-import com.example.processus_backend.security.config.AppRole.AppRole;
-import com.example.processus_backend.security.config.AppRole.AppRoleService;
+
 import com.example.processus_backend.user.AccountActivation.ConfirmationToken;
 import com.example.processus_backend.user.AccountActivation.ConfirmationTokenService;
 import com.example.processus_backend.user.emailSender.EmailSenderService;
@@ -21,19 +20,19 @@ public class UserService implements UserDetailsService {
     private  final UserRepository userRepository;
     private  final StructureRepository structureRepository;
     private final ConfirmationTokenService confirmationTokenService;
-    private  final AppRoleService appRoleService;
+
     private final static String USER_NOT_FOUND_MSG =
             "user with email %s not found";
 
 
     @Autowired
-    public UserService(UserRepository userRepository, StructureRepository structureRepository, ConfirmationTokenService confirmationTokenService, EmailSenderService emailSenderService, AppRoleService appRoleService)
+    public UserService(UserRepository userRepository, StructureRepository structureRepository, ConfirmationTokenService confirmationTokenService, EmailSenderService emailSenderService)
     {
         this.userRepository = userRepository;
         this.structureRepository = structureRepository;
         this.confirmationTokenService = confirmationTokenService;
 
-        this.appRoleService = appRoleService;
+
     }
 
 
@@ -182,11 +181,7 @@ public class UserService implements UserDetailsService {
         return "confirmed";
     }
 
-    public Long getAppRoleIDByEmail(String email) {
 
-       Long id= userRepository.getByEmail(email).getAppRole().getAppRoleId();
-       return id;
-    }
 
 
     public void getUsersRows() {
@@ -208,10 +203,8 @@ public class UserService implements UserDetailsService {
         user.setPost(userTableRow.getPost());
         user.setFirstName(userTableRow.getFirstName());
         user.setLastName(userTableRow.getLastName());
-        AppRole appRole=appRoleService.getByName(userTableRow.getAppRoleName());
         Structure s =structureRepository.findByname(userTableRow.getStructureName());
         user.setStructure(s);
-        user.setAppRole(appRole);
         userRepository.save(user);
         return true;
     }

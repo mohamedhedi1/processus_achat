@@ -1,26 +1,26 @@
 package com.example.processus_backend.commission;
 
-import com.example.processus_backend.security.config.AppRole.AppRole;
-import com.example.processus_backend.security.config.AppRole.AppRoleService;
-import com.example.processus_backend.user.User;
+import com.example.processus_backend.security.config.AppPermission.AppPermission;
+import com.example.processus_backend.security.config.AppPermission.AppPermissionService;
+
 import com.example.processus_backend.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @CrossOrigin(origins= "http://localhost:3000")
 @RestController
 @RequestMapping(path="api/v1/commission")
 public class CommissionController {
     private final CommissionService commissionService;
-    private  final  AppRoleService appRoleService;
+    private  final AppPermissionService appPermissionService;
     private final UserService userService;
     @Autowired
-    public CommissionController(CommissionService commissionService, AppRoleService appRoleService, UserService userService) {
+    public CommissionController(CommissionService commissionService, AppPermissionService appPermissionService, UserService userService) {
         this.commissionService = commissionService;
-        this.appRoleService = appRoleService;
+        this.appPermissionService = appPermissionService;
+
         this.userService = userService;
     }
     @GetMapping
@@ -35,7 +35,6 @@ public class CommissionController {
                             .abrivation(commission.getAbrivation())
                             .name(commission.getName())
                             .type(commission.getType())
-                            .role(commission.getRole().getName())
                             .id(commission.getCommissionId())
                             .emails(e)
                             .build();
@@ -50,27 +49,26 @@ public class CommissionController {
     }
     @PostMapping(path = "addCommission")
     public void addCommission(@RequestBody CommissionRequest commissionRequest){
-         AppRole appRole =appRoleService.getByName(commissionRequest.getRole());
-         if(appRole==null){ System.out.print("nulll porblem");}
+         List<AppPermission> appPermissions =appPermissionService.getAllById(commissionRequest.getPrivelages());
+
         Commission commission= Commission.builder()
                 .name(commissionRequest.getName())
                 .dateOfCreation(commissionRequest.getDateOfCreation())
                 .abrivation(commissionRequest.getAbrivation())
                 .type(commissionRequest.getType())
-                .role(appRole)
+                .appPermission(appPermissions)
                 .build();
         commissionService.addCommission(commission,commissionRequest.getEmails());
 
     }
     @PutMapping(path = "updateCommission")
     public void updateCommission(@RequestBody CommissionTableRow commissionRequest){
-        AppRole role = appRoleService.getByName(commissionRequest.getName());
+
 
         Commission commission= Commission.builder()
                 .commissionId(commissionRequest.getId())
                 .name(commissionRequest.getName())
                 .abrivation(commissionRequest.getAbrivation())
-                .role(role)
                 .build();
         commissionService.updateCommission(commission,commissionRequest.getEmails());
     }

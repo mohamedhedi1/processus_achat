@@ -3,15 +3,16 @@ package com.example.processus_backend.user;
 import com.example.processus_backend.Structure.Structure;
 import com.example.processus_backend.Structure.StructureRepository;
 import com.example.processus_backend.security.PasswordEncoder;
-import com.example.processus_backend.security.config.AppRole.AppRole;
-import com.example.processus_backend.security.config.AppRole.AppRoleRepository;
+import com.example.processus_backend.security.config.AppPermission.AppPermission;
+import com.example.processus_backend.security.config.AppPermission.AppPermissionService;
+
 import com.example.processus_backend.user.emailSender.EmailSenderService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins= "http://localhost:3000")
@@ -20,14 +21,15 @@ import java.util.stream.Collectors;
 public class UserController {
     private final UserService userService;
     private  final PasswordEncoder passwordEncoder;
-    private final AppRoleRepository appRoleRepository;
+   private  final AppPermissionService appPermissionService;
     private  final StructureRepository structureRepository;
     private final EmailSenderService emailSenderService;
     @Autowired
-    public UserController(UserService userService, PasswordEncoder passwordEncoder, AppRoleRepository appRoleRepository, StructureRepository structureRepository, EmailSenderService emailSenderService) {
+    public UserController(UserService userService, PasswordEncoder passwordEncoder, AppPermissionService appPermissionService, StructureRepository structureRepository, EmailSenderService emailSenderService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
-        this.appRoleRepository = appRoleRepository;
+        this.appPermissionService = appPermissionService;
+
         this.structureRepository = structureRepository;
         this.emailSenderService = emailSenderService;
     }
@@ -40,7 +42,6 @@ public class UserController {
             return UserTableRow.builder().id(user.getUserId())
                     .firstName(user.getFirstName())
                     .lastName(user.getLastName())
-                    .appRoleName(user.getAppRole().getName())
                     .email(user.getEmail())
                     .cin(user.getCin())
                     .locked(user.getLocked())
@@ -64,13 +65,13 @@ public class UserController {
     public void addUser(@RequestBody UserRequest userRequest)
     {
         //check email
-        Optional<AppRole> appRole =appRoleRepository.findById(userRequest.getApprole());
+        List<AppPermission> appPermissions=appPermissionService.getAllById(userRequest.getPrivelages());
         Structure s = structureRepository.findBySturctureId(userRequest.getStructureID());
         User user= User.builder()
                 .cin(userRequest.getCin())
                 .email(userRequest.getEmail())
                 .post(userRequest.getPost())
-                .appRole(appRole.get())
+                .appPermission(appPermissions)
                 .firstName(userRequest.getFirstName())
                 .lastName(userRequest.getLastName())
                 .enabled(false)
@@ -128,7 +129,16 @@ public class UserController {
     public Boolean setLockUser(@PathVariable("id") Long id ,@RequestParam boolean lock ){
         return  userService.setLockedUser(id,lock);
     }
-
-
+    @GetMapping(path = "getLoggedInUser")
+    public UserAuth get__(Authentication authentication){
+            List<String> privelages = authentication.getAuthorities().stream().map(a ->{
+            return  a.getAuthority();
+        }).collect(Collectors.toList());
+       UserAuth user=UserAuth.builder()
+                .email(authentication.getName())
+                .privelages(privelages)
+                .build();
+       return  user ;
+    }
 
 }

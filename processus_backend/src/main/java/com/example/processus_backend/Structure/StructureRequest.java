@@ -14,6 +14,6 @@ import java.util.List;
 public class StructureRequest {
     private String name;
     private String abrivation;
-    private String role;
+    private List<Long> privelages;
     private List<String> emails;
 }
