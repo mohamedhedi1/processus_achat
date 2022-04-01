@@ -11,5 +11,5 @@ import java.util.List;
 @Builder
 public class UserAuth {
     private String email;
-    private List<String> privelages ;
+    private List<Long> privelages ;
 }

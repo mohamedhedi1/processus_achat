@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -91,11 +92,11 @@ class UserRepositoryTest {
     @Test
     public void insertAdmin(){
 
-
+        AppPermission appPermission=appPermissionRepository.getById(Integer.toUnsignedLong(9));
         User user= User.builder()
+                .appPermission( List.of(appPermission))
                 .cin("012453")
                 .email("admin@admin.com")
-                .post("admin")
                 .firstName("admin")
                 .lastName("admin")
                 .password(passwordEncoder.bCryptPasswordEncoder().encode("admin"))

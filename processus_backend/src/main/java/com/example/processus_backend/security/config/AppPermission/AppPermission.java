@@ -1,12 +1,12 @@
 package com.example.processus_backend.security.config.AppPermission;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 @Builder
 @Entity
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class AppPermission {

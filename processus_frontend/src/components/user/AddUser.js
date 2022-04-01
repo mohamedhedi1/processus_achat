@@ -58,7 +58,7 @@ const AddUser = () => {
      const [user,setUser]=useState({
        email:"",firstName:"",lastName:"",cin:"",structureID:0,post:"",privelages:""})
        const handleChange = (e) =>
-     {
+     {   
          const value = e.target.value;
          console.log(value)
          console.log(e.target.name)

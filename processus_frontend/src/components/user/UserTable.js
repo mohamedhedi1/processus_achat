@@ -16,6 +16,7 @@ import { Container } from '@mui/material';
 import Chip from '@mui/material/Chip';
 import { useState } from 'react';
 import { Stack } from '@mui/material';
+import useAuth from '../hooks/useAuth';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import AddIcon from '@mui/icons-material/Add'
 import ModalEditUser from'../user/ModalEditUser'
@@ -75,6 +76,7 @@ const [open, setOpen] = useState(false);
 const handleOpen = () => {
  setOpen(true);
 }
+const { auth } = useAuth();
 let navigate = useNavigate();
 const handleClose = () => setOpen(false);
 const [user,setUser]=useState({
@@ -125,8 +127,9 @@ useEffect(  () => {
     setUsers(l)
   }
  fetchData();
+ console.log(auth)
   
-}, [setUsers]);
+}, [setUsers,auth]);
   return (
     <Container mb={2}>
        <ModalEditUser

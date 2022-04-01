@@ -8,8 +8,8 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 
 const Login = () => {
-    const { setAuth } = useAuth();
-
+    const { auth,setAuth } = useAuth();
+    
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
@@ -73,13 +73,17 @@ const Login = () => {
             f.append('password',appUser.password)
             console.log(appUser);
             const response = await axios.post('http://localhost:8080/login',f);
-            console.log(response)
-            const roles=['ADMIN']
-            const user=appUser.username
+            let data=response.data;
+            const roles=data.privelages
+            const user=data.email
             const nothin=''
             const n=''
             setAuth({ user,nothin,roles,n});
-            
+            console.log(auth);
+            if( roles.includes(9))
+            {navigate("/users")}
+            if( roles.includes(2))
+            {navigate("/non_admin")}
             
             
           
@@ -87,7 +91,8 @@ const Login = () => {
           } catch(error) {
             console.log(error)
           }
-          navigate("/users")
+
+         
         
       };
  
