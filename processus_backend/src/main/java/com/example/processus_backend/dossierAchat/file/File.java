@@ -28,4 +28,6 @@ public class File {
     private String fileDownloadUri;
     private String fileType;
     private long size;
+    private String titre;
+    private String objet;
 }

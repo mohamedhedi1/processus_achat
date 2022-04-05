@@ -20,8 +20,8 @@ public class DemandeAchatService {
         this.fileRepository = fileRepository;
     }
 
-    public void addDemandeAchat(DemandeAchat demandeAchat, List<String> pathfichiers) {
-    if(!pathfichiers.isEmpty())
+    public void addDemandeAchat(DemandeAchat demandeAchat) {
+   /* if(!pathfichiers.isEmpty())
     {
         List<File> files = pathfichiers.stream().map(pathfichier ->{
             File file = fileRepository.getFileByPath(pathfichier);
@@ -29,8 +29,8 @@ public class DemandeAchatService {
         }).collect(Collectors.toList());
         demandeAchat.setFiles(files);
     }
-  //  demandeAchat.setDemandeAchatId(Integer.toUnsignedLong(11));
-
+  //  demandeAchat.setDemandeAchatId(Integer.toUnsignedLong(11));*/
+    System.out.println(demandeAchat);
     demandeAchatRepository.save(demandeAchat);
     }
 

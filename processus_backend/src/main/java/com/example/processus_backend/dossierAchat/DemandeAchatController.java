@@ -1,14 +1,9 @@
 package com.example.processus_backend.dossierAchat;
 
-import com.example.processus_backend.Structure.StructureRequest;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import java.util.Date;
 import java.util.List;
 
 
@@ -27,16 +22,19 @@ public class DemandeAchatController {
     @PostMapping(path ="nonenvoye")
     public void DemandeAchatnoenvoye(@RequestBody DemandeAchatRequest demandeAchatRequest){
 
-        DemandeAchat demandeAchat = DemandeAchat.builder()
-                .projet(demandeAchatRequest.getProjet())
-                .estimation(demandeAchatRequest.getEstimation())
-                .delais(demandeAchatRequest.getDelais())
-                .envoye(false)
-                .datenvoi(LocalDate.now())
-                .build();
-        demandeAchatService.addDemandeAchat(demandeAchat,demandeAchatRequest.getPathfichiers());
+       DemandeAchat demandeAchat = DemandeAchat.builder()
+            .projet(demandeAchatRequest.getProjet())
+            .estimation(demandeAchatRequest.getEstimation())
+            .delais(demandeAchatRequest.getDelais())
+            .envoye(false)
+            .datenvoi(LocalDate.now())
+            .files(demandeAchatRequest.getFiles())
+            .useremail(demandeAchatRequest.getUseremail())
+            .build();
+    demandeAchatService.addDemandeAchat(demandeAchat);
 
     }
+
     @PostMapping()
     public void DemandeAchat(@RequestBody DemandeAchatRequest demandeAchatRequest){
     DemandeAchat demandeAchat = DemandeAchat.builder()
@@ -45,12 +43,14 @@ public class DemandeAchatController {
             .delais(demandeAchatRequest.getDelais())
             .envoye(true)
             .datenvoi(LocalDate.now())
+            .files(demandeAchatRequest.getFiles())
+            .useremail(demandeAchatRequest.getUseremail())
             .build();
-    demandeAchatService.addDemandeAchat(demandeAchat,demandeAchatRequest.getPathfichiers());
+    demandeAchatService.addDemandeAchat(demandeAchat);
 
 
     }
-
+/*
     @GetMapping
     public List<DemandeAchatModel> getAllDemande()
     {
@@ -75,7 +75,12 @@ public class DemandeAchatController {
         }).toList();
         return demandeAchatModels;
     }
-
-
+*/
+@GetMapping
+public List<DemandeAchat> getAllDemande()
+{
+     List<DemandeAchat> demandeAchats = demandeAchatService.getAlldDemandes();
+    return demandeAchats;
+}
 
 }

@@ -76,7 +76,7 @@ function DemandeRow(demande) {
       </tr>
 
     }
-    {!demande.demande.envoye && 
+    {demande.demande.envoye && 
       <tr className="unread" onClick={() => {}}>
         <td></td>
       <td></td>

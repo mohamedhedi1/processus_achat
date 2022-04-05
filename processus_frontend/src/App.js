@@ -26,7 +26,9 @@ import DemandeAchatTable from './components/dossierAchat/DemandeAchatTable';
 import ListeDemandeEnregistrer from './components/dossierAchat/tableauxDemande/ListeDemandeEnregistrer';
 
 import Home from'./components/OTHERS/home';
-
+import AjouterDemandeAchat from './demandeAchat/AjouterDemandeAchat';
+import DemandesAchatEnregistrer from './demandeAchat/previewdossier/DemandesAchatEnregistrer';
+import Test from './demandeAchat/images/Test'
 function App() {
  
   const ROLES={
@@ -43,8 +45,18 @@ function App() {
   }
   return (
     <>
-     
-     <Routes>
+   
+    
+
+    {/*<ListeDemandeEnregistrer /> <AddDossier />  <DemandeAchatTable />
+    <DemandesAchatEnregistrer/>  
+    
+     <NavAdmin/>
+    <DemandeAchatTable />
+    <DemandesAchatEnregistrer />
+    <AjouterDemandeAchat/>
+    <Test />*/}
+    <Routes>
       <Route path="/" element={<Layout />}>
       <Route path="login" element={<Login/>}/>
      
@@ -94,7 +106,15 @@ function App() {
            <NavAdmin></NavAdmin>
            <AddUser/>
         </div>
+    
       } />     
+        <Route path="adddemande" element={
+        <div>
+          <NavAdmin></NavAdmin>
+          <AjouterDemandeAchat/>
+        </div>
+        } />
+
         </Route>
 
       
@@ -107,12 +127,7 @@ function App() {
       </Route>
     </Routes>
   
-=======
-
-
-    {/*<ListeDemandeEnregistrer /> <AddDossier />   */}
-
-    
+   
 
   
   </>

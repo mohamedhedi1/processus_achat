@@ -91,11 +91,13 @@ class UserRepositoryTest {
     }
     @Test
     public void insertAdmin(){
-
+        List<Structure> strucutres= structureRepository.findAll();
         AppPermission appPermission=appPermissionRepository.getById(Integer.toUnsignedLong(9));
         User user= User.builder()
+
                 .appPermission( List.of(appPermission))
                 .cin("012453")
+                .structure(strucutres.get(0))
                 .email("admin@admin.com")
                 .firstName("admin")
                 .lastName("admin")

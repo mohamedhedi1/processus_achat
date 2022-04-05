@@ -6,6 +6,8 @@ public class FileResponse {
     private String fileDownloadUri;
     private String fileType;
     private long size;
+    private String titre;
+    private String objet;
     public FileResponse(String filename, String fileDownloadUri, String fileType, long size) {
         super();
         this.filename = filename;
@@ -38,6 +40,28 @@ public class FileResponse {
         this.size = size;
     }
 
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
 
+    public void setObjet(String objet) {
+        this.objet = objet;
+    }
 
+    public String getTitre() {
+        return titre;
+    }
+
+    public String getObjet() {
+        return objet;
+    }
+
+    public FileResponse(String filename, String fileDownloadUri, String fileType, long size, String titre, String objet) {
+        this.filename = filename;
+        this.fileDownloadUri = fileDownloadUri;
+        this.fileType = fileType;
+        this.size = size;
+        this.titre = titre;
+        this.objet = objet;
+    }
 }

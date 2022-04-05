@@ -72,18 +72,19 @@ public class FileController {
                 .body(resource);
     }
     @PostMapping
-    public ResponseEntity<FileResponse> uploadFile(@RequestParam("file") MultipartFile file){
+    public ResponseEntity<FileResponse> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("titre") String titre,@RequestParam("objet") String objet){
 
         String fileName = fileStorageService.storeFile(file);
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/filess/")
+                .path("/files/")
                 .path(fileName)
                 .toUriString();
 
-        FileResponse fileResponse = new FileResponse(fileName, fileDownloadUri, file.getContentType(), file.getSize());
+        FileResponse fileResponse = new FileResponse(fileName, fileDownloadUri, file.getContentType(), file.getSize(),titre,objet);
         // added the post database file
         File file1 = new File();
         BeanUtils.copyProperties(fileResponse,file1);
+
         fileRepository.save(file1);
 
 

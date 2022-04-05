@@ -31,7 +31,7 @@ public class DemandeAchat {
     private Long demandeAchatId;
     private String projet;
     private int estimation;
-    private int delais;
+    private LocalDate delais;
     private boolean envoye;
     private LocalDate datenvoi;
     @OneToMany(
@@ -43,4 +43,5 @@ public class DemandeAchat {
             referencedColumnName = "demandeAchatId"
     )
     private List<File> files;
+    private String useremail;
 }
