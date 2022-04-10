@@ -5,10 +5,13 @@ import { useState } from 'react'
 import AjouterAED from './AjouterAED';
 import AjouterFichier from './AjouterFichier';
 import useAuth from "../components/hooks/useAuth"
+import AjouterAutreFichier from './AjouterAutreFichier';
 function AjouterDemandeAchat() {
     const {auth} = useAuth();
 
-    
+
+    const [aed_envoye,setAed_envoye] =useState(true)
+    const[cpt_envoye,setCpt_envoye]=useState(true)
     const [demande, setDemande] =useState({projet:"",estimation:0,delais:null,files:[],useremail:auth.user})
     const [listfichier, setListfichier]= useState([])
     const [listfichierInfo, setListfichierInfo] = useState([])
@@ -16,6 +19,7 @@ function AjouterDemandeAchat() {
     const [listepath, setListepath] = useState([])
     const [vcpt,setVcpt] = useState(false)
     const [vaed,setVaed] = useState(false)
+
    
     const newfichierComponent = (e) => 
     {
@@ -23,8 +27,9 @@ function AjouterDemandeAchat() {
    //fctFichierInfo =  { infos =>  setListfichierInfo(...listfichierInfo,infos)} 
        setNbrfichier(nbrfichier+1)
        console.log(nbrfichier)
-        setListfichier([...listfichier,<Fichier  listfichierInfo={listfichierInfo} setListfichierInfo={setListfichierInfo}  id={nbrfichier} />])
+        setListfichier([...listfichier,<AjouterAutreFichier  listfichierInfo={listfichierInfo} setListfichierInfo={setListfichierInfo}  id={nbrfichier} />])
     }
+    
     
     const  post =async(e) => 
     {
@@ -36,6 +41,7 @@ function AjouterDemandeAchat() {
        
    
         const res = await  axios.post("http://localhost:8080/api/DemandeAchat",t);
+        
               
        console.log(res.data)
     }
@@ -144,12 +150,21 @@ function AjouterDemandeAchat() {
                                                              </div>
                                                              </div>*/
                                                      }
-                                                   
-                                                     <button onClick={() =>{setVcpt(!vcpt)}} type="button" class="btn btn-light btn-lg btn-block">Ajouter Cahier des prescriptions techniques CPT</button>
-                                                    {vcpt && <AjouterFichier listfichierInfo={listfichierInfo} setListfichierInfo={setListfichierInfo}  id={nbrfichier}/>}
+                                                   {cpt_envoye &&    <button onClick={() =>{setVcpt(!vcpt)}} type="button" class="btn btn-light btn-lg btn-block">Ajouter Cahier des prescriptions techniques CPT</button>}
+                                                     {!cpt_envoye && 
+                                                     <div class="alert alert-success" role="alert">
+                                                     Cahier des prescriptions techniques CPT ajouté avec succes
+                                                   </div>
+                                                     }
+                                                    {cpt_envoye && vcpt && <AjouterFichier listfichierInfo={listfichierInfo} setListfichierInfo={setListfichierInfo}  id={nbrfichier} cpt_envoye={cpt_envoye} setCpt_envoye={setCpt_envoye} />}
                                                     
-                                                    <button onClick={() =>{setVaed(!vaed)}} type="button" class="btn btn-light btn-lg btn-block">Ajouter Autorisation d'engagement de dépenses AED</button>
-                                                    {vaed && <AjouterAED listfichierInfo={listfichierInfo} setListfichierInfo={setListfichierInfo}  id={nbrfichier}/>}
+                                                  {aed_envoye && <button onClick={() =>{setVaed(!vaed)}} type="button" class="btn btn-light btn-lg btn-block">Ajouter Autorisation d'engagement de dépenses AED</button>}  
+                                                  {!aed_envoye && 
+                                                   <div class="alert alert-success" role="alert">
+                                                   Autorisation d'engagement de dépenses AED ajouté avec succes
+                                                 </div>
+                                                  }
+                                                    {aed_envoye && vaed && <AjouterAED listfichierInfo={listfichierInfo} setListfichierInfo={setListfichierInfo}  id={nbrfichier}  aed_envoye={aed_envoye} setAed_envoye={setAed_envoye} />}
                                                   
                                                    
 
@@ -161,6 +176,9 @@ function AjouterDemandeAchat() {
 <br/>
 <button type="button" onClick={(e)=> newfichierComponent(e)}  class="btn btn-light btn-lg btn-block">Ajouter autres fichiers</button>
                                                     {listfichier}
+
+                                                    <br/>
+                                                    <br/>
                                                     <button type="submit"
                                                      onClick={post}
                                                       className="btn  theme-bg text-white f-12">Envoyer la demande</button>
@@ -168,7 +186,7 @@ function AjouterDemandeAchat() {
                                                      onClick={post2}
                                                       className="btn  theme-bg2 text-white f-12">Enregistrer la demande</button>
                                                        
-                                                   <button onClick={()=>{console.log(listfichierInfo)}}>test</button>
+                                                 
                                                 </form>
                                             </div>
                                         </div>

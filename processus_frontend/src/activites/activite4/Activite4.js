@@ -1,20 +1,22 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
-import DemandeAchatEnvoyeRow from './DemandeAchatEnvoyeRow'
-function DemandesAchatEnvoye() {
-  const [demandeAchat, setDemandeAchat] = useState([])
-  useEffect(() => {
-      
-      async function fetchData() {
-          const response = await  axios.get("http://localhost:8080/api/DemandeAchat")
-          const l = await response.data
-          setDemandeAchat(l)
-          console.log(l)
-          
-      }
-      fetchData();
+import Activite4Row from './Activite4Row'
+function Activite4() {
 
-  } ,[setDemandeAchat]);
+    const [demandeAchat, setDemandeAchat] = useState([])
+    useEffect(() => {
+        
+        async function fetchData() {
+            const response = await  axios.get("http://localhost:8080/api/DemandeAchat")
+            const l = await response.data
+            setDemandeAchat(l)
+            console.log(l)
+            
+        }
+        fetchData();
+  
+    } ,[setDemandeAchat]);
+
   return (
     <div className="pcoded-main-container">
     <div className="pcoded-wrapper">
@@ -26,13 +28,13 @@ function DemandesAchatEnvoye() {
                             <div className="col-12">
                                 <div className="card">
                                     <div className="card-header">
-                                        <h5>Liste des demandes d'achats envoyées</h5>
+                                        <h5>Liste des demandes d'achats </h5>
                                        
                                     </div>
                                     <div className="card-body">
                                     {demandeAchat.map((demande) =>
                         {
-                            return   <DemandeAchatEnvoyeRow demande={demande} />
+                            return   <Activite4Row demande={demande} />
                         }) 
                         
                     
@@ -50,4 +52,4 @@ function DemandesAchatEnvoye() {
   )
 }
 
-export default DemandesAchatEnvoye
+export default Activite4

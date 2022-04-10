@@ -1,8 +1,7 @@
-
-import DemandeRow from './DemandeRow'
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
-function DemandesAchatEnregistrer() {
+import Activite4Row from './Activite5Row'
+function Activite5() {
 
     const [demandeAchat, setDemandeAchat] = useState([])
     useEffect(() => {
@@ -15,8 +14,10 @@ function DemandesAchatEnregistrer() {
             
         }
         fetchData();
-
+  
     } ,[setDemandeAchat]);
+
+
   return (
     <div className="pcoded-main-container">
     <div className="pcoded-wrapper">
@@ -28,13 +29,13 @@ function DemandesAchatEnregistrer() {
                             <div className="col-12">
                                 <div className="card">
                                     <div className="card-header">
-                                        <h5>Liste des demandes d'achats enregistrées</h5>
+                                        <h5>Liste des demandes d'achats </h5>
                                        
                                     </div>
                                     <div className="card-body">
                                     {demandeAchat.map((demande) =>
                         {
-                            return   <DemandeRow demande={demande} />
+                            return   <Activite4Row demande={demande} />
                         }) 
                         
                     
@@ -52,4 +53,4 @@ function DemandesAchatEnregistrer() {
   )
 }
 
-export default DemandesAchatEnregistrer
+export default Activite5

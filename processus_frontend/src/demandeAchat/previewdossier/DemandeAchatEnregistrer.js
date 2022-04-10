@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
-import DemandeAchatEnvoyeRow from './DemandeAchatEnvoyeRow'
-function DemandesAchatEnvoye() {
-  const [demandeAchat, setDemandeAchat] = useState([])
+import DemandeAchatEnregistrerRow from './DemandeAchatEnregistrerRow'
+
+function DemandeAchatEnregistrer() {
+    const [demandeAchat, setDemandeAchat] = useState([])
   useEffect(() => {
       
       async function fetchData() {
@@ -15,6 +16,8 @@ function DemandesAchatEnvoye() {
       fetchData();
 
   } ,[setDemandeAchat]);
+
+
   return (
     <div className="pcoded-main-container">
     <div className="pcoded-wrapper">
@@ -26,13 +29,13 @@ function DemandesAchatEnvoye() {
                             <div className="col-12">
                                 <div className="card">
                                     <div className="card-header">
-                                        <h5>Liste des demandes d'achats envoyées</h5>
+                                        <h5>Liste des demandes d'achats enregistrées</h5>
                                        
                                     </div>
                                     <div className="card-body">
                                     {demandeAchat.map((demande) =>
                         {
-                            return   <DemandeAchatEnvoyeRow demande={demande} />
+                            return   <DemandeAchatEnregistrerRow demande={demande} />
                         }) 
                         
                     
@@ -50,4 +53,4 @@ function DemandesAchatEnvoye() {
   )
 }
 
-export default DemandesAchatEnvoye
+export default DemandeAchatEnregistrer

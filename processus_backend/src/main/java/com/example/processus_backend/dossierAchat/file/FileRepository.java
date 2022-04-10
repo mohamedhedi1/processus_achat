@@ -9,4 +9,6 @@ public interface FileRepository extends JpaRepository<File,Long> {
     @Query("select s from File s where s.fileDownloadUri=?1")
      File getFileByPath(String pathfichier);
 
+
+
 }

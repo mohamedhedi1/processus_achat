@@ -12,7 +12,7 @@ import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 function AjouterAED(props) {
    
-  const [titre,setTitre] = useState("")
+  const [titre,setTitre] = useState("AED")
   const [objet, setObjet] = useState("")
   const [id,setId] =useState(1)
   const [fileName,setFileName]= useState('');
@@ -61,6 +61,8 @@ const  post =async(e) =>
     props.listfichierInfo
 
 )
+props.setAed_envoye(!props.setAed_envoye)
+
       
 
 }
@@ -69,6 +71,7 @@ const allowedFiles = ['application/pdf'];
    let selectedFile = e.target.files[0];
    setFichier(selectedFile)
     console.log(selectedFile);
+    setFileName(selectedFile.name)
    if(selectedFile){
      if(selectedFile&&allowedFiles.includes(selectedFile.type)){
        let reader = new FileReader();
@@ -120,7 +123,7 @@ const allowedFiles = ['application/pdf'];
         </div>
       )
  }
- else{return(<><p>Aed envoyé et verifié</p></>)}
+ else{return(<><p>AED envoyé et verifié</p></>)}
  
 }
 

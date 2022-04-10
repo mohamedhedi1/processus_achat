@@ -1,6 +1,14 @@
 import React, {useState} from 'react'
 import axios from "axios"
-
+import { Worker } from '@react-pdf-viewer/core';
+// Import the main Viewer component
+import { Viewer } from '@react-pdf-viewer/core';
+// Import the styles
+import '@react-pdf-viewer/core/lib/styles/index.css';
+// default layout plugin
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+// Import styles of default layout plugin
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 function AjouterFichier(props) {
   const[fichier, setFichier] = useState({})
   const [titre,setTitre] = useState("")
@@ -9,7 +17,8 @@ function AjouterFichier(props) {
   const allowedFiles = ['application/pdf'];
   // pdf file onChange state
 const [pdfFile, setPdfFile]=useState(null);
-
+const [previewbtn, setPreviewbtn] =useState(false)
+const defaultLayoutPluginInstance = defaultLayoutPlugin();
 // pdf file error state
 const [pdfError, setPdfError]=useState('');
 const [fileName,setFileName]= useState('');
@@ -36,6 +45,7 @@ const  post =async(e) =>
    let t=props.listfichierInfo
   t.push(res.data)
   props.setListfichierInfo(t)
+  props.setCpt_envoye(!props.cpt_envoye)
           
 
 }
@@ -108,6 +118,20 @@ const handlechangeobjet = (e) =>
 {fileName && <span className='text-success'>{fileName}</span> }
 {pdfError&&<span className='text-danger'>{pdfError}</span>}
 <br/>
+<button type="button" 
+         onClick={() => {
+            setPreviewbtn(!previewbtn)
+    
+         }}
+        
+        class="btn btn-light btn-lg btn-block">Afficher</button>
+         {previewbtn && pdfFile &&(
+               <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.12.313/build/pdf.worker.min.js">
+                 <Viewer fileUrl={pdfFile}
+                 plugins={[defaultLayoutPluginInstance]}></Viewer>
+               </Worker>
+             )}
+          
 <button type="submit" onClick={post} class="btn btn-success btn-lg btn-block">Ajouter le CPT</button>
 </form>
     </div>

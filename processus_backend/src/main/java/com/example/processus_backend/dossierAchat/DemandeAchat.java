@@ -34,6 +34,7 @@ public class DemandeAchat {
     private LocalDate delais;
     private boolean envoye;
     private LocalDate datenvoi;
+
     @OneToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER
@@ -44,4 +45,10 @@ public class DemandeAchat {
     )
     private List<File> files;
     private String useremail;
+
+    public void addFile(File file)
+    {
+        files.add(file);
+
+    }
 }

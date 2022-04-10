@@ -27,8 +27,18 @@ import ListeDemandeEnregistrer from './components/dossierAchat/tableauxDemande/L
 
 import Home from'./components/OTHERS/home';
 import AjouterDemandeAchat from './demandeAchat/AjouterDemandeAchat';
-import DemandesAchatEnregistrer from './demandeAchat/previewdossier/DemandesAchatEnregistrer';
+
 import Test from './demandeAchat/images/Test'
+import Activite1 from './activites/activite1/Activite1';
+import Activite2 from './activites/Activite2/Activite2';
+import Activite3 from './activites/activite3/Activite3';
+import Activite4 from './activites/activite4/Activite4';
+import Activite5 from './activites/activite5/Activite5';
+import DemandesAchatEnvoye from './demandeAchat/previewdemandeenvoye/DemandesAchatEnvoye';
+import  HorizontalStepper from './demandeAchat/previewdemandeenvoye/HorizontalStepper';
+import DemandeAchatEnregistrer from './demandeAchat/previewdossier/DemandeAchatEnregistrer';
+import ModifierDemande from './demandeAchat/modifierDemandeAchat/ModifierDemande';
+import BasicModal from './demandeAchat/previewdemandeenvoye/BasicModal';
 function App() {
  
   const ROLES={
@@ -56,79 +66,41 @@ function App() {
     <DemandesAchatEnregistrer />
     <AjouterDemandeAchat/>
     <Test />*/}
-    <Routes>
-      <Route path="/" element={<Layout />}>
-      <Route path="login" element={<Login/>}/>
-     
-      <Route path="file" element={<FileApp></FileApp>}></Route>
-        <Route path="unauthorized" element={<Unauthorized />} />
-       
-        
-        <Route element={<RequireAuth allowedRoles={[ROLES.PREPARATION_DE_PROJET_DE_CCAP]} />}>
-        <Route path="/non_admin" element={<Home/>}/>
-          </Route>
-
-        {/* we want to protect these routes */}
-        <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
-        <Route path="commission" element={<Commission/>} />
-        <Route path="users" element={<User />} />
-        <Route path="addUser" element={
-        <div>
-          <NavAdmin></NavAdmin>
-          <AddUser />
-        </div>
-          } />
-          <Route path="addCommission" element={
-        <div>
-          <NavAdmin></NavAdmin>
-        <AddCommission/>
-        </div>
-           } />
-          < Route path="addStructure" element={
-        <div>
-      <NavAdmin></NavAdmin>
-      <AddStructure/>
-      </div>} />
-        <Route path="structure" element={<Structure/>} />
-        <Route path="addStructure" element={
-        <div>
-      <NavAdmin></NavAdmin>
-      <AddStructure/>
-      </div>} />
-        <Route path="addCommission" element={
-        <div>
-          <NavAdmin></NavAdmin>
-        <AddCommission/>
-        </div>
-        } />
-          <Route path="addUser" element={
-        <div>
-           <NavAdmin></NavAdmin>
-           <AddUser/>
-        </div>
     
-      } />     
-        <Route path="adddemande" element={
-        <div>
-          <NavAdmin></NavAdmin>
-          <AjouterDemandeAchat/>
-        </div>
-        } />
+    
+    {/*
+    <NavAdmin/>
+    <ModifierDemande idDemandeAchat={9}/>
+    <DemandeAchatEnregistrer />
+    <ModifierDemande idDemandeAchat={9}/>
+     <Activite1 />
+     <Activite2/>
+     <Activite3/>
+     
+    */}
+      <NavAdmin/>
+    <DemandesAchatEnvoye />
+   
+    
+    {/*
+    <Activite1 />
 
-        </Route>
-
-      
-
-
-        
-
-        {/* catch all */}
-        <Route path="*" element={<Missing />} />
-      </Route>
-    </Routes>
-  
+    <Activite2/>
+    <Activite3/>
+    <Activite4 />
+    <Activite5 />
+    */}
+    
+   
+    
    
 
+    
+
+    
+    
+    
+    
   
   </>
    
