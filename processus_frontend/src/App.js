@@ -78,7 +78,8 @@ function App() {
      <Activite3/>
      
     */}
-      <NavAdmin/>
+      
+      <HorizontalStepper/>
     <DemandesAchatEnvoye />
    
     

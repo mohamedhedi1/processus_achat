@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 import dossier1 from './dossier.png'
 //import PDFViewer from 'pdf-viewer-reactjs'
 import { Worker } from '@react-pdf-viewer/core';
@@ -12,11 +12,27 @@ import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import Filepng from './file2.png';
 import HorizontalStepper from './HorizontalStepper';
-import Stepper from './Stepper';
-const StepperDossier = () =>{
+import Steppers from './Steppers';
+import axios from 'axios' 
+const StepperDossier = (props) =>{
+  const [listApprouvation, setlistApprouvation] = useState([])
+  useEffect(() => {
+      
+      async function fetchData() {
+          const response = await  axios.get(`http://localhost:8080/approuvationDossier/etat/${props.demandeId}`)
+          const l = await response.data
+          setlistApprouvation(l)
+          console.log(l)
+          
+      }
+      fetchData();
+
+  } ,[setlistApprouvation]);
+
   return(  <div className="card text-center">
   <div className="card-header">
-  <Stepper/>
+
+  <Steppers listApprouvation={listApprouvation} />
   </div>
   {/* <div className="card-body">
     <h5 className="card-title">Special title treatment</h5>
@@ -44,7 +60,7 @@ const AfficherDemandeDetails =(demande) =>
   </div>
   <div className="card-body">
   <ul className="list-group list-group-flush">
-  <li><StepperDossier/></li>
+  <li><StepperDossier demandeId={demand.demandeAchatId} /></li>
   <li className="list-group-item">Estimation du budget :  {demand.estimation}</li>
   <li className="list-group-item">Délais de réalisation finale :  {demand.delais}</li>
   <li className="list-group-item">Date de création :  {demand.datenvoi}</li>
