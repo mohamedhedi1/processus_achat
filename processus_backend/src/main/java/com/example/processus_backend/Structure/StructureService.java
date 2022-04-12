@@ -71,13 +71,13 @@ public class StructureService {
         Structure structure=structureRepository.findBySturctureId(s.getId());
         List<String> emails=s.getEmails();
         if(!emails.isEmpty()){
-            List<User> users =  emails.stream().map(email ->{
+            Set<User> users =  emails.stream().map(email ->{
                 boolean user_exists = userRepository.existsByEmail(email);
                 if(!user_exists) {throw new IllegalStateException("user does not exists") ;}
                 User user = userRepository.getByEmail(email);
                 return user ;
-            }).collect(Collectors.toList()) ;
-            structure.addUsersToStructure(users);}
+            }).collect(Collectors.toSet()) ;
+            structure.setUserList(users);}
 
         structure.setStructureId(s.getId());
         structure.setName(s.getName());

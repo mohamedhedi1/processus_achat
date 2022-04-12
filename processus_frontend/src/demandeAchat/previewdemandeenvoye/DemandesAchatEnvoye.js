@@ -1,8 +1,19 @@
 import React, {useEffect, useState} from 'react'
+import Modal_stepper from './modal_stepper'
 import axios from 'axios'
 import DemandeAchatEnvoyeRow from './DemandeAchatEnvoyeRow'
 function DemandesAchatEnvoye() {
   const [demandeAchat, setDemandeAchat] = useState([])
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   useEffect(() => {
       
       async function fetchData() {
@@ -27,6 +38,8 @@ function DemandesAchatEnvoye() {
                                 <div className="card">
                                     <div className="card-header">
                                         <h5>Liste des demandes d'achats envoyées</h5>
+                                        <button   onClick={handleClickOpen} >modal</button>
+                                        <Modal_stepper handleClose={handleClose} open={open}></Modal_stepper>
                                        
                                     </div>
                                     <div className="card-body">

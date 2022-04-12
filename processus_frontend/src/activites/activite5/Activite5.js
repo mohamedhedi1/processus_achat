@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
-import Activite4Row from './Activite5Row'
+import Activite5Row from './Activite5Row'
 function Activite5() {
 
     const [demandeAchat, setDemandeAchat] = useState([])
@@ -35,7 +35,7 @@ function Activite5() {
                                     <div className="card-body">
                                     {demandeAchat.map((demande) =>
                         {
-                            return   <Activite4Row demande={demande} />
+                            return   <Activite5Row demande={demande} />
                         }) 
                         
                     

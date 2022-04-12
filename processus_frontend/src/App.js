@@ -34,11 +34,13 @@ import Activite2 from './activites/Activite2/Activite2';
 import Activite3 from './activites/activite3/Activite3';
 import Activite4 from './activites/activite4/Activite4';
 import Activite5 from './activites/activite5/Activite5';
+
 import DemandesAchatEnvoye from './demandeAchat/previewdemandeenvoye/DemandesAchatEnvoye';
 import  HorizontalStepper from './demandeAchat/previewdemandeenvoye/HorizontalStepper';
 import DemandeAchatEnregistrer from './demandeAchat/previewdossier/DemandeAchatEnregistrer';
 import ModifierDemande from './demandeAchat/modifierDemandeAchat/ModifierDemande';
 import BasicModal from './demandeAchat/previewdemandeenvoye/BasicModal';
+import NavBarUtilisateur from './components/NavBarUtilisateur';
 function App() {
  
   const ROLES={
@@ -78,10 +80,10 @@ function App() {
      <Activite3/>
      
     */}
-      
-      <HorizontalStepper/>
-    <DemandesAchatEnvoye />
-   
+    
+    
+    <AjouterDemandeAchat/>
+    
     
     {/*
     <Activite1 />

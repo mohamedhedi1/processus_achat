@@ -89,7 +89,7 @@ public class UserController {
         String link = "http://localhost:8080/api/v1/user/confirm?token=" + token;
 
         System.out.print("sendin mail");
-        emailSenderService.sendSimpleEmail(user.getEmail(),link,"please confirm your app");
+      //  emailSenderService.sendSimpleEmail(user.getEmail(),link,"please confirm your app");
 
         //send mail
     }

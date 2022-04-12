@@ -26,7 +26,7 @@ public class Approuvation_DossierController {
         return  approuvationDossierService.get_by_etape(etape);
     }
     @GetMapping(path="etat/{id}")  // etape1 =>
-    public List<Approuvation_dossier> getEtat(@PathVariable Long id ){
+    public List<Etat> getEtat(@PathVariable Long id ){
         return  approuvationDossierService.getEtat(id);
     }
 

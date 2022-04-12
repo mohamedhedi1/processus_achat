@@ -31,10 +31,16 @@ const  post =async(e) =>
     formData.append("file",fichier);
     formData.append("titre",titre);
     formData.append("objet",objet);
+    formData.append("type","PROJET");
+    
+
+  
+   
    
 
-    const res = await  axios.post("http://localhost:8080/files",formData);
-   
+    const res = await  axios.post("http://localhost:8080/files/verif",formData);
+  console.log("statusssssssssssssssssssssssssssssssssssssssssssssssssssssssss")
+  console.log(res.status)
    setFichierInfo(res.data)
    // props.fctFichierInfo(fichierInfo)
     console.log(

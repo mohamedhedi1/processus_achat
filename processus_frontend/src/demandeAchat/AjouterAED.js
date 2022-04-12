@@ -43,6 +43,7 @@ const  post =async(e) =>
     formData.append("file",fichier);
     formData.append("titre",titre);
     formData.append("objet",objet);
+    
    
 
     const res = await  axios.post("http://localhost:8080/files",formData);

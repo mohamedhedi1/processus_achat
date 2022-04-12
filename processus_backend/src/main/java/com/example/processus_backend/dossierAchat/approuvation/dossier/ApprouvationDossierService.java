@@ -2,6 +2,9 @@ package com.example.processus_backend.dossierAchat.approuvation.dossier;
 
 import com.example.processus_backend.dossierAchat.DemandeAchat;
 import com.example.processus_backend.dossierAchat.DemandeAchatRepository;
+import com.example.processus_backend.dossierAchat.approuvation.file.Approuvation_file;
+import com.example.processus_backend.dossierAchat.approuvation.file.Approuvation_file_Repository;
+import com.example.processus_backend.dossierAchat.approuvation.file.Approuvation_file_Request;
 import com.example.processus_backend.dossierAchat.etape.Etape;
 import com.example.processus_backend.dossierAchat.etape.EtapeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,17 +13,20 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ApprouvationDossierService {
     private  final DemandeAchatRepository demandeAchatRepository;
     private final EtapeRepository etapeRepository;
     private final ApprouvationDoosierRepository approuvationDoosierRepository;
+    private  final Approuvation_file_Repository approuvation_file_repository;
     @Autowired
-    public ApprouvationDossierService(DemandeAchatRepository demandeAchatRepository, EtapeRepository etapeRepository, ApprouvationDoosierRepository approuvationDoosierRepository) {
+    public ApprouvationDossierService(DemandeAchatRepository demandeAchatRepository, EtapeRepository etapeRepository, ApprouvationDoosierRepository approuvationDoosierRepository, Approuvation_file_Repository approuvation_file_repository) {
         this.demandeAchatRepository = demandeAchatRepository;
         this.etapeRepository = etapeRepository;
         this.approuvationDoosierRepository = approuvationDoosierRepository;
+        this.approuvation_file_repository = approuvation_file_repository;
     }
 /*
     public void add(Approuvation_dossier_Request approuvation_dossier_request){
@@ -52,9 +58,40 @@ public class ApprouvationDossierService {
 
         return  demandeAchats ;
     }
-    public List<Approuvation_dossier> getEtat(Long Id ){
+    public List<Etat> getEtat(Long Id ){
+        List<Etat> etats=new ArrayList<Etat>();
         List<Approuvation_dossier> approuvation_dossiers=approuvationDoosierRepository.getApprouvationDossierbyIdDossier(Id);
-        return approuvation_dossiers ;
+        for (int i =0 ;i<approuvation_dossiers.size();i++){
+            Approuvation_dossier approuvation_dossier=approuvation_dossiers.get(i);
+            List<Long> allFilesIds =approuvation_dossier.getDemandeAchat().getFiles().stream().map(f ->{
+                return  f.getFileId();
+                    }
+            ).collect(Collectors.toList());
+            List<Approuvation_file> approuvation_files=approuvation_file_repository.getApprouvationFileby(allFilesIds,approuvation_dossier.getEtape().getEtapeId());
+            List<Approuvation_file_Request> approuvation_file_requestList=approuvation_files.stream().map(
+                    a ->{
+                        Approuvation_file_Request approuvation_file_request =Approuvation_file_Request.builder()
+                                .approuvationId(a.getApprouvationId())
+                                .approuvation(a.getApprouvation())
+                                .etape(a.getEtape().getEtapeId())
+                                .file(a.getFile().getFileId())
+                                .remarque(a.getRemarque())
+                                .build();
+                        return  approuvation_file_request;
+                    }
+
+            ).collect(Collectors.toList());
+
+            Etat etat = Etat.builder()
+                    .approuvation(approuvation_dossier.getApprouvation())
+                    .remarque(approuvation_dossier.getRemarque())
+                    .etape(approuvation_dossier.getEtape().getEtapeId())
+                    .approuvation_file_requestList(approuvation_file_requestList)
+                    .build();
+            etats.add(etat);
+
+        }
+        return  etats ;
     }
     public void add(Approuvation_dossier_Request approuvation_dossier_request){
         DemandeAchat demandeAchat=demandeAchatRepository.findById(approuvation_dossier_request.getDemandeAchat()).orElse(null);

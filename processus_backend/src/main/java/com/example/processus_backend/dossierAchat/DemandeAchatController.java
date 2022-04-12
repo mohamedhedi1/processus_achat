@@ -1,7 +1,9 @@
 package com.example.processus_backend.dossierAchat;
 
 
+import com.example.processus_backend.dossierAchat.approuvation.dossier.ApprouvationDoosierRepository;
 import com.example.processus_backend.dossierAchat.approuvation.dossier.ApprouvationDossierService;
+import com.example.processus_backend.dossierAchat.approuvation.dossier.Approuvation_dossier;
 import com.example.processus_backend.dossierAchat.approuvation.dossier.Approuvation_dossier_Request;
 import com.example.processus_backend.dossierAchat.etape.Etape;
 import com.example.processus_backend.dossierAchat.etape.EtapeRepository;
@@ -20,13 +22,15 @@ import java.util.List;
 public class DemandeAchatController {
 
     @Autowired
+    private  final ApprouvationDoosierRepository approuvationDoosierRepository;
     private final ApprouvationDossierService approuvationDossierService;
     private  final EtapeRepository etapeRepository;
     private  final  DemandeAchatRepository demandeAchatRepository;
     private final DemandeAchatService demandeAchatService;
     private final FileRepository fileRepository;
 
-    public DemandeAchatController(ApprouvationDossierService approuvationDossierService, EtapeRepository etapeRepository, DemandeAchatRepository demandeAchatRepository, DemandeAchatService demandeAchatService, FileRepository fileRepository) {
+    public DemandeAchatController(ApprouvationDoosierRepository approuvationDoosierRepository, ApprouvationDossierService approuvationDossierService, EtapeRepository etapeRepository, DemandeAchatRepository demandeAchatRepository, DemandeAchatService demandeAchatService, FileRepository fileRepository) {
+        this.approuvationDoosierRepository = approuvationDoosierRepository;
         this.approuvationDossierService = approuvationDossierService;
         this.etapeRepository = etapeRepository;
         this.demandeAchatRepository = demandeAchatRepository;
@@ -57,6 +61,28 @@ public class DemandeAchatController {
         demandeAchat.setEnvoye(true);
         demandeAchat.setDatenvoi(LocalDate.now());
         demandeAchatRepository.save(demandeAchat);
+
+
+
+
+        Etape etape=  etapeRepository.findById(Integer.toUnsignedLong(1)).orElse(null);
+        Approuvation_dossier_Request approuvation_dossier_request= Approuvation_dossier_Request.builder()
+                .demandeAchat(demandeAchatId)
+                .remarque("")
+                .approuvation("notraite")
+                .etape(Integer.toUnsignedLong(1))
+                .build();
+        DemandeAchat demandeAchat1=demandeAchatRepository.findById(approuvation_dossier_request.getDemandeAchat()).orElse(null);
+
+        Approuvation_dossier approuvation_dossier= Approuvation_dossier.builder()
+                .approuvation(approuvation_dossier_request.getApprouvation())
+                .demandeAchat(demandeAchat1)
+                .remarque(approuvation_dossier_request.getRemarque())
+                .etape(etape)
+                .date(LocalDate.now())
+                .build();
+        approuvationDoosierRepository.save(approuvation_dossier);
+
 
 
     }
@@ -120,8 +146,16 @@ public class DemandeAchatController {
                 .approuvation("notraite")
                 .etape(Integer.toUnsignedLong(1))
                 .build();
+        DemandeAchat demandeAchat1=demandeAchatRepository.findById(approuvation_dossier_request.getDemandeAchat()).orElse(null);
 
-     approuvationDossierService.add(approuvation_dossier_request);
+       Approuvation_dossier approuvation_dossier= Approuvation_dossier.builder()
+                .approuvation(approuvation_dossier_request.getApprouvation())
+                .demandeAchat(demandeAchat1)
+                .remarque(approuvation_dossier_request.getRemarque())
+                .etape(etape)
+                .date(LocalDate.now())
+                .build();
+      approuvationDoosierRepository.save(approuvation_dossier);
     }
 /*
     @GetMapping
