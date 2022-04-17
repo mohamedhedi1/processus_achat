@@ -9,7 +9,21 @@ import '@react-pdf-viewer/core/lib/styles/index.css';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 // Import styles of default layout plugin
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+
+
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 function AjouterFichier(props) {
+
+
+  const [faux,setFaux]=useState(false)
+
   const[fichier, setFichier] = useState({})
   const [titre,setTitre] = useState("")
   const [objet, setObjet] = useState("")
@@ -39,19 +53,28 @@ const  post =async(e) =>
    
 
     const res = await  axios.post("http://localhost:8080/files/verif",formData);
-  console.log("statusssssssssssssssssssssssssssssssssssssssssssssssssssssssss")
-  console.log(res.status)
+
+  
+  console.log(res.data)
    setFichierInfo(res.data)
    // props.fctFichierInfo(fichierInfo)
     console.log(
-      fichierInfo
+      res.data.titre
    )
-   console.log(res.data)
+   if(res.data.titre!=="faux")
+   {
+    let t=props.listfichierInfo
+    t.push(res.data)
+    props.setListfichierInfo(t)
+    props.setCpt_envoye(!props.cpt_envoye)
+
+   }
+   else {
+     setFaux(true)
+   }
+   
   
-   let t=props.listfichierInfo
-  t.push(res.data)
-  props.setListfichierInfo(t)
-  props.setCpt_envoye(!props.cpt_envoye)
+
           
 
 }
@@ -94,6 +117,56 @@ const handlechangeobjet = (e) =>
   const value = e.target.value;
   setObjet(value)
 }
+
+
+/* **********************************************
+****************************************************
+**************************************************
+verif dialog cpt 
+*************************************************
+****************************************************** */ 
+
+function FormDialog(props) {
+  const [open, setOpen] = React.useState(true);
+  
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    
+    setOpen(false);
+    props.setFaux(false)
+  };
+
+  return (
+    <div>
+      
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Erreur format du fichier</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Verifier votre CAHIER DES PRESCRIPTIONS TECHNIQUES
+          </DialogContentText>
+         
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Fermer</Button>
+          
+        </DialogActions>
+      </Dialog>
+    </div>
+      );
+    }
+/* ******************************************        
+***********************************************
+***********************************************
+***********************************************
+************************************************ */
+
+
+
 
   return (
     <div>
@@ -139,6 +212,7 @@ const handlechangeobjet = (e) =>
              )}
           
 <button type="submit" onClick={post} class="btn btn-success btn-lg btn-block">Ajouter le CPT</button>
+{faux &&  <FormDialog open={true} setFaux={setFaux}  />}
 </form>
     </div>
   )

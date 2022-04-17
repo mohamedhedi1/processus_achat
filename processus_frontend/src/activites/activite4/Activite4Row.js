@@ -12,10 +12,22 @@ import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import Filepng from './file2.png';
 
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import axios from "axios"
+
 
 const AfficherDemandeDetails =(demande) =>
-{let demand=demande.demande.demande
-  console.log("oui")
+{ const [CCAtive , setCCAtive] = useState("false")
+  let demand=demande.demande.demande
+
+  console.log("oui777777777777777777777777777777777777777777777777777777")
+  console.log(demand)
   const listfichier = demand.files
   return (
     <>
@@ -38,12 +50,16 @@ const AfficherDemandeDetails =(demande) =>
     <AfficheFichiers fichier={fichier} />
     )}
    <ul className="list-group list-group-flush">
-  
-  <li className="list-group-item"><a href="#" className="btn btn-outline-secondary">Ajouter projet CC</a></li>
-  
-<li className="list-group-item"><a href="#" className="btn btn-outline-success">Valider le dossier 
+ 
+  {!CCAtive && <li className="list-group-item"><button onClick={()=>{setCCAtive(true)}} className="btn btn-outline-secondary">Ajouter Cahier des charges CC</button></li>}
+ {CCAtive && <li> <AjouterCC  demandeAchatId={demand.demandeAchatId} /> </li>} 
+ {
+   /*
+   <li className="list-group-item"><a href="#" className="btn btn-outline-success">Valider le dossier 
 </a>  <a href="#" className="btn btn-outline-danger">Rejeter le dossier
 </a></li>
+   */
+ }
   
 </ul>
 
@@ -64,8 +80,163 @@ const AfficherDemandeDetails =(demande) =>
   )
 }
 
+/* **************************************************************
+****************************************************************
+****************************************************************
+Ajouter cc 
+******************************************************
+*********************************
+*******************
+*/
+
+function FormDialog(props) {
+  const [open, setOpen] = React.useState(true);
+  
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    
+    setOpen(false);
+    props.setFaux(false)
+  };
+
+  return (
+    <div>
+      
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Erreur format du fichier</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Verifier votre Cahier des charges
+          </DialogContentText>
+         
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Fermer</Button>
+          
+        </DialogActions>
+      </Dialog>
+    </div>
+      );
+    }
+    
+const AjouterCC= (props) =>
+{ let demandeAchatId=props.demandeAchatId
+  const  post =async(e) => 
+{
+    e.preventDefault();
+    
+    const formData = new FormData();
+    formData.append("file",fichier);
+    formData.append("titre","CC");
+    formData.append("objet",objet);
+    formData.append("type","CC");
+    
+
+  
+   
+   
+
+    const res = await  axios.post("http://localhost:8080/files/verif",formData);
+    if(res.data.titre==="faux")
+    {
+      setFaux(true)
+
+    }
+    else 
+    {  console.log(demandeAchatId)
+      const res1= await axios.post(`http://localhost:8080/api/DemandeAchat/addfile/${demandeAchatId}`)
+      let dossier ={approuvationId:0,approuvation:"a",remarque:"",etape:4,demandeAchat:demandeAchatId}
+      console.log(dossier)
+      const res2 = await axios.post("http://localhost:8080/approuvationDossier/add",dossier);
+
+    }
+
+}
+  
+const handleFile = (e) =>{
+  let selectedFile = e.target.files[0];
+  setFichier(selectedFile)
+   console.log(selectedFile);
+   setFileName(selectedFile.name)
+  if(selectedFile){
+    if(selectedFile&&allowedFiles.includes(selectedFile.type)){
+      let reader = new FileReader();
+      reader.readAsDataURL(selectedFile);
+      reader.onloadend=(e)=>{
+        setPdfError('');
+        setPdfFile(e.target.result);
+      }
+    }
+    else{
+      setPdfError('Pas un pdf valide : Veuillez sélectionner uniquement PDF');
+      setPdfFile('');
+    }
+  }
+  else{
+    console.log('Veuillez sélectionner un PDF');
+  }
+}
+  
+  const [faux,setFaux]=useState(false)
+
+  const[fichier, setFichier] = useState({})
+  const [titre,setTitre] = useState("")
+  const [objet, setObjet] = useState("")
+  const [fichierInfo, setFichierInfo] = useState({})
+  const allowedFiles = ['application/pdf'];
+  // pdf file onChange state
+const [pdfFile, setPdfFile]=useState(null);
+const [previewbtn, setPreviewbtn] =useState(false)
+const defaultLayoutPluginInstance = defaultLayoutPlugin();
+// pdf file error state
+const [pdfError, setPdfError]=useState('');
+const [fileName,setFileName]= useState('');
+
+  return (
+    <div> <form> <div class="custom-file">
+    <input type="file" class="custom-file-input" id="inputGroupFile01" onChange={handleFile} 
+      aria-describedby="inputGroupFileAddon01"/>
+
+    <label class="custom-file-label" for="inputGroupFile01">Cahier des charges CC</label>
+
+    </div>
+    {fileName && <span className='text-success'>{fileName}</span> }
+    {pdfError&&<span className='text-danger'>{pdfError}</span>}
+    <br/>
+    <button type="button" 
+     onClick={() => {
+        setPreviewbtn(!previewbtn)
+
+     }}
+    
+    class="btn btn-light btn-lg btn-block">Afficher</button>
+     {previewbtn && pdfFile &&(
+           <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.12.313/build/pdf.worker.min.js">
+             <Viewer fileUrl={pdfFile}
+             plugins={[defaultLayoutPluginInstance]}></Viewer>
+           </Worker>
+         )}
+      
+
+    <button type="submit" onClick={post} className="btn btn-success ">Ajouter et verifier Cahier des charges</button>
+    {faux &&  <FormDialog open={true} setFaux={setFaux}  />}
+    </form>
+    </div>
+  )
+}
 
 
+
+/*********************************************************
+ * *********************************************************
+ * *
+ * **************************************************************
+ * ***********************************************************
+ */
 
 const AfficheFichier = (fichier) =>
 {
@@ -86,8 +257,7 @@ const AfficheFichiers = (fichier) =>
     const defaultLayoutPluginInstance = defaultLayoutPlugin();
     const [btnAffiche,setBtnAffiche]=useState(false)
     let titre =fichier.fichier.titre
-    
-    if(titre!==""){
+    if(titre.length>4){
       return (<>
         
 
@@ -127,11 +297,12 @@ const AfficheFichiers = (fichier) =>
       )
 
     }
+   
     else 
     {
       return ( <>
         <div className="card" >
-        <div class="card-header">Autre fichier</div>
+        <div class="card-header">Autre fichier {titre}</div>
         <div class="card-body">
         <img src={Filepng} />
         <p>{fichier.fichier.filename}</p>

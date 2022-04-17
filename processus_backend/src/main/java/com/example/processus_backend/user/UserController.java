@@ -156,4 +156,17 @@ public class UserController {
        return  user ;
     }
 
+    @GetMapping(path="getUserinStructureAchat")
+    public List<String> getUserinStructureAchat(){
+        Structure s= structureRepository.findByname("structure d'achat");
+        if(s!=null){
+            List<String> userList=s.getUserList().stream().map(u ->{
+                return u.getEmail();
+            }).collect(Collectors.toList());
+            return  userList;}
+        else{
+            return null ;
+        }
+    }
+
 }

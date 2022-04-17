@@ -47,6 +47,70 @@ const AfficherDemandeDetails =(demande) =>
   const res = await axios.post("http://localhost:8080/approuvationDossier/add",dossier);
 
   }
+
+
+  /**********************************
+   * *************************************
+   * *******************************************
+   * *********ajoute ccap***********************
+   */
+   const fctAjouterFichier = async(e) =>
+   {
+     e.preventDefault();
+     const formData = new FormData();
+     formData.append("file",fichier);
+     formData.append("titre","CCAP");
+     formData.append("objet","");
+ 
+     const r1= await axios.post("http://localhost:8080/files",formData)
+     const r= await axios.post(`http://localhost:8080/api/DemandeAchat/addfile/${demandeId}`)
+     setfichierAjouter(true)
+     let dossier=appdossier
+     dossier["remarque"]=remarquegenerale
+     const res = await axios.post("http://localhost:8080/approuvationDossier/add",dossier);
+   }
+   
+   const [fichierAjouter,setfichierAjouter]= useState(false)
+   const [zonefichier,setzonefichier]= useState(false)
+  
+  
+    const [previewbtn, setPreviewbtn] =useState(false)
+    const defaultLayoutPluginInstance = defaultLayoutPlugin();
+    const [pdfFile, setPdfFile]=useState(null);
+    const allowedFiles = ['application/pdf'];
+    const[fichier, setFichier] = useState({})
+    const [pdfError, setPdfError]=useState('');
+    const [fileName,setFileName]= useState('');
+    const handleFile = (e) =>{
+      let selectedFile = e.target.files[0];
+      setFichier(selectedFile)
+       console.log(selectedFile);
+       setFileName(selectedFile.name)
+      if(selectedFile){
+        if(selectedFile&&allowedFiles.includes(selectedFile.type)){
+          let reader = new FileReader();
+          reader.readAsDataURL(selectedFile);
+          reader.onloadend=(e)=>{
+            setPdfError('');
+            setPdfFile(e.target.result);
+          }
+        }
+        else{
+          setPdfError('Pas un pdf valide : Veuillez sélectionner uniquement PDF');
+          setPdfFile('');
+        }
+      }
+      else{
+        console.log('Veuillez sélectionner un PDF');
+      }
+    }
+
+
+  /* ****************************************
+  ****************************************
+  *********************************************
+
+  */
   return (
     <>
  
@@ -69,14 +133,52 @@ const AfficherDemandeDetails =(demande) =>
     )}
    <ul className="list-group list-group-flush">
   
-  <li className="list-group-item"><button onClick={()=>{setCcapActive(!ccapActive)}} className="btn btn-outline-secondary">Ajouter projet CCAP</button></li>
-  {ccapActive && <AjouterFichier idDemande={demandeId} />}
+
+  {fichierAjouter && <li className="list-group-item"> <div class="alert alert-success" role="alert">
+    Fichier ajouté.
+  </div></li>
+   
+    }
+    {!fichierAjouter &&
+   
+    <li className="list-group-item">
+     {!zonefichier && <button onClick={()=>{setzonefichier(!zonefichier)}} className="btn btn-outline-secondary">Ajouter  Cahier Des Clauses Administratives Particulieres CCAP</button>}
+    {zonefichier && <>
+      <div class="custom-file">
+      <input type="file" class="custom-file-input" id="inputGroupFile01" onChange={handleFile} 
+        aria-describedby="inputGroupFileAddon01"/>
   
-  <li className="list-group-item">
+      <label class="custom-file-label" for="inputGroupFile01">Cahier Des Clauses Administratives Particulieres CCAP</label>
+  
+      </div>
+      {fileName && <span className='text-success'>{fileName}</span> }
+      {pdfError&&<span className='text-danger'>{pdfError}</span>}
+      <br/>
+      <button type="button" 
+       onClick={() => {
+          setPreviewbtn(!previewbtn)
+  
+       }}
+      
+      class="btn btn-light btn-lg btn-block">Afficher</button>
+       {previewbtn && pdfFile &&(
+             <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.12.313/build/pdf.worker.min.js">
+               <Viewer fileUrl={pdfFile}
+               plugins={[defaultLayoutPluginInstance]}></Viewer>
+             </Worker>
+           )}
+          <button type="submit" onClick={fctAjouterFichier} className="btn btn-success ">Ajouter le fichier</button>
+    </>}
+    
+        
+      </li>
+    }
+  
+ {/*  <li className="list-group-item">
   <button type="button" onClick={validerdossier} className="btn btn-outline-success">Valider le dossier 
 </button>  
 <button type="button" onClick={rejeterdossier}  className="btn btn-outline-danger">Rejeter le dossier
-</button></li>
+</button></li> */}
   
 </ul>
 
@@ -120,7 +222,7 @@ const AfficheFichiers = (fichier) =>
     const [btnAffiche,setBtnAffiche]=useState(false)
     let titre =fichier.fichier.titre
     
-    if(titre!==""){
+    if(titre.length>3){
       return (<>
         
 
@@ -164,7 +266,7 @@ const AfficheFichiers = (fichier) =>
     {
       return ( <>
         <div className="card" >
-        <div class="card-header">Autre fichier</div>
+        <div class="card-header">Autre fichier {fichier.fichier.titre}</div>
         <div class="card-body">
         <img src={Filepng} />
         <p>{fichier.fichier.filename}</p>

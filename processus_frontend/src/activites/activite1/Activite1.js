@@ -16,13 +16,7 @@ function Activite1() {
       fetchData();
 
   } ,[setDemandeAchat]);
-   const f=async ()=>{
-       const r =await axios.get("http://localhost:8080/approuvationDossier/1")
-       console.log(r.data)
-   }
-   const f2 = () =>{
-       console.log(demandeAchat)
-   }
+   
   return (
     <div className="pcoded-main-container">
     <div className="pcoded-wrapper">

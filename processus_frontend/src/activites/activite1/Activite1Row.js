@@ -13,6 +13,7 @@ import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import Filepng from './file2.png';
 import axios from "axios"
 import AjouterFichier  from "./AjouterFichier"
+import Switch from '@mui/material/Switch';
 const AfficherDemandeDetails =(demande) =>
 {
   let demand=demande.demande.demande
@@ -27,7 +28,18 @@ const AfficherDemandeDetails =(demande) =>
     setRemarquegenerale(e.target.value)
    
   }
-  
+  const fctAjouterFichier = async(e) =>
+  {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("file",fichier);
+    formData.append("titre","");
+    formData.append("objet","");
+
+    const r1= await axios.post("http://localhost:8080/files",formData)
+    const r= await axios.post(`http://localhost:8080/api/DemandeAchat/addfile/${demandeId}`)
+    setfichierAjouter(true)
+  }
   const validerdossier=async(e)=>
   {
   let dossier=appdossier
@@ -55,17 +67,39 @@ const AfficherDemandeDetails =(demande) =>
   ***********************************************************
   ***********************************************************
   */
-  const [listfichiers, setListfichiers]= useState([])
-  const [listfichierInfo, setListfichierInfo] = useState([])
-  const [nbrfichier,setNbrfichier] = useState(0)
-  
-  const newfichierComponent = (e) => 
-  {
-      e.preventDefault()
- //fctFichierInfo =  { infos =>  setListfichierInfo(...listfichierInfo,infos)} 
-     setNbrfichier(nbrfichier+1)
-     console.log(nbrfichier)
-      setListfichiers([...listfichiers,<AjouterFichier  listfichierInfo={listfichierInfo} setListfichierInfo={setListfichierInfo}  id={nbrfichier} idDemande={demandeId} />])
+ const [fichierAjouter,setfichierAjouter]= useState(false)
+ const [zonefichier,setzonefichier]= useState(false)
+
+
+  const [previewbtn, setPreviewbtn] =useState(false)
+  const defaultLayoutPluginInstance = defaultLayoutPlugin();
+  const [pdfFile, setPdfFile]=useState(null);
+  const allowedFiles = ['application/pdf'];
+  const[fichier, setFichier] = useState({})
+  const [pdfError, setPdfError]=useState('');
+  const [fileName,setFileName]= useState('');
+  const handleFile = (e) =>{
+    let selectedFile = e.target.files[0];
+    setFichier(selectedFile)
+     console.log(selectedFile);
+     setFileName(selectedFile.name)
+    if(selectedFile){
+      if(selectedFile&&allowedFiles.includes(selectedFile.type)){
+        let reader = new FileReader();
+        reader.readAsDataURL(selectedFile);
+        reader.onloadend=(e)=>{
+          setPdfError('');
+          setPdfFile(e.target.result);
+        }
+      }
+      else{
+        setPdfError('Pas un pdf valide : Veuillez sélectionner uniquement PDF');
+        setPdfFile('');
+      }
+    }
+    else{
+      console.log('Veuillez sélectionner un PDF');
+    }
   }
 
   return (
@@ -93,16 +127,59 @@ const AfficherDemandeDetails =(demande) =>
    sssssssssssssssssss
   sssssssssssssssssss
     sssssssssssssssssssss*/}
-  <li className="list-group-item"><button onClick={(e)=> newfichierComponent(e)} className="btn btn-outline-secondary">Ajouter un nouveau fichier</button></li>
-  {listfichiers}
+    {fichierAjouter && <li className="list-group-item"> <div class="alert alert-success" role="alert">
+    Fichier ajouté.
+  </div></li>
+   
+    }
+    {!fichierAjouter &&
+   
+    <li className="list-group-item">
+     {!zonefichier && <button onClick={()=>{setzonefichier(!zonefichier)}} className="btn btn-outline-secondary">Ajouter un nouveau fichier</button>}
+    {zonefichier && <>
+      <div class="custom-file">
+      <input type="file" class="custom-file-input" id="inputGroupFile01" onChange={handleFile} 
+        aria-describedby="inputGroupFileAddon01"/>
+  
+      <label class="custom-file-label" for="inputGroupFile01">Choisir un fichier</label>
+  
+      </div>
+      {fileName && <span className='text-success'>{fileName}</span> }
+      {pdfError&&<span className='text-danger'>{pdfError}</span>}
+      <br/>
+      <button type="button" 
+       onClick={() => {
+          setPreviewbtn(!previewbtn)
+  
+       }}
+      
+      class="btn btn-light btn-lg btn-block">Afficher</button>
+       {previewbtn && pdfFile &&(
+             <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.12.313/build/pdf.worker.min.js">
+               <Viewer fileUrl={pdfFile}
+               plugins={[defaultLayoutPluginInstance]}></Viewer>
+             </Worker>
+           )}
+          <button type="submit" onClick={fctAjouterFichier} className="btn btn-success ">Ajouter le fichier</button>
+    </>}
+    
+        
+      </li>
+    }
+ 
+
+  {/*listfichiers*/}
  
  
  
  
-  <li className="list-group-item"><button onClick={()=>{setRemarquegeneraleActive(!remaquegeneraleActive)}}
+  <li className="list-group-item">
+  {!remaquegeneraleActive &&  <button onClick={()=>{setRemarquegeneraleActive(!remaquegeneraleActive)}}
    className="btn btn-outline-secondary">Ajouter remarque génerale
-</button>
-{remaquegeneraleActive && <input type="text" onChange={(e) =>{handleChange1(e)}} name="remarquegenrale" />}
+</button>}
+{remaquegeneraleActive && 
+  <textarea class="form-control" id="exampleFormControlTextarea1"  onChange={(e) =>{handleChange1(e)}} name="remarquegenrale" rows="3"></textarea>
+}
 </li>
 <li className="list-group-item">
   <button type="button" onClick={validerdossier} className="btn btn-outline-success">Valider le dossier 
@@ -194,80 +271,79 @@ const rejeter=async(e) =>
     const defaultLayoutPluginInstance = defaultLayoutPlugin();
     const [btnAffiche,setBtnAffiche]=useState(false)
     let titre =fichier.fichier.titre
-    
-    if(titre!==""){
-      return (<>
+    const [Vtitre, setVtitre]=useState("Autre fichiers")
+
+    /*******************************
+     * **********************cpt*****
+     */
+  if(titre.length>3 && titre!=="CCAP")
+return(
+  <>
         
 
      
-        <div className="card" >
-        <div class="card-header">Cahier des prescriptions techniques CPT</div>
-        <div class="card-body">
-        <img src={Filepng} />
-        <p>{fichier.fichier.filename}</p>
-        <br/>
-    
-    <a onClick={()=>{setBtnAffiche(!btnAffiche)}} class="btn theme-bg text-white">Afficher le fichier</a>
-   {btnAffiche &&  <AfficheFichier fichier={fichier} /> }
-  </div>
-  <ul className="list-group list-group-flush">
-  
-    <li className="list-group-item">Titre: {fichier.fichier.titre}</li>
-    <li className="list-group-item">Objet: {fichier.fichier.objet}</li>
-    
-  </ul>
-  <div className="card-body">
+    <div className="card" >
+    <div class="card-header">Cahier des prescriptions techniques CPT</div>
+    <div class="card-body">
+    <img src={Filepng} />
+    <p>{fichier.fichier.filename}</p>
+    <br/>
+
+<a onClick={()=>{setBtnAffiche(!btnAffiche)}} class="btn theme-bg text-white">Afficher le fichier</a>
+{btnAffiche &&  <AfficheFichier fichier={fichier} /> }
+</div>
+<ul className="list-group list-group-flush">
+
+<li className="list-group-item">Titre: {fichier.fichier.titre}</li>
+<li className="list-group-item">Objet: {fichier.fichier.objet}</li>
+
+</ul>
+<div className="card-body">
+
+<button type="button" onClick={valider} className="btn btn-outline-success">Valider</button>
+{!remarqueActive &&<button onClick={()=>{setRemarqueActive(!remarqueActive)}} class="btn btn-outline-secondary">Ajouter une Remarque</button>}
+{remarqueActive && 
+ <textarea class="form-control" id="exampleFormControlTextarea1"  onChange={(e) =>{handleChange(e)}} name="remarque" rows="3"></textarea>}
+<button type="button" onClick={rejeter} className="btn btn-outline-danger">Rejeter</button>
+</div>
+</div>
+
  
-    <button type="button" onClick={valider} className="btn btn-outline-success">Valider</button>
-    <button onClick={()=>{setRemarqueActive(!remarqueActive)}} class="btn btn-outline-secondary">Ajouter une Remarque</button>
-    {remarqueActive && <input type="text" name="remarque" onChange={(e) =>{handleChange(e)}} />}
-    <button type="button" onClick={rejeter} className="btn btn-outline-danger">Rejeter</button>
-  </div>
+</>
+)
+else
+{
+  return (
+    <>
+        
+
+     
+    <div className="card" >
+    <div class="card-header">Autre fichier  {titre}</div>
+    <div class="card-body">
+    <img src={Filepng} />
+    <p>{fichier.fichier.filename}</p>
+    <br/>
+
+<a onClick={()=>{setBtnAffiche(!btnAffiche)}} class="btn theme-bg text-white">Afficher le fichier</a>
+{btnAffiche &&  <AfficheFichier fichier={fichier} /> }
 </div>
 
+<div className="card-body">
 
+<button type="button" onClick={valider} className="btn btn-outline-success">Valider</button>
+<button onClick={()=>{setRemarqueActive(!remarqueActive)}} class="btn btn-outline-secondary">Ajouter une Remarque</button>
+{remarqueActive && <input type="text" name="remarque" onChange={(e) =>{handleChange(e)}} />}
+<button type="button" onClick={rejeter} className="btn btn-outline-danger">Rejeter</button>
+</div>
+</div>
 
-   
-    
-   
-
-
-    
-     
-    </>
-   
-      
-     
-      )
-
-    }
-    else 
-    {
-      return ( <>
-        <div className="card" >
-        <div class="card-header">Autre fichier</div>
-        <div class="card-body">
-        <img src={Filepng} />
-        <br/>
-    
-    <a onClick={()=>{setBtnAffiche(!btnAffiche)}} class="btn theme-bg text-white">Afficher le fichier</a>
-   {btnAffiche &&  <AfficheFichier fichier={fichier} /> }
-  </div>
-  
-  <div className="card-body">
  
- <button type="button" onClick={valider} className="btn btn-outline-success">Valider</button>
- <button onClick={()=>{setRemarqueActive(!remarqueActive)}} class="btn btn-outline-secondary">Ajouter une Remarque</button>
- {remarqueActive && <input type="text" name="remarque" onChange={(e) =>{handleChange(e)}} />}
- <button type="button" onClick={rejeter} className="btn btn-outline-danger">Rejeter</button>
-</div>
-</div>
-      </>
-
-   
-       
-      )
-    }
+</>
+  )
+}
+  
+    
     
     
   }

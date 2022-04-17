@@ -34,7 +34,7 @@ import Activite2 from './activites/Activite2/Activite2';
 import Activite3 from './activites/activite3/Activite3';
 import Activite4 from './activites/activite4/Activite4';
 import Activite5 from './activites/activite5/Activite5';
-
+import Activite6 from './activites/activite6/Activite6';
 import DemandesAchatEnvoye from './demandeAchat/previewdemandeenvoye/DemandesAchatEnvoye';
 import  HorizontalStepper from './demandeAchat/previewdemandeenvoye/HorizontalStepper';
 import DemandeAchatEnregistrer from './demandeAchat/previewdossier/DemandeAchatEnregistrer';
@@ -79,20 +79,33 @@ function App() {
      <Activite2/>
      <Activite3/>
      
-    */}
-    
-    
-    <AjouterDemandeAchat/>
-    
-    
-    {/*
-    <Activite1 />
 
-    <Activite2/>
-    <Activite3/>
+
+
+
+
+      <AjouterDemandeAchat/>
+    <Activite1></Activite1>
+    <Activite2 />
+    <Activite3 />
     <Activite4 />
     <Activite5 />
+    <Activite6 />
+     <ModifierDemande idDemandeAchat={29} />
+    <DemandeAchatEnregistrer />
     */}
+    
+    
+    <Activite1></Activite1>
+    <Activite2 />
+    <Activite3 />
+    <Activite4 />
+    <Activite5 />
+    <Activite6 />
+    
+   
+    
+   
     
    
     

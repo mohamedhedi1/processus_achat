@@ -52,6 +52,19 @@ public class FileController {
 
         return new ResponseEntity<FileResponse>(fileResponse,HttpStatus.OK);
     }*/
+    @GetMapping("/filename/{fileId}")
+    public String getFileName(@PathVariable Long fileId)
+    {
+        File file= fileRepository.getById(fileId);
+        String fileName= file.getFilename();
+        return fileName;
+    }
+    @GetMapping("/allFiles")
+    public List<File> getAllFiles()
+    {
+        List<File> files = fileRepository.findAll();
+        return files;
+    }
 
     @GetMapping("/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName,HttpServletRequest request){
@@ -132,7 +145,8 @@ public class FileController {
             System.out.println(b);
         }
         if(b==false){
-            return new ResponseEntity<FileResponse>(HttpStatus.PRECONDITION_FAILED);
+            fileResponse.setTitre("faux");
+            return new ResponseEntity<FileResponse>(fileResponse,HttpStatus.OK);
         }
 
 

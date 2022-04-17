@@ -16,6 +16,9 @@ import Steppers from './Steppers';
 import axios from 'axios' 
 const StepperDossier = (props) =>{
   const [listApprouvation, setlistApprouvation] = useState([])
+
+  console.log("dossierstepperrrrrrrrrrrrrrrr")
+  console.log(props)
   useEffect(() => {
       
       async function fetchData() {
@@ -32,7 +35,7 @@ const StepperDossier = (props) =>{
   return(  <div className="card text-center">
   <div className="card-header">
 
-  <Steppers listApprouvation={listApprouvation} />
+  <Steppers listApprouvation={listApprouvation} AllFiles={props.AllFiles} />
   </div>
   {/* <div className="card-body">
     <h5 className="card-title">Special title treatment</h5>
@@ -48,7 +51,9 @@ const StepperDossier = (props) =>{
 }
 const AfficherDemandeDetails =(demande) =>
 {let demand=demande.demande.demande
-  console.log("oui")
+  console.log("AfficherDemandeDetails")
+  console.log(demande)
+  console.log(demande.demande.AllFiles)
   const listfichier = demand.files
   return (
     <>
@@ -60,7 +65,7 @@ const AfficherDemandeDetails =(demande) =>
   </div>
   <div className="card-body">
   <ul className="list-group list-group-flush">
-  <li><StepperDossier demandeId={demand.demandeAchatId} /></li>
+  <li><StepperDossier demandeId={demand.demandeAchatId} AllFiles={demande.demande.AllFiles} /></li>
   <li className="list-group-item">Estimation du budget :  {demand.estimation}</li>
   <li className="list-group-item">Délais de réalisation finale :  {demand.delais}</li>
   <li className="list-group-item">Date de création :  {demand.datenvoi}</li>
@@ -208,6 +213,8 @@ const AfficheFichiers = (fichier) =>
 
 function DemandeAchatEnvoyeRow(demande) {
     const [previewfichiers, setPreviewfichiers] =useState(false)
+    console.log("DemandeAchatEnvoyeRow")
+    console.log(demande)
 
     
     return (

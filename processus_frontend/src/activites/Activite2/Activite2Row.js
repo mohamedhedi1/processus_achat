@@ -73,14 +73,22 @@ const AfficherDemandeDetails =(demande) =>
    <ul className="list-group list-group-flush">
   
   
-  <li className="list-group-item"><button onClick={()=>{setRemarquegeneraleActive(!remaquegeneraleActive)}}
+  <li className="list-group-item">
+  {!remaquegeneraleActive &&  <button onClick={()=>{setRemarquegeneraleActive(!remaquegeneraleActive)}}
    className="btn btn-outline-secondary">Ajouter remarque génerale
-</button>
-{remaquegeneraleActive && <input type="text" onChange={(e) =>{handleChange1(e)}} name="remarquegenrale" />}
+</button>}
+{remaquegeneraleActive && 
+  <textarea class="form-control" id="exampleFormControlTextarea1"  onChange={(e) =>{handleChange1(e)}} name="remarquegenrale" rows="3"></textarea>
+}
 </li>
+  
+{/*
+
+
 <li className="list-group-item"><button type="button" onClick={validerdossier} className="btn btn-outline-success">Valider le dossier 
 </button>  <button type="button"  onClick={rejeterdossier} className="btn btn-outline-danger">Rejeter le dossier
 </button></li>
+*/}
   
 </ul>
 
@@ -144,6 +152,7 @@ const valider =async(e) =>
   console.log(appfile)
   
   const res = await axios.post("http://localhost:8080/approuvationFile/add",appfile);
+  
 
 }
 
@@ -164,7 +173,7 @@ const rejeter=async(e) =>
     const [btnAffiche,setBtnAffiche]=useState(false)
     let titre =fichier.fichier.titre
     
-    if(titre!==""){
+    if(titre.length>4){
       return (<>
         
 
@@ -214,7 +223,7 @@ const rejeter=async(e) =>
     {
       return ( <>
         <div className="card" >
-        <div class="card-header">Autre fichier</div>
+        <div class="card-header">Autre fichier {fichier.fichier.titre}</div>
         <div class="card-body">
         <img src={Filepng} />
         <p>{fichier.fichier.filename}</p>

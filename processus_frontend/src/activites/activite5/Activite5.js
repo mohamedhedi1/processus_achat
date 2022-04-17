@@ -7,7 +7,7 @@ function Activite5() {
     useEffect(() => {
         
         async function fetchData() {
-            const response = await  axios.get("http://localhost:8080/api/DemandeAchat")
+            const response = await  axios.get("http://localhost:8080/approuvationDossier/5")
             const l = await response.data
             setDemandeAchat(l)
             console.log(l)
