@@ -99,6 +99,9 @@ public class StructureService {
     public void deleteStructure(Long id){
         boolean exists=structureRepository.existsById(id);
         if(!exists){};
+        Structure s =structureRepository.findBySturctureId(id);
+        s.setUserList(null);
+        structureRepository.save(s);
         structureRepository.deleteById(id);
 
 

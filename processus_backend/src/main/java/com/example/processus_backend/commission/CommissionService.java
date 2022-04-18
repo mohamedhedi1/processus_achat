@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 @Service
 public class CommissionService {
@@ -86,13 +87,15 @@ public class CommissionService {
         commissionRepository.save(commission);
     }
     public void updateCommission( Commission commission ,List<String> emails){
-        List<User> users =  emails.stream().map(email ->{
+
+        Set<User> users =  emails.stream().map(email ->{
             boolean user_exists = userRepository.existsByEmail(email);
             if(!user_exists) {throw new IllegalStateException("user does not exists") ;}
             User user = userRepository.getByEmail(email);
             return user ;
-        }).collect(Collectors.toList());
+        }).collect(Collectors.toSet());
         if(users.isEmpty()){};
+        commission.setUserList(users);
         commissionRepository.save(commission);
     }
     public void deleteCommission(Commission commission){
@@ -113,6 +116,9 @@ public class CommissionService {
 
     public void deleteCommission(Long id) {
         Commission commission = commissionRepository.findById(id).orElseThrow();
+        commission.setUserList(null);
+        commissionRepository.save(commission);
+
         commissionRepository.delete(commission);
     }
 }

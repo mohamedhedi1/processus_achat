@@ -4,7 +4,7 @@ import NavAdmin from '../NavAdmin';
 const Commission = () => {
     return ( 
         <div>
-           <NavAdmin></NavAdmin>
+         
         <div class="pcoded-main-container">
         <div class="pcoded-wrapper">
             <div class="pcoded-content">

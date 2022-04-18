@@ -41,7 +41,7 @@ const NavAdmin = () => {
                     <li 
                      data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" className="nav-item active">
                         <a   className="nav-link "><span className="pcoded-micon"><i className="feather icon-users"></i></span><span className="pcoded-mtext"><Link to="/structure">Structure</Link>
-                    </span></a>
+</span></a>
                     </li>
                     <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" className="nav-item ">
                         <a   className="nav-link "><span className="pcoded-micon"><i className="feather icon-briefcase"></i></span><span className="pcoded-mtext"><Link to="/commission">Commission</Link> </span></a>

@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react'
+import React, {useState} from 'react'
 import dossier1 from './dossier.png'
 //import PDFViewer from 'pdf-viewer-reactjs'
 import { Worker } from '@react-pdf-viewer/core';
@@ -12,30 +12,11 @@ import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import Filepng from './file2.png';
 import HorizontalStepper from './HorizontalStepper';
-import Steppers from './Steppers';
-import axios from 'axios' 
-const StepperDossier = (props) =>{
-  const [listApprouvation, setlistApprouvation] = useState([])
-
-  console.log("dossierstepperrrrrrrrrrrrrrrr")
-  console.log(props)
-  useEffect(() => {
-      
-      async function fetchData() {
-          const response = await  axios.get(`http://localhost:8080/approuvationDossier/etat/${props.demandeId}`)
-          const l = await response.data
-          setlistApprouvation(l)
-          console.log(l)
-          
-      }
-      fetchData();
-
-  } ,[setlistApprouvation]);
-
+import Stepper from './Stepper';
+const StepperDossier = () =>{
   return(  <div className="card text-center">
   <div className="card-header">
-
-  <Steppers listApprouvation={listApprouvation} AllFiles={props.AllFiles} />
+  <Stepper/>
   </div>
   {/* <div className="card-body">
     <h5 className="card-title">Special title treatment</h5>
@@ -51,9 +32,7 @@ const StepperDossier = (props) =>{
 }
 const AfficherDemandeDetails =(demande) =>
 {let demand=demande.demande.demande
-  console.log("AfficherDemandeDetails")
-  console.log(demande)
-  console.log(demande.demande.AllFiles)
+  console.log("oui")
   const listfichier = demand.files
   return (
     <>
@@ -65,7 +44,7 @@ const AfficherDemandeDetails =(demande) =>
   </div>
   <div className="card-body">
   <ul className="list-group list-group-flush">
-  <li><StepperDossier demandeId={demand.demandeAchatId} AllFiles={demande.demande.AllFiles} /></li>
+  <li><StepperDossier/></li>
   <li className="list-group-item">Estimation du budget :  {demand.estimation}</li>
   <li className="list-group-item">Délais de réalisation finale :  {demand.delais}</li>
   <li className="list-group-item">Date de création :  {demand.datenvoi}</li>
@@ -213,8 +192,6 @@ const AfficheFichiers = (fichier) =>
 
 function DemandeAchatEnvoyeRow(demande) {
     const [previewfichiers, setPreviewfichiers] =useState(false)
-    console.log("DemandeAchatEnvoyeRow")
-    console.log(demande)
 
     
     return (

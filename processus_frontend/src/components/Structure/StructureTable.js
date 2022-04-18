@@ -7,6 +7,7 @@ import DeleteIcon from'@mui/icons-material/Delete';
 import { spacing } from '@mui/system';
 import Box from '@mui/material/Box';
 import LockIcon from '@mui/icons-material/Lock';
+
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { Link } from "react-router-dom";
 import { useEffect } from 'react';
@@ -23,11 +24,12 @@ import PeopleIcon from '@mui/icons-material/People';
 import AppRole from '../AppRole/AppRole'
 import { Card } from '@mui/material';
 import { ModelTraining } from '@mui/icons-material';
+import ModalUser from './modalUser';
 export default function StructureTable() {
 const columns = [
-  { field: 'name', headerName: 'Nom', width: 130 ,editable: false},
+  { field: 'name', headerName: 'Nom', width: 300 ,editable: false},
 
-  {field: 'abrivation',headerName: 'ABRIVAITION',width: 90,editable: false
+  {field: 'abrivation',headerName: 'Abriviation',width: 90,editable: false
   },
   {
     field: "Activtie",width:160,
@@ -53,9 +55,36 @@ const columns = [
         </div>
       );
     }
+  },
+  {
+    field: "utilisateurs",width:100,
+    renderCell: (cellValues) => {
+      return (
+        <div >
+        <Fab size="small" onClick={ ()=>  handleClickOpen1(cellValues)} sx={{ m:1  }} className="label theme-bg text-white f-12"  aria-label="add">
+            <PeopleIcon />
+        </Fab>
+        </div>
+      );
+    }
   }
 ];
 const [open, setOpen] = useState(false);
+const [open1, setOpen1] = React.useState(false);
+const [echange_value,setEchange]=useState();
+  const handleClickOpen1 = (cellValues) => {
+    console.log(cellValues.row.emails)
+    setEchange(cellValues.row.emails)
+    
+    setOpen1(true);
+  };
+
+  const handleClose1 = () => {
+    console.log(echange_value)
+    setOpen1(false);
+   ;
+  };
+
 const handleOpen = () => {
  setOpen(true);
 }
@@ -100,6 +129,7 @@ useEffect(  () => {
 }, [setCommissions]);
   return (
     <Container mb={2}>
+      <ModalUser open={open1} onClose={handleClose1} emails={echange_value}></ModalUser>
       <ModalEditStructure
           commission={commission}
           open={open}
@@ -110,11 +140,11 @@ useEffect(  () => {
         />  
     <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
       <h4>
-      <Chip  className="label theme-bg2 text-white f-12" label="Utilisateurs" icon={<PersonRoundedIcon />} />
+      Structures
         </h4>
         <Fab  onClick={()=>{navigate('/addStructure')}} className="label theme-bg2 text-white f-12" variant="extended">
         <AddIcon size="small"  sx={{ mr: 1 }} />
-           Ajouter un COmmission
+           Ajouter un Commission
              </Fab>
     </Stack>
 

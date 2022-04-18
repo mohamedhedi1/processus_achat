@@ -42,7 +42,7 @@ public class User implements UserDetails{
     private String password;
     // @Enumerated(EnumType.STRING)
     @ManyToMany(
-            fetch = FetchType.EAGER
+            fetch = FetchType.EAGER,cascade = CascadeType.ALL
     )
     @JoinTable(
             name="app_permission_user_map",

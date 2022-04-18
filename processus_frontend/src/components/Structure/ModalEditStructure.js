@@ -5,6 +5,12 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Chip } from '@mui/material';
 import axios from 'axios';
+import FormLabel from "@mui/material/FormLabel";
+import FormControl from "@mui/material/FormControl";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormHelperText from "@mui/material/FormHelperText";
+import Checkbox from "@mui/material/Checkbox";
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { createRef } from 'react';
@@ -25,37 +31,59 @@ export default function ModalEditStructure(props) {
    const setCommission=props.setCommission
    const myRef= createRef();
    const [emailsList,setEmailsList]=useState([])
-  
+   const [email_check,setEmail_check]=useState({})
+   const [email_labels,setEmail_labels]=useState([])
     const [appRolesList,setAppRolesList]=useState([{
         label:'',
         value:0
     }])
+    useEffect(
+      ()=>{
+           console.log(commission)      
+
+           console.log("mounted")      
+                    },[email_check]
+    )
     useEffect(  () => {
         async function fetchData() {
           
-          const res=await axios.get("http://localhost:8080/api/v1/AppRole/NameAndId")
-          const r=await res.data
-          setAppRolesList(r)
+          
+         
           const response=await axios.get("http://localhost:8080/api/v1/user/AllMails")
           const r2=await response.data
           console.log(r2)
           let l=[]
+          let l2={}
+          let l3=[]
           r2.map(email=>{
              l.push({
                 label:email,
                 checked:false,
                 myRef:createRef()
              })
+             console.log("hhh")
+             console.log(commission)
+             l2[email]=false;
+             if(commission.emails.includes(email)){
+              l2[email]=true;
+              console.log("hhh")
+             }
+            
+             
+            
+             l3.push(email)
           })
           console.log("l=="+l)
           setEmailsList(l)
-          
+          setEmail_check(l2)
+          setEmail_labels(l3)
+
         }
        fetchData();
          
        
         
-      }, [setAppRolesList,setEmailsList]);
+      }, [commission,setEmail_check,setEmail_labels,setEmailsList]);
       const checkEmails=()=>{
         emailsList.map(email =>{
           if(commission.email.includes(email.label)){
@@ -63,6 +91,14 @@ export default function ModalEditStructure(props) {
            email.checked=true
            email.myRef.current.style.backgroundColor = "blue";
       }})}
+      const handleMail = (event) => {
+       
+        setEmail_check({
+          ...email_check,
+          [event.target.name]: event.target.checked,
+        }); 
+        
+      };
        const handleChange=(e)=>{
         const value = e.target.value;
         console.log(value)
@@ -126,14 +162,16 @@ export default function ModalEditStructure(props) {
             let commission2=commission;
             commission2.emails=[]
             console.log(commission2)
-            emailsList.map(email=>{
-                console.log(email)
-                if(email.checked===true){
-                     if(!commission2.emails.includes(email.label)){
-                    commission2.emails.push(email.label)}
+            Object.entries(email_check).map(p=>{
+              if(p[1]==true){
+                console.log("checking mail")
+                if(!commission2.emails.includes(p[0])){
+                  commission2.emails.push(p[0])
+                  console.log("pushing")
                 }
-                
-            })
+                } 
+              })
+            
             axios.defaults.crossDomain = 'true';
             const r=axios.put("http://localhost:8080/api/structure/updateStructure",commission2)
             console.log(r)
@@ -160,7 +198,7 @@ export default function ModalEditStructure(props) {
                                            
                                             
                                            <div className="row">
-                                               <div className="col-md-8">
+                                               <div className="col-md-6">
                                                    <form>
                                                    <div className="form-group">
                                                             <label for="name">Name</label>
@@ -183,17 +221,35 @@ export default function ModalEditStructure(props) {
                                                        <button type="submit" onClick={post} className="btn btn-primary">Ajouter</button>
                                                    </form>
                                                </div>
-                                               <div className="col-md-4">
-                                                              <h4>Users</h4>
-                                                               {emailsList.map((email)=>(
-                                                                   
-                                                               <Chip ref={email.myRef} key={emailsList.indexOf(email)} label={email.label}   
-                                                               
-                                                               onClick={handleCheckbox} id={email.label}  size="small"  />
+                                               <div className="col-md-6">
+                                                                              
+                                               <Box sx={{ display: "flex" }}>
+      <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
+        <FormLabel component="legend"><h5> choisir un ou des utilisateur</h5></FormLabel>
+        <FormGroup>
+                 {email_labels.map((p) => (
+                       <FormControlLabel
+            
+              control={
+                 
+                <Checkbox
+                
+                  key={p}
+                  checked={email_check[p]}
+                  onChange={(event) => handleMail(event)}
+                  name={p}
+                />
+              }
+              label={p}
+            />
+          ))}
 
-                                                                
-                                                               
-                                                        ))}
+        </FormGroup>
+      </FormControl>
+     
+      
+
+    </Box>
                                                        
                                                 </div>
                                             </div>

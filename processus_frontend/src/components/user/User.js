@@ -13,13 +13,11 @@ const User = () => {
     <div>
 
     
-    <NavAdmin></NavAdmin>
+ 
     <div class="pcoded-main-container">
         <div class="pcoded-wrapper">
             <div class="pcoded-content">
-                <div class="pcoded-inner-content">
-                <button onClick={test} > cilck me to logeed n user</button>
-                </div>
+                
     <DataTable></DataTable>
     </div>
     </div>

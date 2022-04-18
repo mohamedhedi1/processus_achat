@@ -3,6 +3,8 @@ package com.example.processus_backend.user;
 import com.example.processus_backend.Structure.Structure;
 import com.example.processus_backend.Structure.StructureRepository;
 import com.example.processus_backend.Structure.StructureService;
+import com.example.processus_backend.commission.Commission;
+import com.example.processus_backend.commission.CommissionRepository;
 import com.example.processus_backend.security.PasswordEncoder;
 import com.example.processus_backend.security.config.AppPermission.AppPermission;
 import com.example.processus_backend.security.config.AppPermission.AppPermissionService;
@@ -14,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,15 +27,17 @@ public class UserController {
     private  final  UserRepository userRepository;
     private final StructureService structureService ;
     private final UserService userService;
+    private  final CommissionRepository commissionRepository ;
     private  final PasswordEncoder passwordEncoder;
    private  final AppPermissionService appPermissionService;
     private  final StructureRepository structureRepository;
     private final EmailSenderService emailSenderService;
     @Autowired
-    public UserController(UserRepository userRepository, StructureService structureService, UserService userService, PasswordEncoder passwordEncoder, AppPermissionService appPermissionService, StructureRepository structureRepository, EmailSenderService emailSenderService) {
+    public UserController(UserRepository userRepository, StructureService structureService, UserService userService, CommissionRepository commissionRepository, PasswordEncoder passwordEncoder, AppPermissionService appPermissionService, StructureRepository structureRepository, EmailSenderService emailSenderService) {
         this.userRepository = userRepository;
         this.structureService = structureService;
         this.userService = userService;
+        this.commissionRepository = commissionRepository;
         this.passwordEncoder = passwordEncoder;
         this.appPermissionService = appPermissionService;
 
@@ -80,7 +85,7 @@ public class UserController {
                 .appPermission(appPermissions)
                 .firstName(userRequest.getFirstName())
                 .lastName(userRequest.getLastName())
-                .enabled(false)
+                .enabled(true)
                 .locked(false)
                 .password(passwordEncoder.bCryptPasswordEncoder().encode("admin"))
                 .structure(s)
@@ -100,6 +105,7 @@ public class UserController {
     @DeleteMapping(path="{id}")
     public void deleteUser(@PathVariable("id") Long id)
     {
+
         userService.deleteUser(id);
 
 
@@ -155,18 +161,142 @@ public class UserController {
 
        return  user ;
     }
+    @GetMapping(path = "navbar")
+    public List<NavbarItem> getStructurePrivelageByemail(Authentication authentication){
+        User u =userRepository.getByEmail(authentication.getName());
+        Structure s =structureRepository.findByname(u.getStructure().getName());
+        List<PrivelageObjet> permisssion=s.getAppPermission().stream().map(
+                appPermission -> {
+                    PrivelageObjet p=PrivelageObjet.builder()
+                            .link("/activite"+ appPermission.getAppPermissionId().toString())
+                            .privelages(appPermission.getPermission())
+                            .build();
+                    return p;
+                }
+        ).collect(Collectors.toList());
 
-    @GetMapping(path="getUserinStructureAchat")
+        List<NavbarItem> navbarItems=new ArrayList<NavbarItem>();
+        NavbarItem navbarItem= NavbarItem.builder()
+                .name(s.getName())
+                .privelages(permisssion)
+                .build();
+        List<PrivelageObjet> permisssion1=u.getAppPermission().stream().map(
+                appPermission -> {
+                    PrivelageObjet p=PrivelageObjet.builder()
+                            .link("/activite"+ appPermission.getAppPermissionId().toString())
+                            .privelages(appPermission.getPermission())
+                            .build();
+                    return p;
+                }
+        ).collect(Collectors.toList());
+        int size=permisssion1.size();
+        Boolean t=false;
+
+        for( int i=0 ;i<size;i++){
+             String f=permisssion1.get(i).getPrivelages();
+             System.out.print(f);
+            if(f.equals("administrateur")){
+
+                permisssion1.remove(i);
+                PrivelageObjet p3=PrivelageObjet.builder()
+                        .link("/users")
+                        .privelages("utilisateurs")
+                        .build();
+                permisssion1.add(p3);
+                PrivelageObjet p=PrivelageObjet.builder()
+                        .link("/structure")
+                        .privelages("structures")
+                        .build();
+                PrivelageObjet p1=PrivelageObjet.builder()
+                        .link("/commission")
+                        .privelages("commissions")
+                        .build();
+                permisssion1.add(p);
+                permisssion1.add(p1);
+                break;
+
+            }
+
+        }
+        int size1=permisssion1.size();
+        for( int i=0 ;i<size1;i++){
+            String f=permisssion1.get(i).getPrivelages();
+            System.out.print(f);
+            if(f.equals("demandeur")){
+
+                permisssion1.remove(i);
+                PrivelageObjet p3=PrivelageObjet.builder()
+                        .link("/demandeachatenregister")
+                        .privelages("demandes achats enregistre")
+                        .build();
+                permisssion1.add(p3);
+                PrivelageObjet p=PrivelageObjet.builder()
+                        .link("/demandeachatenvoye")
+                        .privelages("demandes achat envoyés")
+                        .build();
+
+                permisssion1.add(p);
+
+                break;
+
+            }
+
+        }
+        NavbarItem navbarItem0= NavbarItem.builder()
+                .name(u.getFirstName() +' '+ u.getLastName())
+                .privelages(permisssion1)
+                .build();
+        navbarItems.add(navbarItem0);
+        navbarItems.add(navbarItem);
+        List<Long> ids=commissionRepository.getALLCommissionByemail(u.getUserId());
+        List<Commission> commissions=commissionRepository.findAllById(ids);
+        List<NavbarItem> n= commissions.stream().map(commission -> {
+            List<PrivelageObjet> permisssion_commission=commission.getAppPermission().stream().map(
+                    appPermission -> {
+                        PrivelageObjet p=PrivelageObjet.builder()
+                                .link("/activite"+ appPermission.getAppPermissionId().toString())
+                                .privelages(appPermission.getPermission())
+                                .build();
+                        return p;
+                    }
+            ).collect(Collectors.toList());
+
+              NavbarItem navbarItem_commission= NavbarItem.builder()
+                    .name(commission.getName())
+                    .privelages(permisssion_commission)
+                    .build();
+              return navbarItem_commission;
+                }
+        ).collect(Collectors.toList());
+        navbarItems.addAll(n);
+
+        return  navbarItems;
+
+
+
+
+    }
+    @GetMapping(path = "structureDachat")
     public List<String> getUserinStructureAchat(){
-        Structure s= structureRepository.findByname("structure d'achat");
+        Structure s= structureRepository.findByname("Structure d'achat");
         if(s!=null){
-            List<String> userList=s.getUserList().stream().map(u ->{
-                return u.getEmail();
-            }).collect(Collectors.toList());
-            return  userList;}
+        List<String> userList=s.getUserList().stream().map(u ->{
+            return u.getEmail();
+        }).collect(Collectors.toList());
+        return  userList;
+        }
         else{
             return null ;
         }
     }
+    public List<String> getMembreDevaluation(){
+       Commission s=commissionRepository.findByName("");
+        List<String> userList=s.getUserList().stream().map(u ->{
+            return u.getEmail();
+        }).collect(Collectors.toList());
+        return  userList;
+    }
+
+
 
 }

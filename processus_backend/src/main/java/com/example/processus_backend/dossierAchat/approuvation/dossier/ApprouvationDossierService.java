@@ -124,10 +124,10 @@ public class ApprouvationDossierService {
             int compareValue1 = etape.getEtapeId().compareTo(2L);
             Etape etape1=null;
             if(compareValue==0 || compareValue1==0){
-                etape1 =etapeRepository.getById(1L);
+                 etape1 =etapeRepository.getById(1L);
             }
             else{
-                etape1 =etapeRepository.getById(etape.getEtapeId()-1L);}
+           etape1 =etapeRepository.getById(etape.getEtapeId()-1L);}
             approuvation_dossier_n.setEtape(etape1);
             approuvation_dossier_n.setApprouvation("notraite");
             approuvation_dossier_n.setDate(LocalDate.now());
@@ -143,5 +143,4 @@ public class ApprouvationDossierService {
         approuvationDoosierRepository.save(approuvation_dossier_n);
 
     }
-
 }

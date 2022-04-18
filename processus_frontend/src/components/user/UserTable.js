@@ -25,17 +25,25 @@ import { useNavigate } from 'react-router-dom';
 import { Card } from '@mui/material';
 export default function DataTable() {
 const columns = [
-  { field: 'firstName', headerName: 'First name', width: 130 ,editable: false},
-  {field: 'structureName', headerName: 'Structure name', width: 130 ,editable: false},
-  { field: 'lastName', headerName: 'Last name', width: 130 ,editable: false},
-  {field: 'email',headerName: 'Email',width: 200,editable: false
+  { field: 'firstName', headerName: 'Prenom', width: 130 ,editable: false},
+  {field: 'structureName', headerName: 'nom de Structure', width: 220 ,
+  renderCell: (cellValues) => {
+    return (
+      <div >
+      {cellValues.value}
+      </div>
+    );
+  }
   },
-  {field: 'cin',headerName: 'CIN',type: 'number',width: 90,editable: false
+  { field: 'lastName', headerName: 'nom', width: 130 ,editable: false},
+  {field: 'email',headerName: 'Email',width: 220,editable: false
+  },
+  {field: 'cin',headerName: 'Matircule',type: 'number',width: 90,editable: false
   },
   {field: 'post',headerName: 'Poste',width: 90,editable: false
   },
   {
-    field: "Activtie",width:160,
+    field: "Activtie",width:80,
     renderCell: (cellValues) => {
       return (
         <div >
@@ -57,7 +65,7 @@ const columns = [
     }
   },
   {
-    field: "Action",width:160,
+    field: "Action",width:120,
     renderCell: (cellValues) => {
       return (
         <div >
@@ -142,7 +150,7 @@ useEffect(  () => {
         />   
     <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
       <h4>
-      <Chip  className="label theme-bg2 text-white f-12" label="Utilisateurs" icon={<PersonRoundedIcon />} />
+       utilisateurs
         </h4>
         <Fab  onClick={()=>{navigate('/addUser')}} className="label theme-bg2 text-white f-12" variant="extended">
         <AddIcon size="small"  sx={{ mr: 1 }} />

@@ -74,16 +74,27 @@ const Login = () => {
             console.log(appUser);
             const response = await axios.post('http://localhost:8080/login',f);
             let data=response.data;
+            const response2=await axios.get("http://localhost:8080/api/v1/user/navbar")
+          const r2=await response2.data
             const roles=data.privelages
             const user=data.email
-            const nothin=''
+            const navbar=r2
             const n=''
-            setAuth({ user,nothin,roles,n});
+            setAuth({ user,navbar,roles,n});
+
             console.log(auth);
-            if( roles.includes(9))
-            {navigate("/adddemande")}
-            if( roles.includes(2))
-            {navigate("/non_admin")}
+            localStorage.setItem('auth', JSON.stringify(auth));
+
+
+            localStorage.setItem('user', user);
+            localStorage.setItem('navbar',JSON.stringify(navbar));
+            localStorage.setItem('roles',roles );
+            
+            navigate("/activite1")
+           // if( roles.includes(9))
+            //{navigate("/users")}
+           // if( roles.includes(2))
+            //{navigate("/non_admin")}
             
             
           

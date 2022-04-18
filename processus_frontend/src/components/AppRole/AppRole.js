@@ -23,6 +23,7 @@ export default function FormDialog(props) {
       privelage5:false,
       privelage6:false,
       privelage7:false,
+      privelage8:false
     
 
     });
@@ -30,7 +31,7 @@ export default function FormDialog(props) {
   const getPermission=props.getUrl
   const [body, setBody]=React.useState()
   const handleClickOpen = async() => {
-    
+    console.log(getPermission)
     const r =await axios.get(getPermission+id)
     console.log(r)
     let p=r.data
@@ -64,6 +65,10 @@ export default function FormDialog(props) {
             state.privelage7=true
             console.log("setting to true")
             break
+        case 8:
+              state.privelage8=true
+              console.log("setting to true")
+              break
 
 }
     })
@@ -97,6 +102,9 @@ export default function FormDialog(props) {
                       case "privelage7":
                           t.push(7)
                           break
+                      case "privelage8":
+                            t.push()
+                            break
               }
              }
          }

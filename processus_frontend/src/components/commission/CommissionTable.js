@@ -4,6 +4,8 @@ import Fab from '@mui/material/Fab';
 import EditIcon from '@mui/icons-material/Edit';
 import { Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ModalUser from './modalUser';
+
 import { spacing } from '@mui/system';
 import Box from '@mui/material/Box';
 import LockIcon from '@mui/icons-material/Lock';
@@ -25,9 +27,9 @@ import { Card } from '@mui/material';
 import { ModelTraining } from '@mui/icons-material';
 export default function CommissionDataTable() {
   const columns = [
-    { field: 'name', headerName: 'Nom', width: 130, editable: false },
+    { field: 'name', headerName: 'Nom', width: 250, editable: false },
     {
-      field: "Activtie", width: 160,
+      field: "Activtie", width: 80,
       renderCell: (cellValues) => {
         return (
           <div >
@@ -37,21 +39,12 @@ export default function CommissionDataTable() {
       }
     },
     {
-      field: 'type', headerName: 'Type', width: 90, editable: false
+      field: 'type', headerName: 'Type', width: 230, editable: false
     },
     {
-      field: 'abrivation', headerName: 'ABRIVAITION', width: 90, editable: false
+      field: 'abrivation', headerName: 'ABRIVAITION', width: 100, editable: false
     },
-    {
-      field: 'emails', headerName: "Privelage", width: 80, editable: false,
-      renderCell: (cellValues) => {
-        return (
-          <div >
-            <AppRole  ></AppRole>
-          </div>
-        );
-      }
-    },
+    
     {
       field: "Action", width: 160,
       renderCell: (cellValues) => {
@@ -66,12 +59,39 @@ export default function CommissionDataTable() {
           </div>
         );
       }
+    },
+    {
+      field: "utilisateurs",width:100,
+      renderCell: (cellValues) => {
+        return (
+          <div >
+          <Fab size="small" onClick={ ()=>  handleClickOpen1(cellValues)} sx={{ m:1  }} className="label theme-bg text-white f-12"  aria-label="add">
+              <PeopleIcon />
+          </Fab>
+          </div>
+        );
+      }
     }
   ];
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);
   }
+  const [open1, setOpen1] = React.useState(false);
+const [echange_value,setEchange]=useState();
+  const handleClickOpen1 = (cellValues) => {
+    console.log(cellValues.row.emails)
+    setEchange(cellValues.row.emails)
+    
+    setOpen1(true);
+  };
+
+  const handleClose1 = () => {
+    console.log(echange_value)
+    setOpen1(false);
+   ;
+  };
+
   let navigate = useNavigate();
   const handleClose = () => setOpen(false);
   const [commissions, setCommissions] = useState([{
@@ -113,6 +133,7 @@ export default function CommissionDataTable() {
   }, [setCommissions]);
   return (
     <Container mb={2}>
+      <ModalUser open={open1} onClose={handleClose1} emails={echange_value}></ModalUser>
       <ModalEditCommission
         commission={commission}
         open={open}
@@ -123,7 +144,7 @@ export default function CommissionDataTable() {
       />
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
         <h4>
-          <Chip className="label theme-bg2 text-white f-12" label="Utilisateurs" icon={<PersonRoundedIcon />} />
+           Commission
         </h4>
         <Fab onClick={() => { navigate('/addCommission') }} className="label theme-bg2 text-white f-12" variant="extended">
           <AddIcon size="small" sx={{ mr: 1 }} />

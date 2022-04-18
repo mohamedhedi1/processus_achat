@@ -3,10 +3,13 @@ package com.example.processus_backend.user;
 import com.example.processus_backend.Structure.Structure;
 import com.example.processus_backend.Structure.StructureRepository;
 
+import com.example.processus_backend.commission.Commission;
+import com.example.processus_backend.commission.CommissionRepository;
 import com.example.processus_backend.user.AccountActivation.ConfirmationToken;
 import com.example.processus_backend.user.AccountActivation.ConfirmationTokenService;
 import com.example.processus_backend.user.emailSender.EmailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -20,19 +23,20 @@ public class UserService implements UserDetailsService {
     private  final UserRepository userRepository;
     private  final StructureRepository structureRepository;
     private final ConfirmationTokenService confirmationTokenService;
-
+    private  final CommissionRepository commissionRepository ;
     private final static String USER_NOT_FOUND_MSG =
             "user with email %s not found";
 
 
     @Autowired
-    public UserService(UserRepository userRepository, StructureRepository structureRepository, ConfirmationTokenService confirmationTokenService, EmailSenderService emailSenderService)
+    public UserService(UserRepository userRepository, StructureRepository structureRepository, ConfirmationTokenService confirmationTokenService, EmailSenderService emailSenderService, CommissionRepository commissionRepository)
     {
         this.userRepository = userRepository;
         this.structureRepository = structureRepository;
         this.confirmationTokenService = confirmationTokenService;
 
 
+        this.commissionRepository = commissionRepository;
     }
 
 
@@ -118,9 +122,16 @@ public class UserService implements UserDetailsService {
     public void getUser(){
         User user= userRepository.getByEmail("jihedgaraouch@gmail.com");
     }
+    @Transactional
+    @Modifying
     public void deleteUser(Long id){
+
+        User u =userRepository.findUserByuserId(id);
+        u.setStructure(null);
+        u.setAppPermission(null);
+        userRepository.save(u);
         confirmationTokenService.deleteByIdUser(id);
-        userRepository.deleteById(id);
+        userRepository.deletet(id);
     }
     public String signUpUser(User user) {
         User userExists = userRepository

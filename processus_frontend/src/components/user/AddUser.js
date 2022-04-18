@@ -9,7 +9,11 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormHelperText from "@mui/material/FormHelperText";
 import Checkbox from "@mui/material/Checkbox";
+import { Alert } from '@mui/material'
 const AddUser = () => {
+    const [form_error,set_form_error]=useState(true)
+    const [email_check,setEmail_check]=useState(true)
+    const [CIN_check,setCIN_check]=useState(true)
     const [structuresList,setStructureList]=useState([{
         label:'',
         value:0
@@ -23,16 +27,18 @@ const AddUser = () => {
           privelage5:false,
           privelage6:false,
           privelage7:false,
+          privelage8:false,
+          privelage9:false 
         
     
         }
          );
          const privelageName=[
-           "privelage1","privelage2","privelage3","privelage4","privelage5","privelage6","privelage7"
+           "privelage1","privelage2","privelage3","privelage4","privelage5","privelage6","privelage7","privelage8","privelage9"
          ]
          const Labels=["traitement la demane d'achat","Approuvation de CPT","Préparation de projet de CCAP","Finalisation le CC et Preparation la methodologie de depouillement"
         ,"Approuvation le CC","Affectaion de dossier d'achat a une structure d 'achat",
-        "Plantification les date de lancement de l'AO et de La séance d'ouvertur de plis","designation les membres de ma commission d'evaluation"
+        "Plantification les date de lancement de l'AO et de La séance d'ouvertur de plis","designation les membres de ma commission d'evaluation","Administrateur"
         ]
          
        
@@ -59,7 +65,21 @@ const AddUser = () => {
        email:"",firstName:"",lastName:"",cin:"",structureID:0,post:"",privelages:""})
        const handleChange = (e) =>
      {   
-         const value = e.target.value;
+
+
+
+        const value = e.target.value;
+        if(e.target.name==="email"){
+           let c=!! value.match(/.+@.+/)
+           setEmail_check(c)
+
+
+        }
+        if(e.target.name==="cin"){
+           let c=!! value.match(/([0-9]){6}/)
+           setCIN_check(c)
+            
+       }
          console.log(value)
          console.log(e.target.name)
          setUser(
@@ -111,7 +131,12 @@ const AddUser = () => {
         }
             
            )
-           user.permissions=t;
+           if((user.post==='')||(user.firstName==='') ||(user.lastName==='')||(email_check==false)||(CIN_check==false)){
+            set_form_error(false)
+            return("")
+
+        }
+           user.privelages=t;
            const res = await axios.post("http://localhost:8080/api/v1/user/addUser",user);
            console.log(res)
            navigate("/users")
@@ -144,6 +169,7 @@ const AddUser = () => {
                                                             <label for="exampleInputEmail1">Email</label>
                                                             <input defaultValue={user.email} name="email" onChange={(e)=> handleChange(e)} 
                                                             type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="email" />
+                                                              {!email_check && <Alert   sx={{ mt: 1 }}  severity="error">format no validée!</Alert>}
                                                         </div>
                                                         <div className="form-group">
                                                             <label for="nom">Nom</label>
@@ -163,9 +189,10 @@ const AddUser = () => {
                                                       
                                                        
                                                         <div className="form-group">
-                                                            <label for="cin">cin</label>
+                                                            <label for="cin">Matircule</label>
                                                             <input  name="cin"   defaultValue={user.cin} onChange={(e)=> handleChange(e)} 
                                                              type="text" className="form-control" id="cin" aria-describedby="emailHelp" placeholder="Cin" />
+                                                            {!CIN_check && <Alert   sx={{ mt: 1 }} severity="error">if faut que la matircule contient 6 chiffre </Alert>}
                                                         </div>
                                                         <div className="form-group">
                                                             <label for="structure">structure</label>
@@ -176,9 +203,13 @@ const AddUser = () => {
                                                             ))}
                                                          </select>
                                                         </div>
-
-                                                        
+                                                        <div className='row'>
                                                         <button type="submit" onClick={post} className="btn btn-primary">Ajouter</button>
+                                                        { !form_error && <Alert severity="error">
+                                     
+                                     un on des inputs ne sont pas validee — <strong>les-verifie!</strong>
+                                   </Alert> }  
+                                   </div>
                                                     </form>
                                                 </div>
                                                 <div className="col-md-4">

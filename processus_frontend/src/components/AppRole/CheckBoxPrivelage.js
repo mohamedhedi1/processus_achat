@@ -19,7 +19,7 @@ export default function CheckBoxPrivelage(props) {
   const updateUrl=props.updateUrl
   
      const privelageName=[
-       "privelage1","privelage2","privelage3","privelage4","privelage5","privelage6","privelage7"
+       "privelage1","privelage2","privelage3","privelage4","privelage5","privelage6","privelage7","privelage8"
      ]
      const Labels=["traitement la demane d'achat","Approuvation de CPT","Préparation de projet de CCAP","Finalisation le CC et Preparation la methodologie de depouillement"
     ,"Approuvation le CC","Affectaion de dossier d'achat a une structure d 'achat",

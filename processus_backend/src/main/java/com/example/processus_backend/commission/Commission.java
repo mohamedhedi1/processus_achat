@@ -53,7 +53,7 @@ public class Commission {
     private String type;
     private  String abrivation ;
     @ManyToMany(
-            fetch = FetchType.EAGER
+            fetch = FetchType.EAGER, cascade = CascadeType.ALL
     )
     @JoinTable(
             name="commission_user_map",

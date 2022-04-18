@@ -1,14 +1,20 @@
 package com.example.processus_backend.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
+    @Modifying
+    @Transactional
+    @Query("delete from User t where t.userId = ?1")
+    void deletet(Long entityId);
     @Query("SELECT s.email FROM User s ")
     List<String> getALLmail();
     @Query("SELECT s FROM User s WHERE s.email= ?1")

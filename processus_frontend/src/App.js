@@ -1,5 +1,11 @@
 import { BrowserRouter, Route, Routes }from 'react-router-dom';
 
+import Activite1 from './activites/activite1/Activite1';
+import Activite2 from './activites/Activite2/Activite2';
+import Activite3 from './activites/activite3/Activite3';
+import Activite4 from './activites/activite4/Activite4';
+import Activite5 from './activites/activite5/Activite5';
+import DemandesAchatEnvoye from './demandeAchat/previewdemandeenvoye/DemandesAchatEnvoye';
 import AddUser from './components/user/AddUser'
 import ResetPassword from "./components/ResetPassword"
 import Login from './components/Login'
@@ -25,24 +31,27 @@ import FilePdf from './components/dossierAchat/FilePdf'
 import DemandeAchatTable from './components/dossierAchat/DemandeAchatTable';
 import ListeDemandeEnregistrer from './components/dossierAchat/tableauxDemande/ListeDemandeEnregistrer';
 
-import Home from'./components/OTHERS/home';
-import AjouterDemandeAchat from './demandeAchat/AjouterDemandeAchat';
 
-import Test from './demandeAchat/images/Test'
-import Activite1 from './activites/activite1/Activite1';
-import Activite2 from './activites/Activite2/Activite2';
-import Activite3 from './activites/activite3/Activite3';
-import Activite4 from './activites/activite4/Activite4';
-import Activite5 from './activites/activite5/Activite5';
-import Activite6 from './activites/activite6/Activite6';
-import DemandesAchatEnvoye from './demandeAchat/previewdemandeenvoye/DemandesAchatEnvoye';
 import  HorizontalStepper from './demandeAchat/previewdemandeenvoye/HorizontalStepper';
 import DemandeAchatEnregistrer from './demandeAchat/previewdossier/DemandeAchatEnregistrer';
-import ModifierDemande from './demandeAchat/modifierDemandeAchat/ModifierDemande';
-import BasicModal from './demandeAchat/previewdemandeenvoye/BasicModal';
-import NavBarUtilisateur from './components/NavBarUtilisateur';
+
+import Activite6 from './activites/activite6/Activite6';
+import Home from'./components/OTHERS/home';
+import AjouterDemandeAchat from './demandeAchat/AjouterDemandeAchat';
+import Etape7 from './activites/activite7/Etape7';
+import Test from './demandeAchat/images/Test'
+import Navbar from './components/Navbar';
+import Etape9 from './activites/activite9/Etape9';
+import useAuth from './components/hooks/useAuth';
+import { useEffect } from 'react';
 function App() {
- 
+  const { auth,setAuth } = useAuth();
+  useEffect(() => {
+    if(localStorage.getItem('auth')) {
+      setAuth(localStorage.getItem('auth'))
+      console.log("fetching auth from local storage")
+    }
+  }, []);
   const ROLES={
     APPROUVATION_de_CPT:1,
     PREPARATION_DE_PROJET_DE_CCAP:2,
@@ -58,7 +67,7 @@ function App() {
   return (
     <>
    
-    
+   
 
     {/*<ListeDemandeEnregistrer /> <AddDossier />  <DemandeAchatTable />
     <DemandesAchatEnregistrer/>  
@@ -68,55 +77,132 @@ function App() {
     <DemandesAchatEnregistrer />
     <AjouterDemandeAchat/>
     <Test />*/}
-    
-    
-    {/*
-    <NavAdmin/>
-    <ModifierDemande idDemandeAchat={9}/>
-    <DemandeAchatEnregistrer />
-    <ModifierDemande idDemandeAchat={9}/>
-     <Activite1 />
-     <Activite2/>
-     <Activite3/>
-     
-
-
-
-
-
-      <AjouterDemandeAchat/>
+  
+    <Routes>
+      <Route path="/" element={<Layout />}>
+      <Route path="navbar" element={ 
+        
+    <>
+     <AjouterDemandeAchat/>
     <Activite1></Activite1>
     <Activite2 />
     <Activite3 />
     <Activite4 />
     <Activite5 />
     <Activite6 />
-     <ModifierDemande idDemandeAchat={29} />
-    <DemandeAchatEnregistrer />
-    */}
+    </>}/>
+      <Route path="login" element={<Login/>}/>
+      <Route path="demandeachatenregister" element={ <> 
+        <Navbar></Navbar>   <DemandeAchatEnregistrer> </DemandeAchatEnregistrer> </> }/>
+      <Route path="demandeachatenvoye" element={  <> 
+        <Navbar></Navbar>  <DemandesAchatEnvoye/> </> }/>
+  
+      <Route path="ajoutdemandeachat" element={  <> 
+        <Navbar></Navbar> <AjouterDemandeAchat/> </> }/>
+       
+      <Route path="activite1" element={  <> 
+        <Navbar></Navbar>
+       <Activite1></Activite1> 
+      </>}/>
+      <Route path="activite2" element={  
+        <> 
+        <Navbar></Navbar>
+        <Activite2></Activite2>
+        </>
+        }/>
+      <Route path="activite3" element={ <> 
+        <Navbar></Navbar>
+           <Activite3></Activite3>
+           </>
+          }/>
+      <Route path="activite4" element={ <> 
+        <Navbar></Navbar>  <Activite4></Activite4>
+        </>}/>
+      <Route path="activite5" element={ <> 
+        <Navbar></Navbar>   <Activite5></Activite5></>}/>
+      <Route path="activite6" element={ <> 
+        <Navbar></Navbar>   <Activite6></Activite6></>}/>
+
+      <Route path="commission" element={  <> 
+        <Navbar></Navbar> <Commission/> </> } />
+        <Route path="users" element={
+            <> 
+        <Navbar></Navbar> 
+        <User /> 
+        </> } />
+        <Route path="addUser" element={
+        <div>
+           
+        <Navbar></Navbar>
+          <AddUser />
+        </div>
+          } />
+          <Route path="addCommission" element={
+        <div>
+           <Navbar></Navbar>
+        <AddCommission/>
+        </div>
+           } />
+          < Route path="addStructure" element={
+        <div>
+       <Navbar></Navbar>
+      <AddStructure/>
+      </div>} />
+        <Route path="structure" element={ 
+      <div>
+        <Navbar></Navbar>
+        <Structure/>
+        </div>} />
+
+        <Route path="addCommission" element={
+        <div>
+       
+       <Navbar></Navbar>
+        <AddCommission/>
+        </div>
+        } />
+          <Route path="addUser" element={
+        <div>
+           <Navbar></Navbar>
+           <AddUser/>
+        </div>
     
-    
-    <Activite1></Activite1>
-    <Activite2 />
-    <Activite3 />
-    <Activite4 />
-    <Activite5 />
-    <Activite6 />
-    
-   
-    
-   
-    
-   
-    
+      } />  
+      <Route path="file" element={<FileApp></FileApp>}></Route>
+        <Route path="unauthorized" element={<Unauthorized />} />
+       
+        
+        <Route element={<RequireAuth allowedRoles={[ROLES.PREPARATION_DE_PROJET_DE_CCAP]} />}>
+        <Route path="/non_admin" element={<Home/>}/>
+          </Route>
+
+        {/* we want to protect these routes */}
+        <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+       
+        
+
+      
+        <Route path="adddemande" element={
+        <div>
+          <NavAdmin></NavAdmin>
+          <AjouterDemandeAchat/>
+        </div>
+        } />
+
+        </Route>
+
+      
+
+
+        
+
+        {/* catch all */}
+        <Route path="*" element={<Missing />} />
+      </Route>
+    </Routes>
+  
    
 
-    
-
-    
-    
-    
-    
   
   </>
    
