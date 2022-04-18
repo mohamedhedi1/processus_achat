@@ -9,25 +9,31 @@ import axios from 'axios';
 const Navbar = () => {
   
     let navigate = useNavigate();
+    
     const [active,setActive]=useState(false)
     const [admin,setAdmin]=useState(false)
-    const {auth }=useAuth();
+    const {auth  }=useAuth();
     const [activeList,setActiveList]=useState([false ,false,false])
     const toggleClass =()=>{
       setActive(!active)
        
     }
+    
+   
+      const [navbar,setNavbar]=useState([{"name":"admin admin","privelages":[{"privelages":"traitement la demane d'achat","link":"/activite1"}]}])
     useEffect(  () => {
-        async function fetchData() {
-          
-          
-          const response=await axios.get("http://localhost:8080/api/v1/user/navbar")
-          const r2=await response.data
-          console.log(auth)
-        }
-       fetchData();
+      
+         async function fetchData() {
+          const user =localStorage.getItem('user')
+           const response=await axios.get("http://localhost:8080/api/v1/user/navbar/"+user)
+           const r2=await response.data
+           setNavbar(r2)
+           
+         }
+        fetchData();
         
-      }, []);
+         
+       },[] );
 
    
   return (
@@ -46,19 +52,19 @@ const Navbar = () => {
             <div className="navbar-content scroll-div">
             
                 <ul className="nav pcoded-inner-navbar">
-                {auth.navbar.map(e=>  (
+                {navbar.map(e=>  (
 
-              <li className="nav-item pcoded-menu-caption">
-                  <label>{e.name}</label>
+              <li className="nav-item  pcoded-menu-caption">
+                  <label >{e.name}</label>
                   <ul className="nav pcoded-inner-navbar">
                       {e.privelages.map(p =>(
                         <li  
-                data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"  className= 'nav-item ' >
+                data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"  className=  'nav-item  active' >
                <a   className="nav-link "><span className="pcoded-micon"><i className="feather icon-user"></i></span><span className="pcoded-mtext">
                    
                      
                    
-                   <Link to={p.link} replace >{p.privelages}</Link></span></a>
+                   <Link to={p.link}  replace >{p.privelages}</Link></span></a>
                   </li>
 
                       ))}

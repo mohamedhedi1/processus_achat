@@ -44,6 +44,9 @@ import Navbar from './components/Navbar';
 import Etape9 from './activites/activite9/Etape9';
 import useAuth from './components/hooks/useAuth';
 import { useEffect } from 'react';
+import { Refresh } from '@mui/icons-material';
+import RefreshTest from './RefreshTest';
+import Activite7 from './activites/activite7/Etape7';
 function App() {
   const { auth,setAuth } = useAuth();
   useEffect(() => {
@@ -80,6 +83,7 @@ function App() {
   
     <Routes>
       <Route path="/" element={<Layout />}>
+      <Route path="o" element={<RefreshTest/>}/>
       <Route path="navbar" element={ 
         
     <>
@@ -122,7 +126,8 @@ function App() {
         <Navbar></Navbar>   <Activite5></Activite5></>}/>
       <Route path="activite6" element={ <> 
         <Navbar></Navbar>   <Activite6></Activite6></>}/>
-
+        <Route path="activite7" element={ <> 
+        <Navbar></Navbar>   <Etape7></Etape7></>}/>
       <Route path="commission" element={  <> 
         <Navbar></Navbar> <Commission/> </> } />
         <Route path="users" element={

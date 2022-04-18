@@ -10,8 +10,18 @@ import '@react-pdf-viewer/core/lib/styles/index.css';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 // Import styles of default layout plugin
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 function AjouterAED(props) {
-   
+  const [faux,setFaux]=useState(false)
+
   const [titre,setTitre] = useState("AED")
   const [objet, setObjet] = useState("")
   const [id,setId] =useState(1)
@@ -43,29 +53,83 @@ const  post =async(e) =>
     formData.append("file",fichier);
     formData.append("titre",titre);
     formData.append("objet",objet);
+    formData.append("type","AED");
    
 
-    const res = await  axios.post("http://localhost:8080/files",formData);
+    const res = await  axios.post("http://localhost:8080/files/verif",formData);
    
    setFichierInfo(res.data)
    // props.fctFichierInfo(fichierInfo)
     console.log(
       fichierInfo
    )
-   console.log("addin0",res.data)
-  
-   let t=props.listfichierInfo
-  t.push(res.data)
-  props.setListfichierInfo(t)
-  console.log(
-    props.listfichierInfo
+   if(res.data.titre!=="faux")
+  {
 
-)
-props.setAed_envoye(!props.setAed_envoye)
+    let t=props.listfichierInfo
+    t.push(res.data)
+    props.setListfichierInfo(t)
+    console.log(
+      props.listfichierInfo
+  
+  )
+  props.setAed_envoye(!props.setAed_envoye)
+  }
+  else {
+    setFaux(true)
+  }
+
+  
 
       
 
 }
+/* **********************************************
+****************************************************
+**************************************************
+verif dialog cpt 
+*************************************************
+****************************************************** */ 
+
+function FormDialog(props) {
+  const [open, setOpen] = React.useState(true);
+  
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    
+    setOpen(false);
+    props.setFaux(false)
+  };
+
+  return (
+    <div>
+      
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Erreur format du fichier</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Verifier votre Autorisation d'engagement de dépenses AED
+          </DialogContentText>
+         
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Fermer</Button>
+          
+        </DialogActions>
+      </Dialog>
+    </div>
+      );
+    }
+/* ******************************************        
+***********************************************
+***********************************************
+***********************************************
+************************************************ */
+
 const allowedFiles = ['application/pdf'];
  const handleFile = (e) =>{
    let selectedFile = e.target.files[0];
@@ -119,6 +183,7 @@ const allowedFiles = ['application/pdf'];
           
     
         <button type="submit" onClick={post} className="btn btn-success btn-lg btn-block">Ajouter l'AED</button>
+        {faux &&  <FormDialog open={true} setFaux={setFaux}  />}
         </form>
         </div>
       )

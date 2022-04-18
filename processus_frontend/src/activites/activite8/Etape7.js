@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Button, FormControl } from '@mui/material';
 import { FormLabel,FormGroup,FormControlLabel,Checkbox, } from '@mui/material'
 import { SettingsCell } from '@mui/icons-material';
-const Etape7 = (props) => {
+const Etape7 = () => {
     const [ve,setVe]=useState(true)
     const [email_check,setEmail_check]=useState({})
     const [email_labels,setEmail_labels]=useState([])
@@ -63,12 +63,11 @@ const Etape7 = (props) => {
           emails:t
         }
         
-         const r3=await axios.post("http://localhost:8080/etape6/"+props.id,b)// missingi dosssier achat in props
+         const r3=await axios.post("http://localhost:8080/etape6/1",b)
         
       };
     return ( 
         <>
-        
         <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
         <FormLabel component="legend"><h5> choisir un ou des utlisateurs</h5></FormLabel>
         {email_labels && email_labels.length>0 && (

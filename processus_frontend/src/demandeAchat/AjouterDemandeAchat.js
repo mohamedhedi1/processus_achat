@@ -172,8 +172,7 @@ function AjouterDemandeAchat() {
                                                     
                                                     
                                                     
-                                                   
-<br/>
+         
 <button type="button" onClick={(e)=> newfichierComponent(e)}  class="btn btn-light btn-lg btn-block">Ajouter autres fichiers</button>
                                                     {listfichier}
 
