@@ -76,7 +76,7 @@ class UserRepositoryTest {
 
         List<Structure> structures=structureRepository.findAll();
         for(int i=0; i<structures.size();i++){
-            AppPermission appPermission=appPermissionRepository.getById(Integer.toUnsignedLong(i+1));
+            AppPermission appPermission=appPermissionRepository.findAll().get(1);
             Structure structure1=structures.get(i);
             User user= User.builder()
                     .structure(structure1)
@@ -171,5 +171,64 @@ class UserRepositoryTest {
               return  user.getEmail();
           })).collect(Collectors.toList());
         System.out.print(p);
+    }
+    @Test
+    public void aaaa(){
+        List<String> Labels=List.of("traitement la demane d'achat","Approuvation de CPT","Préparation de projet de CCAP","Finalisation le CC et Preparation la methodologie de depouillement"
+                ,"Approuvation le CC","Affectaion de dossier d'achat a une structure d 'achat","Plantification les date de lancement de l'AO et de La séance d'ouvertur de plis","designation les membres de ma commission d'evaluation","demandeur","administrateur");
+        for(int i=1; i<Labels.size()+1;i++){
+            AppPermission appPermission= AppPermission.builder()
+                    .appPermissionId(Integer.toUnsignedLong(i))
+                    .permission(Labels.get(i-1))
+                    .build();
+            appPermissionRepository.save(appPermission);
+
+        }
+        List<String> structure=List.of("Structure de plantification et de coordination","Structure d'approbation des CPT","Structure de préparation des CC",
+                "Structure de modélisation et d'approbation des CC" ,"Structure d'achat");
+        List<String> structure_abrivation=List.of("SPC","SACPT","SPCC","SMACC","SA");
+
+        for(int i=0; i<structure.size();i++){
+
+            AppPermission appPermission=appPermissionRepository.getById(Integer.toUnsignedLong(i+1));
+            Structure structure1= Structure.builder()
+                    .abrivation(structure_abrivation.get(i))
+                    .name(structure.get(i))
+                    .structureId(Integer.toUnsignedLong(i))
+                    .appPermission(List.of(appPermission))
+                    .build();
+            structureRepository.save(structure1);
+             Structure structure0=structureRepository.findByname(structure1.getName());
+            User user= User.builder()
+                    .appPermission(List.of(appPermission))
+                    .cin("012453")
+                    .structure(structure0)
+                    .email("user"+i+"@admin.com")
+                    .firstName("nom")
+                    .lastName("prenom")
+                    .password(passwordEncoder.bCryptPasswordEncoder().encode("admin"))
+                    .enabled(true)
+                    .locked(false)
+                    .build();
+            userService.addUsers(user);
+
+
+        }
+        List<Structure> strucutres= structureRepository.findAll();
+        List<AppPermission> appPermission=appPermissionRepository.findAll();
+        User user= User.builder()
+
+                .appPermission( appPermission)
+                .cin("012453")
+                .structure(strucutres.get(0))
+                .email("admin@admin.com")
+                .firstName("admin")
+                .lastName("admin")
+                .password(passwordEncoder.bCryptPasswordEncoder().encode("admin"))
+                .enabled(true)
+                .locked(false)
+                .build();
+        userService.addUsers(user);
+
     }
 }

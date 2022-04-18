@@ -9,6 +9,7 @@ import com.example.processus_backend.security.PasswordEncoder;
 import com.example.processus_backend.security.config.AppPermission.AppPermission;
 import com.example.processus_backend.security.config.AppPermission.AppPermissionService;
 
+import com.example.processus_backend.user.delteledUser.DuserRepository;
 import com.example.processus_backend.user.emailSender.EmailSenderService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 @RequestMapping(path = "api/v1/user")
 public class UserController {
     private  final  UserRepository userRepository;
+    private final DuserRepository duserRepository ;
     private final StructureService structureService ;
     private final UserService userService;
     private  final CommissionRepository commissionRepository ;
@@ -33,8 +35,9 @@ public class UserController {
     private  final StructureRepository structureRepository;
     private final EmailSenderService emailSenderService;
     @Autowired
-    public UserController(UserRepository userRepository, StructureService structureService, UserService userService, CommissionRepository commissionRepository, PasswordEncoder passwordEncoder, AppPermissionService appPermissionService, StructureRepository structureRepository, EmailSenderService emailSenderService) {
+    public UserController(UserRepository userRepository, DuserRepository duserRepository, StructureService structureService, UserService userService, CommissionRepository commissionRepository, PasswordEncoder passwordEncoder, AppPermissionService appPermissionService, StructureRepository structureRepository, EmailSenderService emailSenderService) {
         this.userRepository = userRepository;
+        this.duserRepository = duserRepository;
         this.structureService = structureService;
         this.userService = userService;
         this.commissionRepository = commissionRepository;
@@ -49,6 +52,7 @@ public class UserController {
     {
 
         List<User> users =userService.getUsers();
+
        List<UserTableRow> userTableRows= users.stream().map(user -> {
             return UserTableRow.builder().id(user.getUserId())
                     .firstName(user.getFirstName())
