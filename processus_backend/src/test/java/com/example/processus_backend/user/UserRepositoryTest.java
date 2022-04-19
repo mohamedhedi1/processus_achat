@@ -144,7 +144,13 @@ class UserRepositoryTest {
         }
 
     }
-
+    @Test
+    public  void updateAdmin(){
+        List<AppPermission> appPermission=appPermissionRepository.findAll();
+       User u =userRepository.getByEmail("admin@admin.com")  ;
+       u.setAppPermission(appPermission);
+       userRepository.save(u);
+    }
     @Test
     public void insertAdmin(){
         List<Structure> strucutres= structureRepository.findAll();

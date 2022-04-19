@@ -52,7 +52,7 @@ const columns = [
       );
     }
   },
-  { field:'locked',headerName: "Locked",width:80,editable: false,
+  { field:'locked',headerName: "verouillage",width:80,editable: false,
     renderCell: (cellValues) => {
       return (
         <div  >

@@ -29,7 +29,7 @@ export default function StructureTable() {
 const columns = [
   { field: 'name', headerName: 'Nom', width: 300 ,editable: false},
 
-  {field: 'abrivation',headerName: 'Abriviation',width: 90,editable: false
+  {field: 'abrivation',headerName: 'Abriviation',width: 120,editable: false
   },
   {
     field: "Activtie",width:160,

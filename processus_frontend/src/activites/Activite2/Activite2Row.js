@@ -17,6 +17,7 @@ const AfficherDemandeDetails =(demande) =>
 { let demand=demande.demande.demande
   let demandeId=demand.demandeAchatId
   console.log(demandeId)
+  const [cpt,setCpt] = useState({})
   const listfichier = demand.files
   const[remarquegenerale,setRemarquegenerale] = useState("")
   const [remaquegeneraleActive,setRemarquegeneraleActive]=useState(false)
@@ -82,13 +83,13 @@ const AfficherDemandeDetails =(demande) =>
 }
 </li>
   
-{/*
+{
 
 
-<li className="list-group-item"><button type="button" onClick={validerdossier} className="btn btn-outline-success">Valider le dossier 
-</button>  <button type="button"  onClick={rejeterdossier} className="btn btn-outline-danger">Rejeter le dossier
+<li className="list-group-item"><button type="button" onClick={validerdossier} className="btn btn-outline-success">Valider CPT
+</button>  <button type="button"  onClick={rejeterdossier} className="btn btn-outline-danger">Rejeter CPT
 </button></li>
-*/}
+}
   
 </ul>
 
@@ -195,11 +196,13 @@ const rejeter=async(e) =>
     
   </ul>
   <div className="card-body">
- 
+ {/*
  <button type="button" onClick={valider} className="btn btn-outline-success">Valider</button>
  <button onClick={()=>{setRemarqueActive(!remarqueActive)}} class="btn btn-outline-secondary">Ajouter une Remarque</button>
  {remarqueActive && <input type="text" name="remarque" onChange={(e) =>{handleChange(e)}} />}
  <button type="button" onClick={rejeter} className="btn btn-outline-danger">Rejeter</button>
+ */}
+ 
 </div>
 </div>
 

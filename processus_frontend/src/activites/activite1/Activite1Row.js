@@ -14,8 +14,16 @@ import Filepng from './file2.png';
 import axios from "axios"
 import AjouterFichier  from "./AjouterFichier"
 import Switch from '@mui/material/Switch';
+import NotesIcon from '@mui/icons-material/Notes';
+import Fab from '@mui/material/Fab';
+import { green } from '@mui/material/colors';
+import Alert from "./Alert"
+
+let alert=<></>
 const AfficherDemandeDetails =(demande) =>
 {
+  
+  const[AfficheAlert,setAfficheAlert] = useState(false)
   let demand=demande.demande.demande
   let demandeId=demand.demandeAchatId
   console.log(demandeId)
@@ -41,13 +49,72 @@ const AfficherDemandeDetails =(demande) =>
     setfichierAjouter(true)
   }
   const validerdossier=async(e)=>
-  {
+  { const valider =async(e) =>
+    {
+      //let appfile=approvationfile
+      //appfile['remarque']=remarque
+      e.preventDefault();
+      //console.log(appfile)
+      //let r=listFichierEtat
+      //r.push(appfile)
+     // setListFichierEtat(r)
+      //console.log("rrrr")
+     // console.log(listFichierEtat)
+     /* const res = await axios.post("http://localhost:8080/approuvationFile/add",appfile);*/
+    
+    }
+    let r = listFichierEtat
+    let toutvalide=true
+    if(r.length !==0)
+    {
+      toutvalide=true
+    }  
+    else 
+    {
+      toutvalide=false
+    }
+     
+
+
+    for(let i=0;i<r.length;i++)
+    {
+      if(r[i].approuvation === false)
+      {
+        toutvalide=false 
+        break;
+        
+      }
+
+    }
+    if(toutvalide)
+    {
+      for(let i =0;i<r.length;i++)
+      {
+        const res = await axios.post("http://localhost:8080/approuvationFile/add",r[i]);
+        console.log("file")
+      }
+      let dossier=appdossier
+      dossier["remarque"]=remarquegenerale
+      const res1 = await axios.post("http://localhost:8080/approuvationDossier/add",dossier);
+      console.log("dossier")
+
+    }
+    else 
+    {
+      setAfficheAlert(!AfficheAlert)
+      
+     
+
+      
+
+    }
+    /*
   let dossier=appdossier
   dossier["remarque"]=remarquegenerale
   e.preventDefault();
-  console.log(dossier)
+  console.log(dossier)*/
   
-  const res = await axios.post("http://localhost:8080/approuvationDossier/add",dossier);
+  //const res = await axios.post("http://localhost:8080/approuvationDossier/add",dossier);
 
   }
   const rejeterdossier=async(e)=>
@@ -102,6 +169,9 @@ const AfficherDemandeDetails =(demande) =>
     }
   }
 
+  /* ****** toggle approuvation *** */
+  const [listFichierEtat,setListFichierEtat] = useState([])
+
   return (
     <>
  
@@ -112,15 +182,17 @@ const AfficherDemandeDetails =(demande) =>
   </div>
   <div className="card-body">
   <ul className="list-group list-group-flush">
+    
   
   <li className="list-group-item">Estimation du budget :  {demand.estimation}</li>
   <li className="list-group-item">Délais de réalisation finale :  {demand.delais}</li>
   <li className="list-group-item">Date de création :  {demand.datenvoi}</li>
+
   
 </ul>
    
     {listfichier.map((fichier)=>
-    <AfficheFichiers fichier={fichier} />
+    <AfficheFichiers fichier={fichier} listFichierEtat={listFichierEtat} setListFichierEtat={setListFichierEtat} />
     )}
    <ul className="list-group list-group-flush">
    {/*parti ajouter fichiersssssssssssssss
@@ -184,6 +256,7 @@ const AfficherDemandeDetails =(demande) =>
 <li className="list-group-item">
   <button type="button" onClick={validerdossier} className="btn btn-outline-success">Valider le dossier 
 </button>  
+{AfficheAlert && <Alert />}
 <button type="button" onClick={rejeterdossier}  className="btn btn-outline-danger">Rejeter le dossier
 </button></li>
   
@@ -213,7 +286,7 @@ const AfficheFichier = (fichier) =>
     return (
         <>
         <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.12.313/build/pdf.worker.min.js">
-      <Viewer fileUrl={fichier.fichier.fichier.fileDownloadUri}
+      <Viewer fileUrl={fichier.fileDownloadUri}
       plugins={[defaultLayoutPluginInstance]}></Viewer>
     </Worker>
     </>)
@@ -223,12 +296,13 @@ const AfficheFichier = (fichier) =>
 
 
 
-const AfficheFichiers = (fichier) => 
+const AfficheFichiers = ({fichier,listFichierEtat,setListFichierEtat}) => 
   {/*----------------------------------------------------------
   ---------------------------------------------------------------
   --------------------------------------------------------------- */
-    
-     let ficheId=fichier.fichier.fileId
+    console.log("listEtat")
+    console.log(listFichierEtat)
+     let ficheId=fichier.fileId
     const [remarqueActive,setRemarqueActive]= useState(false)
     const [remarque,setRemarque]=useState("")
     const [approuve,setApprouve]=useState(true)
@@ -246,12 +320,16 @@ const AfficheFichiers = (fichier) =>
     
 const valider =async(e) =>
 {
-  let appfile=approvationfile
-  appfile['remarque']=remarque
+  //let appfile=approvationfile
+  //appfile['remarque']=remarque
   e.preventDefault();
-  console.log(appfile)
-  
-  const res = await axios.post("http://localhost:8080/approuvationFile/add",appfile);
+  //console.log(appfile)
+  //let r=listFichierEtat
+  //r.push(appfile)
+ // setListFichierEtat(r)
+  //console.log("rrrr")
+ // console.log(listFichierEtat)
+ /* const res = await axios.post("http://localhost:8080/approuvationFile/add",appfile);*/
 
 }
 
@@ -270,9 +348,36 @@ const rejeter=async(e) =>
 
     const defaultLayoutPluginInstance = defaultLayoutPlugin();
     const [btnAffiche,setBtnAffiche]=useState(false)
-    let titre =fichier.fichier.titre
-    const [Vtitre, setVtitre]=useState("Autre fichiers")
+    const handleChangeToggle = (event) => {
+      setChecked(event.target.checked);
+      let appfile=approvationfile
+      appfile['remarque']=remarque
+      appfile['approuvation']=true
+     
+       let r=listFichierEtat
+       let touve=false 
+       let itouve=-1
+      for(let i=0;i<r.length;i++)
+      {
+        if(r[i].file===appfile['file'])
+        {
+          touve=true
+          itouve=i
+          break;
+        }
+      }
+      if(!touve)
+       {r.push(appfile)}
+      else 
+      {r[itouve].approuvation= !r[itouve].approuvation}
+       setListFichierEtat(r)
+       console.log(r)
+       //console.log(listFichierEtat)
 
+    };
+    let titre =fichier.titre
+    const [Vtitre, setVtitre]=useState("Autre fichiers")
+    const [checked, setChecked] = React.useState(false);
     /*******************************
      * **********************cpt*****
      */
@@ -286,7 +391,7 @@ return(
     <div class="card-header">Cahier des prescriptions techniques CPT</div>
     <div class="card-body">
     <img src={Filepng} />
-    <p>{fichier.fichier.filename}</p>
+    <p>{fichier.filename}</p>
     <br/>
 
 <a onClick={()=>{setBtnAffiche(!btnAffiche)}} class="btn theme-bg text-white">Afficher le fichier</a>
@@ -294,17 +399,25 @@ return(
 </div>
 <ul className="list-group list-group-flush">
 
-<li className="list-group-item">Titre: {fichier.fichier.titre}</li>
-<li className="list-group-item">Objet: {fichier.fichier.objet}</li>
+<li className="list-group-item">Titre: {fichier.titre}</li>
+<li className="list-group-item">Objet: {fichier.objet}</li>
 
 </ul>
 <div className="card-body">
+  
+<Switch
+      checked={checked}
+    
+      onChange={handleChangeToggle}
+      inputProps={{ 'aria-label': 'controlled' }}
+    />
+   
+    <Fab size="small"  onClick={()=>{setRemarqueActive(!remarqueActive)}} sx={{ m:1  }} className="label theme-bg2 text-white f-12" aria-label="edit">
+    <NotesIcon/>
+      </Fab>
+      {remarqueActive && <input type="text" name="remarque" onChange={(e) =>{handleChange(e)}} />}
 
-<button type="button" onClick={valider} className="btn btn-outline-success">Valider</button>
-{!remarqueActive &&<button onClick={()=>{setRemarqueActive(!remarqueActive)}} class="btn btn-outline-secondary">Ajouter une Remarque</button>}
-{remarqueActive && 
- <textarea class="form-control" id="exampleFormControlTextarea1"  onChange={(e) =>{handleChange(e)}} name="remarque" rows="3"></textarea>}
-<button type="button" onClick={rejeter} className="btn btn-outline-danger">Rejeter</button>
+
 </div>
 </div>
 
@@ -322,7 +435,7 @@ else
     <div class="card-header">Autre fichier  {titre}</div>
     <div class="card-body">
     <img src={Filepng} />
-    <p>{fichier.fichier.filename}</p>
+    <p>{fichier.filename}</p>
     <br/>
 
 <a onClick={()=>{setBtnAffiche(!btnAffiche)}} class="btn theme-bg text-white">Afficher le fichier</a>
@@ -330,11 +443,22 @@ else
 </div>
 
 <div className="card-body">
+<Switch
+      checked={checked}
+    
+      onChange={handleChangeToggle}
+      inputProps={{ 'aria-label': 'controlled' }}
+    />
+   
+    <Fab size="small"  onClick={()=>{setRemarqueActive(!remarqueActive)}} sx={{ m:1  }} className="label theme-bg2 text-white f-12" aria-label="edit">
+    <NotesIcon/>
+      </Fab>
+    
+{/* <button onClick={()=>{setRemarqueActive(!remarqueActive)}} class="btn btn-outline-secondary">Ajouter une Remarque</button>*/}
 
-<button type="button" onClick={valider} className="btn btn-outline-success">Valider</button>
-<button onClick={()=>{setRemarqueActive(!remarqueActive)}} class="btn btn-outline-secondary">Ajouter une Remarque</button>
 {remarqueActive && <input type="text" name="remarque" onChange={(e) =>{handleChange(e)}} />}
-<button type="button" onClick={rejeter} className="btn btn-outline-danger">Rejeter</button>
+{/* <button type="button" onClick={rejeter} className="btn btn-outline-danger">Rejeter</button> */}
+
 </div>
 </div>
 
@@ -353,6 +477,7 @@ else
 
 function Activite1Row(demande) {
     const [previewfichiers, setPreviewfichiers] =useState(false)
+    
 
     
     return (

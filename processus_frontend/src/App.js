@@ -1,10 +1,11 @@
-import { BrowserRouter, Route, Routes }from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useLocation }from 'react-router-dom';
 
 import Activite1 from './activites/activite1/Activite1';
 import Activite2 from './activites/Activite2/Activite2';
 import Activite3 from './activites/activite3/Activite3';
 import Activite4 from './activites/activite4/Activite4';
 import Activite5 from './activites/activite5/Activite5';
+import Activite7 from './activites/activite7/Activite7';
 import DemandesAchatEnvoye from './demandeAchat/previewdemandeenvoye/DemandesAchatEnvoye';
 import AddUser from './components/user/AddUser'
 import ResetPassword from "./components/ResetPassword"
@@ -34,8 +35,10 @@ import ListeDemandeEnregistrer from './components/dossierAchat/tableauxDemande/L
 
 import  HorizontalStepper from './demandeAchat/previewdemandeenvoye/HorizontalStepper';
 import DemandeAchatEnregistrer from './demandeAchat/previewdossier/DemandeAchatEnregistrer';
+import { Navigate } from 'react-router-dom';
 
 import Activite6 from './activites/activite6/Activite6';
+import Activite8 from './activites/activite8/Activite8';
 import Home from'./components/OTHERS/home';
 import AjouterDemandeAchat from './demandeAchat/AjouterDemandeAchat';
 import Etape7 from './activites/activite7/Etape7';
@@ -43,18 +46,40 @@ import Test from './demandeAchat/images/Test'
 import Navbar from './components/Navbar';
 import Etape9 from './activites/activite9/Etape9';
 import useAuth from './components/hooks/useAuth';
+import Activite9 from './activites/activite9/Activite9';
 import { useEffect } from 'react';
 import { Refresh } from '@mui/icons-material';
 import RefreshTest from './RefreshTest';
-import Activite7 from './activites/activite7/Etape7';
+
+import { useState } from 'react';
+import axios from 'axios';
 function App() {
   const { auth,setAuth } = useAuth();
-  useEffect(() => {
-    if(localStorage.getItem('auth')) {
-      setAuth(localStorage.getItem('auth'))
-      console.log("fetching auth from local storage")
-    }
-  }, []);
+  const [roles,setRoles]=useState();
+  const [user,setUser] =useState();
+  const [all,setall] =useState();
+  const location =useLocation();
+  useEffect(()=>{
+    if(user==null){
+      async function fetchData() {
+          const response=await axios.get("http://localhost:8080/api/v1/user/AllMails")
+          const r2=await response.data
+         
+          
+          let roles=JSON.parse(localStorage.getItem("roles"));
+         
+          let user=JSON.parse(localStorage.getItem("user"))
+           setall({user,roles})
+          setUser(user)
+         
+      
+      }
+      fetchData()
+      console.log(all)
+      console.log("roles")
+      console.log(roles)}
+  },[user,roles,all])
+  
   const ROLES={
     APPROUVATION_de_CPT:1,
     PREPARATION_DE_PROJET_DE_CCAP:2,
@@ -67,6 +92,7 @@ function App() {
     ADMIN:9,
 
   }
+  
   return (
     <>
    
@@ -83,21 +109,21 @@ function App() {
   
     <Routes>
       <Route path="/" element={<Layout />}>
-      <Route path="o" element={<RefreshTest/>}/>
+      
       <Route path="navbar" element={ 
         
     <>
-     <AjouterDemandeAchat/>
-    <Activite1></Activite1>
-    <Activite2 />
-    <Activite3 />
-    <Activite4 />
-    <Activite5 />
-    <Activite6 />
+     <NavAdmin></NavAdmin>
     </>}/>
       <Route path="login" element={<Login/>}/>
+      
       <Route path="demandeachatenregister" element={ <> 
-        <Navbar></Navbar>   <DemandeAchatEnregistrer> </DemandeAchatEnregistrer> </> }/>
+        <Navbar></Navbar> 
+          <DemandeAchatEnregistrer> 
+
+          </DemandeAchatEnregistrer> </> 
+        
+        }/>
       <Route path="demandeachatenvoye" element={  <> 
         <Navbar></Navbar>  <DemandesAchatEnvoye/> </> }/>
   
@@ -120,14 +146,42 @@ function App() {
            </>
           }/>
       <Route path="activite4" element={ <> 
-        <Navbar></Navbar>  <Activite4></Activite4>
+         
+        { 
+         
+         (localStorage.getItem("user") !== null) &&(
+          
+          <>
+          
+           <Navbar></Navbar>  
+           <Activite4></Activite4>
+        </>
+        )
+        } 
+        {   (localStorage.getItem("user") == null) &&(
+          console.log("navgifze"),
+      
+          <Navigate to="/login" state={{ from: location }} replace />
+        )
+        }
+             
+        
         </>}/>
       <Route path="activite5" element={ <> 
         <Navbar></Navbar>   <Activite5></Activite5></>}/>
       <Route path="activite6" element={ <> 
-        <Navbar></Navbar>   <Activite6></Activite6></>}/>
+        
+        <Navbar></Navbar>   <Activite6></Activite6>
+       
+        </>}/>
         <Route path="activite7" element={ <> 
-        <Navbar></Navbar>   <Etape7></Etape7></>}/>
+        <Navbar></Navbar>   <Activite7></Activite7></>}/>
+        <Route path="activite9" element={ <> 
+        <Navbar></Navbar>   <Activite9></Activite9></>}/>
+        <Route path="activite8" element={ <> 
+        
+        
+        <Navbar></Navbar>   <Activite8></Activite8></>}/>
       <Route path="commission" element={  <> 
         <Navbar></Navbar> <Commission/> </> } />
         <Route path="users" element={

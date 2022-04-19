@@ -56,7 +56,9 @@ export default function Etape9() {
   }
 
   return (
-      <div className="col-3">
+    <>
+   
+      <div className="col-12">
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Stack direction="row" spacing={3}>
         <Stack>
@@ -92,7 +94,8 @@ export default function Etape9() {
         </Stack>
       </Stack>
     </LocalizationProvider>
-    <Button onClick={post }> test</Button>
+   
     </div>
+    </>
   );
 }

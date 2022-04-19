@@ -246,12 +246,28 @@ public class DemandeAchatController {
         return demandeAchatModels;
     }
 */
-@GetMapping
-public List<DemandeAchat> getAllDemande()
+@GetMapping(path = "{email}")
+public List<DemandeAchat> getAllDemande(@PathVariable("email")String email)
 {
      List<DemandeAchat> demandeAchats = demandeAchatService.getAlldDemandes();
-    return demandeAchats;
+     int size=demandeAchats.size();
+    List<DemandeAchat> ds=new ArrayList<DemandeAchat>();
+    for(int i =0 ;i<size;i++){
+        String user = demandeAchats.get(i).getUseremail();
+        if(user==email){
+            ds.add(demandeAchats.get(i));
+        }
+
+     }
+    return ds;
 }
+    @GetMapping()
+    public List<DemandeAchat> getAllDemande()
+    {
+        List<DemandeAchat> demandeAchats = demandeAchatService.getAlldDemandes();
+
+        return demandeAchats;
+    }
  /* ****** partie modification */
     @PutMapping(path="modifierDemandeEnvoye")
     public void DemandeAchatModifier(@RequestBody DemandeAchat demandeAchat){

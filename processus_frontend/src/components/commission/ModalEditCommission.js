@@ -208,7 +208,7 @@ export default function ModalEditCommission(props) {
                                             
                                            <div className="row">
                                                <div className="col-md-7">
-                                                 <button onClick={checkEmails} >test</button>
+                                                
                                                    <form>
                                                    <div className="form-group">
                                                             <label for="name">Name</label>
@@ -235,7 +235,7 @@ export default function ModalEditCommission(props) {
                                                         </div>       
 
                                                        
-                                                       <button type="submit" onClick={post} className="btn btn-primary">Ajouter</button>
+                                                      
                                                    </form>
                                                </div>
                                                <div className="col-md-5">
@@ -273,7 +273,8 @@ export default function ModalEditCommission(props) {
                                             </div>
                                         </div>
                                     
-          <Button onClick={props.handleClose}>close</Button>
+          <Button onClick={props.handleClose}>Fermer</Button>
+          <Button onClick={post} >Valider</Button>
         </Box>
       </Modal>
     </div>

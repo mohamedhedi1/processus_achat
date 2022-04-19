@@ -12,6 +12,7 @@ import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import Filepng from './file2.png';
 import axios from "axios"
+import Etape8 from './Etape8';
 
 const AfficherDemandeDetails =(demande) =>
 { let demand=demande.demande.demande
@@ -20,7 +21,7 @@ const AfficherDemandeDetails =(demande) =>
   const listfichier = demand.files
   const[remarquegenerale,setRemarquegenerale] = useState("")
   const [remaquegeneraleActive,setRemarquegeneraleActive]=useState(false)
-  const[appdossier,setAppdossier]= useState({approuvationId:0,approuvation:"a",remarque:"",etape:6,demandeAchat:demandeId})
+  const[appdossier,setAppdossier]= useState({approuvationId:0,approuvation:"a",remarque:"",etape:8,demandeAchat:demandeId})
   console.log("oui")
 
   const handleChange1 = (e) =>
@@ -70,22 +71,17 @@ const AfficherDemandeDetails =(demande) =>
     {listfichier.map((fichier)=>
     <AfficheFichiers fichier={fichier} />
     )}
+    <ul className="list-group list-group-flush">
+        <Etape8></Etape8>
+    </ul>
    <ul className="list-group list-group-flush">
   
   
-  <li className="list-group-item">
-  {!remaquegeneraleActive &&  <button onClick={()=>{setRemarquegeneraleActive(!remaquegeneraleActive)}}
-   className="btn btn-outline-secondary">Ajouter remarque génerale
-</button>}
-{remaquegeneraleActive && 
-  <textarea class="form-control" id="exampleFormControlTextarea1"  onChange={(e) =>{handleChange1(e)}} name="remarquegenrale" rows="3"></textarea>
-}
-</li>
+ 
 <li className="list-group-item">
-  <button type="button" onClick={validerdossier} className="btn btn-outline-success">Valider Cahier des charges 
+  <button type="button" onClick={validerdossier} className="btn btn-outline-success">Valider 
 </button>  
-<button type="button" onClick={rejeterdossier}  className="btn btn-outline-danger">Rejeter Cahier des charges
-</button></li>
+</li>
   
 
   
@@ -131,7 +127,7 @@ const AfficheFichiers = (fichier) =>
     const [remarqueActive,setRemarqueActive]= useState(false)
     const [remarque,setRemarque]=useState("")
     const [approuve,setApprouve]=useState(true)
-    const [approvationfile, setApprouvationfile]= useState({approuvationId:0,file:ficheId,approuvation:approuve,remarque:remarque,etape:1})
+    const [approvationfile, setApprouvationfile]= useState({approuvationId:0,file:ficheId,approuvation:approuve,remarque:remarque,etape:7})
    
     /* fichier details */
     const handleChange =(e) =>
@@ -240,7 +236,7 @@ const rejeter=async(e) =>
   }
 
 
-function Activite6Row(demande) {
+function Activite7Row(demande) {
     const [previewfichiers, setPreviewfichiers] =useState(false)
   return (
     <>
@@ -270,7 +266,7 @@ function Activite6Row(demande) {
    }
      {previewfichiers && 
  <div><AfficherDemandeDetails demande={demande} /></div>
-}
+  }
 
 
    </>
@@ -278,4 +274,4 @@ function Activite6Row(demande) {
   )
 }
 
-export default Activite6Row
+export default Activite7Row

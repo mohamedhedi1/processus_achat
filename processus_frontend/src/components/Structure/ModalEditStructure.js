@@ -218,7 +218,7 @@ export default function ModalEditStructure(props) {
                                                     
 
                                                        
-                                                       <button type="submit" onClick={post} className="btn btn-primary">Ajouter</button>
+                                                      
                                                    </form>
                                                </div>
                                                <div className="col-md-6">
@@ -256,6 +256,7 @@ export default function ModalEditStructure(props) {
                                         </div>
                                     
           <Button onClick={props.handleClose}>close</Button>
+          <button type="submit" onClick={post} className="btn btn-primary">Ajouter</button>
         </Box>
       </Modal>
     </div>

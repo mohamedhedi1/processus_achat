@@ -11,4 +11,5 @@ import java.util.List;
 public class NavbarItem {
     String  name ;
     List<PrivelageObjet> privelages ;
+
 }

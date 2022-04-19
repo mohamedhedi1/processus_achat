@@ -24,7 +24,7 @@ const Navbar = () => {
     useEffect(  () => {
       
          async function fetchData() {
-          const user =localStorage.getItem('user')
+          const user =JSON.parse(localStorage.getItem('user'))
            const response=await axios.get("http://localhost:8080/api/v1/user/navbar/"+user)
            const r2=await response.data
            setNavbar(r2)
@@ -59,8 +59,12 @@ const Navbar = () => {
                   <ul className="nav pcoded-inner-navbar">
                       {e.privelages.map(p =>(
                         <li  
-                data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"  className=  'nav-item  active' >
-               <a   className="nav-link "><span className="pcoded-micon"><i className="feather icon-user"></i></span><span className="pcoded-mtext">
+                data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"  className=  'nav-item ' >
+               <a   className="nav-link "><span className="pcoded-micon">
+                 
+               <i className={p.icon}></i>
+              
+               </span><span className="pcoded-mtext">
                    
                      
                    
@@ -87,7 +91,8 @@ const Navbar = () => {
                     
                     
         
-                    <li  data-username="Disabled Menu" className="nav-item"><a href="javascript:" className="nav-link"><span className="pcoded-micon"><i className="feather icon-power"></i></span><span className="pcoded-mtext"><Link to='/ajoutdemandeachat'>Ajouter un demande</Link></span></a></li>
+                    <li  data-username="Disabled Menu" className="nav-item"><a href="javascript:" className="nav-link"><span className="pcoded-micon"><i className="feather icon-upload"></i></span><span className="pcoded-mtext"><Link to='/ajoutdemandeachat'>Ajouter un demande</Link></span></a></li>
+                    <li  data-username="Disabled Menu" className="nav-item"><a href="javascript:" className="nav-link"><span className="pcoded-micon"><i className="feather icon-power"></i></span><span className="pcoded-mtext"><Link to='/login'>se déconnecter</Link></span></a></li>
                 </ul>
             </div>
         </div>

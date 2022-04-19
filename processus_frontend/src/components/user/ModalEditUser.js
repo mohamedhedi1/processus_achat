@@ -141,13 +141,15 @@ export default function ModalEditUser(props) {
                                                        </div>
 
                                                        
-                                                       <button type="submit" onClick={update} className="btn btn-primary">Ajouter</button>
+                                                      
                                                    </form>
                                                </div>
                                             </div>
                                         </div>
                                     
           <Button onClick={props.handleClose}>close</Button>
+        
+          <button  onClick={update} className="btn btn-primary">Ajouter</button>
         </Box>
       </Modal>
     </div>

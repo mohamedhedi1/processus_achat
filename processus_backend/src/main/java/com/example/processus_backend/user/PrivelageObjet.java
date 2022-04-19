@@ -12,4 +12,5 @@ import java.util.List;
 public class PrivelageObjet {
     String privelages ;
     String link ;
+    String icon ;
 }

@@ -4,14 +4,29 @@ import AppServices from '../services/AppServices';
 import axios from "axios";
 import useAuth from '../components/hooks/useAuth';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-
+import Alert from "@mui/material/Alert";
+import Box from "@mui/material/Box";
 
 
 const Login = () => {
+    function RedBar() {
+        return (
+          <Box
+            sx={{
+              height: 10,
+              backgroundColor: (theme) =>
+                theme.palette.mode === "light"
+                  ? "rgba(0, 0, 0, 0)"
+                  : "rgb( 0  0 0 / 0 %)"
+            }}
+          />
+        );
+      }
     const { auth,setAuth } = useAuth();
     
     const navigate = useNavigate();
     const location = useLocation();
+    const [testvalue1, settestValue1] = React.useState(false);
     const from = location.state?.from?.pathname || "/";
     const [appUser, setUser] = useState(
         {
@@ -72,6 +87,7 @@ const Login = () => {
             f.append('username',appUser.username);
             f.append('password',appUser.password)
             console.log(appUser);
+            
             const response = await axios.post('http://localhost:8080/login',f);
             let data=response.data;
             const response2=await axios.get("http://localhost:8080/api/v1/user/navbar")
@@ -79,6 +95,7 @@ const Login = () => {
             const roles=data.privelages
             const user=data.email
             const navbar=r2
+            
             const n=''
             setAuth({ user,navbar,roles,n});
 
@@ -86,11 +103,12 @@ const Login = () => {
             localStorage.setItem('auth', JSON.stringify(auth));
 
 
-            localStorage.setItem('user', user);
+            localStorage.setItem('user',JSON.stringify(user));
             localStorage.setItem('navbar',JSON.stringify(navbar));
-            localStorage.setItem('roles',roles );
+            localStorage.setItem('roles',JSON.stringify(roles ));
             
             navigate("/activite1")
+            settestValue1(false)
            // if( roles.includes(9))
             //{navigate("/users")}
            // if( roles.includes(2))
@@ -100,6 +118,7 @@ const Login = () => {
           
            
           } catch(error) {
+            settestValue1(true)
             console.log(error)
           }
 
@@ -124,6 +143,15 @@ const Login = () => {
                     <i className="feather icon-unlock auth-icon"></i>
                 </div>
                 <h3 className="mb-4">Se connecter</h3>
+                <RedBar />
+          {testvalue1 && (
+            <Alert variant="outlined" severity="error">
+             votre mot de passe ou /et email est incorecte .            </Alert>
+          )
+          
+          }
+          <RedBar />
+
                 <div className="input-group mb-3">
                     <input type="email" name="username"
                     defaultValue={appUser.username} onChange={(e)=> handleChange(e)} 

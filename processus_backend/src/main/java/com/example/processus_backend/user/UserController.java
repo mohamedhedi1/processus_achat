@@ -300,6 +300,129 @@ public class UserController {
         }).collect(Collectors.toList());
         return  userList;
     }
+    @GetMapping(path = "navbar/{email}")
+    public List<NavbarItem> getStructurePrivelageByemail(@PathVariable("email") String email){
+        User u =userRepository.getByEmail(email);
+        Structure s =structureRepository.findByname(u.getStructure().getName());
+        List<PrivelageObjet> permisssion=s.getAppPermission().stream().map(
+                appPermission -> {
+                    PrivelageObjet p=PrivelageObjet.builder()
+                            .link("/activite"+ appPermission.getAppPermissionId().toString())
+                            .privelages(appPermission.getPermission())
+                            .icon("feather icon-user")
+                            .build();
+                    return p;
+                }
+        ).collect(Collectors.toList());
+
+        List<NavbarItem> navbarItems=new ArrayList<NavbarItem>();
+        NavbarItem navbarItem= NavbarItem.builder()
+                .name(s.getName())
+                .privelages(permisssion)
+                .build();
+        List<PrivelageObjet> permisssion1=u.getAppPermission().stream().map(
+                appPermission -> {
+                    PrivelageObjet p=PrivelageObjet.builder()
+                            .link("/activite"+ appPermission.getAppPermissionId().toString())
+                            .privelages(appPermission.getPermission())
+                            .icon("feather icon-arrow-right")
+                            .build();
+                    return p;
+                }
+        ).collect(Collectors.toList());
+        int size=permisssion1.size();
+        Boolean t=false;
+
+        for( int i=0 ;i<size;i++){
+            String f=permisssion1.get(i).getPrivelages();
+            System.out.print(f);
+            if(f.equals("administrateur")){
+
+                permisssion1.remove(i);
+                PrivelageObjet p3=PrivelageObjet.builder()
+                        .link("/users")
+                        .privelages("utilisateurs")
+                        .icon("feather icon-user")
+                        .build();
+                permisssion1.add(p3);
+                PrivelageObjet p=PrivelageObjet.builder()
+                        .link("/structure")
+                        .privelages("structures")
+                        .icon("feather icon-users")
+                        .build();
+                PrivelageObjet p1=PrivelageObjet.builder()
+                        .link("/commission")
+                        .privelages("commissions")
+                        .icon("feather icon-briefcase")
+                        .build();
+                permisssion1.add(p);
+                permisssion1.add(p1);
+                break;
+
+            }
+
+        }
+        int size1=permisssion1.size();
+        for( int i=0 ;i<size1;i++){
+            String f=permisssion1.get(i).getPrivelages();
+            System.out.print(f);
+            if(f.equals("demandeur")){
+
+                permisssion1.remove(i);
+                PrivelageObjet p3=PrivelageObjet.builder()
+                        .link("/demandeachatenregister")
+                        .privelages("demandes achats enregistre")
+                        .icon("feather icon-save")
+                        .build();
+                permisssion1.add(p3);
+                PrivelageObjet p=PrivelageObjet.builder()
+                        .link("/demandeachatenvoye")
+                        .privelages("demandes achat envoyés")
+                        .icon("feather icon-upload")
+                        .build();
+
+                permisssion1.add(p);
+
+                break;
+
+            }
+
+        }
+        NavbarItem navbarItem0= NavbarItem.builder()
+                .name(u.getFirstName() +' '+ u.getLastName())
+                .privelages(permisssion1)
+                .build();
+        navbarItems.add(navbarItem0);
+        navbarItems.add(navbarItem);
+        List<Long> ids=commissionRepository.getALLCommissionByemail(u.getUserId());
+        List<Commission> commissions=commissionRepository.findAllById(ids);
+        List<NavbarItem> n= commissions.stream().map(commission -> {
+                    List<PrivelageObjet> permisssion_commission=commission.getAppPermission().stream().map(
+                            appPermission -> {
+                                PrivelageObjet p=PrivelageObjet.builder()
+                                        .link("/activite"+ appPermission.getAppPermissionId().toString())
+                                        .privelages(appPermission.getPermission())
+                                        .build();
+                                return p;
+                            }
+                    ).collect(Collectors.toList());
+
+                    NavbarItem navbarItem_commission= NavbarItem.builder()
+                            .name(commission.getName())
+                            .privelages(permisssion_commission)
+                            .build();
+                    return navbarItem_commission;
+                }
+        ).collect(Collectors.toList());
+        navbarItems.addAll(n);
+
+        return  navbarItems;
+
+
+
+
+    }
+
 
 
 
