@@ -1,13 +1,29 @@
 import React from 'react'
 import Fichier from "../components/dossierAchat/Fichier"
 import axios from 'axios' ;
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import AjouterAED from './AjouterAED';
 import AjouterFichier from './AjouterFichier';
 import useAuth from "../components/hooks/useAuth"
 import AjouterAutreFichier from './AjouterAutreFichier';
 function AjouterDemandeAchat() {
     const {auth} = useAuth();
+
+    const [projetList, setProjetList] = useState([])
+
+    useEffect(() => {
+        async function fetchData() {
+            
+            const response=await axios.get("http://localhost:8080/api/projet/names")
+            const r2=await response.data
+            setProjetList(r2)
+            console.log(r2)
+            
+          }
+         fetchData();
+    },[])
+
+
 
 
     const [aed_envoye,setAed_envoye] =useState(true)
@@ -116,13 +132,29 @@ function AjouterDemandeAchat() {
                                         <div className="row ">
                                             <div className="col-md-8">
                                                 <form>
-                                                    <div className="form-group">
+
+                                                <div class="form-group">
+                                                          <label for="exampleFormControlSelect1">Projet d'achat</label>
+                                                          <select  name="projet" required
+                                                          onChange={(e) =>{handleChange(e)}} 
+                                                          class="form-control" id="exampleFormControlSelect1" >      
+                                                              {projetList.map(struct => {
+                                                                  return  <option value={struct} >{struct}</option>
+                                                              })}
+                                                              
+                                                                     
+                                                         </select>
+                                                </div>
+                                                <button onClick={()=>{console.log(demande)}}>test</button>
+
+                                                  {/*   <div className="form-group">
                                                         <label for="exampleInputEmail1">Projet d'achat</label>
                                                         <input  name="projet"   required
                                                         type="text" 
                                                         onChange={(e) =>{handleChange(e)}}
                                                         className="form-control"  placeholder="Projet d'achat" />
                                                     </div>
+                                                     */}
                                                     <div className="form-group">
                                                         <label for="exampleInputEmail1">Estimation du budget</label>
                                                         <input  name="estimation"  required

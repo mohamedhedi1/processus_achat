@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-
+import pasDossier from './pasdossier.PNG'
 import axios from 'axios'
 import DemandeAchatEnvoyeRow from './DemandeAchatEnvoyeRow'
 function DemandesAchatEnvoye() {
@@ -64,6 +64,10 @@ function DemandesAchatEnvoye() {
                         
                     
                     }
+                     {demandeAchat.length===0 &&
+                    <center>
+                    <img src={pasDossier} />
+                    </center>}
                     </div>
                                 </div>   
                             </div>

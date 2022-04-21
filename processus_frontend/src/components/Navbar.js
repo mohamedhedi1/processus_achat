@@ -90,8 +90,8 @@ const Navbar = () => {
                
                     
                     
-        
-                    <li  data-username="Disabled Menu" className="nav-item"><a href="javascript:" className="nav-link"><span className="pcoded-micon"><i className="feather icon-upload"></i></span><span className="pcoded-mtext"><Link to='/ajoutdemandeachat'>Ajouter un demande</Link></span></a></li>
+
+                    <li  data-username="Disabled Menu" className="nav-item"><a href="javascript:" className="nav-link"><span className="pcoded-micon"><i className="feather icon-upload"></i></span><span className="pcoded-mtext"><Link to='/ajoutdemandeachat'>Ajouter une demande</Link></span></a></li>
                     <li  data-username="Disabled Menu" className="nav-item"><a href="javascript:" className="nav-link"><span className="pcoded-micon"><i className="feather icon-power"></i></span><span className="pcoded-mtext"><Link to='/login'>se déconnecter</Link></span></a></li>
                 </ul>
             </div>

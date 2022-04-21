@@ -1,6 +1,7 @@
 import Activite6Row from './Activite6Row'
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
+import pasDossier from '../pasdossier.PNG'
 function Activite6() {
     const [demandeAchat, setDemandeAchat] = useState([])
   useEffect(() => {
@@ -37,6 +38,9 @@ function Activite6() {
                         
                     
                     }
+                     {demandeAchat.length===0 && <center>
+                    <img src={pasDossier} />
+                    </center>}
                     </div>
                                 </div>   
                             </div>

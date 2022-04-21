@@ -1,6 +1,7 @@
 import Activite9Row from './Activite9Row'
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
+import pasDossier from "../pasdossier.PNG"
 function Activite8() {
     const [demandeAchat, setDemandeAchat] = useState([])
   useEffect(() => {
@@ -31,12 +32,16 @@ function Activite8() {
                                     </div>
                                     <div className="card-body">
                                     {demandeAchat.map((demande) =>
-                        {
-                            return   <Activite9Row demande={demande} />
-                        }) 
+                                           {
+                                                return   <Activite9Row demande={demande} />
+                                           }) 
                         
                     
-                    }
+                                    }
+                     {demandeAchat.length===0 &&
+                    <center>
+                    <img src={pasDossier} />
+                    </center>}
                     </div>
                                 </div>   
                             </div>

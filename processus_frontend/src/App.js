@@ -50,9 +50,11 @@ import Activite9 from './activites/activite9/Activite9';
 import { useEffect } from 'react';
 import { Refresh } from '@mui/icons-material';
 import RefreshTest from './RefreshTest';
+import AjouterProjet from './Projet/AjouterProjet';
 
 import { useState } from 'react';
 import axios from 'axios';
+
 function App() {
   const { auth,setAuth } = useAuth();
   const [roles,setRoles]=useState();
@@ -227,6 +229,14 @@ function App() {
         </div>
     
       } />  
+
+<Route path="AjouterProjet" element={
+        <div>
+           <Navbar></Navbar>
+           <AjouterProjet />
+        </div>
+    
+      } />  
       <Route path="file" element={<FileApp></FileApp>}></Route>
         <Route path="unauthorized" element={<Unauthorized />} />
        
@@ -246,6 +256,7 @@ function App() {
           <NavAdmin></NavAdmin>
           <AjouterDemandeAchat/>
         </div>
+        
         } />
 
         </Route>

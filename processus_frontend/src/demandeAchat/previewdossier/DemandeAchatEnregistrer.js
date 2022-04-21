@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 import DemandeAchatEnregistrerRow from './DemandeAchatEnregistrerRow'
+import pasDossier from './pasdossier.PNG'
 
 function DemandeAchatEnregistrer() {
     const [demandeAchat, setDemandeAchat] = useState([])
@@ -39,7 +40,10 @@ function DemandeAchatEnregistrer() {
                         }) 
                         
                     
-                    }
+                    } {demandeAchat.length===0 &&
+                        <center>
+                        <img src={pasDossier} />
+                        </center>}
                     </div>
                                 </div>   
                             </div>

@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 import Activite3Row from './Activite3Row'
+import pasDossier from './pasdossier.PNG'
+
 
 function Activite3() {
 
@@ -17,7 +19,7 @@ function Activite3() {
         fetchData();
   
     } ,[setDemandeAchat]);
-
+   
   return (
     <div className="pcoded-main-container">
     <div className="pcoded-wrapper">
@@ -38,8 +40,14 @@ function Activite3() {
                             return   <Activite3Row demande={demande} />
                         }) 
                         
+                        
                     
                     }
+                    {demandeAchat.length===0 && <center>
+                    <img src={pasDossier} />
+                    </center>}
+                    
+                     
                     </div>
                                 </div>   
                             </div>
