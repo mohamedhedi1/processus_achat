@@ -36,8 +36,8 @@ public class dmcdeContorller {
     @PostMapping(path = "/etape7/{id}")
     public void etape7(@PathVariable("id") Long id , @RequestBody Dates dates){
         dMCDe d =dmcdeRepository.getByIDdoosierachat(id);
-        d.setDateDeLancementDeAO(dates.getDateDeLancementDeAo());
-        d.setDateDeLancementdesPills(dates.getDateDeLancementDeSeance());
+        d.setDateDeLancementDeAO(dates.getDate());
+        d.setDateDeLancementdesPills(dates.getDate1());
         dmcdeRepository.save(d);
 
     }

@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class Dates {
-    private  String dateDeLancementDeAo ;
-    private  String dateDeLancementDeSeance ;
+    private  String date ;
+    private  String date1 ;
 
 }
