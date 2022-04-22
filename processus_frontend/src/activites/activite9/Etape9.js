@@ -24,18 +24,22 @@ function RedBar() {
     />
   );
 }
-export default function Etape9() {
-  const [value, setValue] = React.useState(new Date());
+export default function Etape9(props ) {
+ 
   const [testvalue, settestValue] = React.useState(false);
   const [testvalue1, settestValue1] = React.useState(false);
   const [now, setNow] = React.useState(new Date());
-
-  const [value1, setValue1] = React.useState(new Date());
+  
+  const value=props.value
+  const value1=props.value1 
+  const setValue=props.setValue
+  const setValue1=props.setValue1
   const handleChange = (newValue) => {
     if (now.getTime() < newValue.getTime()) {
       setValue(newValue);
       settestValue(false);
-    } else {
+    } 
+    else {
       settestValue(true);
     }
   };

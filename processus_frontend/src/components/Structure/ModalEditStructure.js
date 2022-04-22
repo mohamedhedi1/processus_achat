@@ -210,6 +210,11 @@ export default function ModalEditStructure(props) {
                                                             <input defaultValue={commission.abrivation} name="abrivation" onChange={(e)=> handleChange(e)} 
                                                        type="text" className="form-control" id="nom" aria-describedby="emailHelp" placeholder="Nom" />
                                                         </div>
+                                                        <div className="form-group">
+                                                            <label for="abrivation">Region</label>
+                                                            <input defaultValue={commission.region} name="region" onChange={(e)=> handleChange(e)} 
+                                                       type="text" className="form-control" id="nom" aria-describedby="emailHelp" placeholder="region" />
+                                                        </div>
                                                         
                                                       
                                                         

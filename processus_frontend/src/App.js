@@ -53,6 +53,7 @@ import RefreshTest from './RefreshTest';
 import AjouterProjet from './Projet/AjouterProjet';
 
 import { useState } from 'react';
+import ChartTest from './statictics/Chart';
 import axios from 'axios';
 
 function App() {
@@ -110,12 +111,13 @@ function App() {
     <Test />*/}
   
     <Routes>
+      
       <Route path="/" element={<Layout />}>
       
       <Route path="navbar" element={ 
         
     <>
-     <NavAdmin></NavAdmin>
+     <ChartTest></ChartTest>
     </>}/>
       <Route path="login" element={<Login/>}/>
       

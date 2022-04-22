@@ -31,6 +31,9 @@ const columns = [
 
   {field: 'abrivation',headerName: 'Abriviation',width: 120,editable: false
   },
+  
+  {field: 'region',headerName: 'Region',width: 120,editable: false
+  },
   {
     field: "Activtie",width:160,
     renderCell: (cellValues) => {
@@ -91,10 +94,10 @@ const handleOpen = () => {
 let navigate = useNavigate();
 const handleClose = () => setOpen(false);
 const[commissions,setCommissions]=useState([{
-  id:0,name:"",permission:[],abrivation:"",emails:[]
+  id:0,name:"",permission:[],region:"",abrivation:"",emails:[]
 }])
 const [commission,setCommission]=useState({
-  id:0,name:"",permission:[],abrivation:"",emails:[]
+  id:0,name:"",region:"",permission:[],abrivation:"",emails:[]
 })
 const deleteCommission=async (cellValues)=>{
   

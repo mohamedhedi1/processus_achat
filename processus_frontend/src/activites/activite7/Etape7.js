@@ -22,11 +22,23 @@ function RedBar() {
   );
 }
 const Etape7 = (props) => {
+  const handleChangeSelectStrucutre = (e) =>
+  {
+      const value = e.target.value;
+      setS(
+      parseInt(value));
+      
+
+      }
+      const [structuresList,setStructureList]=useState([{
+      
+    }])
     const [ve,setVe]=useState(false)
     const [verif,setVerif]=useState(false)
     const [email_check,setEmail_check]=useState({})
     const [email_labels,setEmail_labels]=useState([])
-    const [open,setOpen]=useState(true)
+    const [open,setOpen]=useState(false)
+    const [s,setS]=useState(0)
 
       const handleClose = () => {
         setOpen(false)
@@ -41,35 +53,22 @@ const Etape7 = (props) => {
         async function fetchData() {
           
           
-          const response=await axios.get("http://localhost:8080/api/v1/user/structureDachat")
+          const response=await axios.get("http://localhost:8080/api/dmcde/stuctureachat")
           const r2=await response.data
           if(r2.length>0){
             setVe(false)
           }
-          console.log(r2)
           
-          let l=[]
-          let l2={}
-          let l3=[]
         
-          r2.map(email=>{
-            
-             
-             l2[email]=false;
-             
-            
-             l3.push(email)
-          })
          
        
           
        
-          setEmail_check(l2)
-          setEmail_labels(l3)
+          setStructureList(r2)
         }
        fetchData();
         
-      }, [setEmail_check,setEmail_labels]);
+      }, [setStructureList]);
       const handleMail = (event) => {
        
         setEmail_check({
@@ -79,63 +78,43 @@ const Etape7 = (props) => {
         
       };
       const post =async()=>{
-        let t=[]
-        Object.entries(email_check).map(p=>{
-          if(p[1]==true){
-            t.push(p[0])
-          }
-        }
-        )
-        console.log(t)
-        if(t.length==0){
-          setVerif(true)
-        }
-        else{
-        let b={
-          emails:t
-        }
         
-         const r3=await axios.post("http://localhost:8080/etape6/"+props.id,b)
-        setOpen(false)
+        
+      
+        if(s==0){
+          setVerif(true)
+        } else{
+
+         const r3=await axios.get("http://localhost:8080/api/dmcde/etape6/"+props.id+"/"+s);
+        setOpen(false)}
         }
          // missingi dosssier achat in props
         
-      };
+      
     return ( 
 
         <>
         <Button onClick={handleOpen}>open</Button>
         <Dialog onClose={handleClose} open={open}>
-      <DialogTitle> choisir un ou des utlisateurs</DialogTitle>
+      <DialogTitle></DialogTitle>
         
         <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
         
-        {email_labels && email_labels.length>0 && (
-        <FormGroup> 
-                 {email_labels.map((p) => (
-                       <FormControlLabel
-            
-              control={
-                 
-                <Checkbox
-                
-                  key={p}
-                  checked={email_check[p]}
-                  onChange={(event) => handleMail(event)}
-                  name={p}
-                />
-              }
-              label={p}
-            />
-          ))}
-
-        </FormGroup>)}
+        <div className="form-group">
+                            <label for="structure">structure</label>
+                                    <select value={s}    onChange={(e)=> handleChangeSelectStrucutre(e)} className="mb-3 form-control">
+                                   <option value="0">choisir un structure</option>
+                                     {structuresList.map((structure) => (
+                                    <option value={structure.id}>{structure.name} {structure.region} </option>
+                                         ))}
+                                                </select>
+                                            </div>
       
         {verif && (
           <>
             <RedBar/>
             <Alert variant="outlined" severity="error">
-              il faust choisir au moins un utlisateurs
+              il faust choisir un structure
             </Alert>
              <RedBar/>
              </>

@@ -30,7 +30,7 @@ public class StructureController {
             return StructureTableRow.builder()
                     .id(structure.getStructureId())
                     .abrivation(structure.getAbrivation())
-
+                    .region(structure.getRegion())
                     .name(structure.getName())
                     .emails(e)
                     .build();
@@ -43,6 +43,7 @@ public class StructureController {
         List<AppPermission> appPermissions=appPermissionService.getAllById(structureRequest.getPrivelages());
         Structure structure= Structure.builder()
                 .name(structureRequest.getName())
+                .region(structureRequest.getRegion())
                 .appPermission(appPermissions)
                 .abrivation(structureRequest.getAbrivation())
                 .build();

@@ -21,7 +21,7 @@ function RedBar() {
     />
   );
 }
-const Etape7 = (props) => {
+const Etape8 = (props) => {
     const [ve,setVe]=useState(false)
     const [verif,setVerif]=useState(false)
     const [email_check,setEmail_check]=useState({})
@@ -41,7 +41,7 @@ const Etape7 = (props) => {
         async function fetchData() {
           
           
-          const response=await axios.get("http://localhost:8080/api/v1/user/structureDachat")
+          const response=await axios.get("http://localhost:8080/api/v1/user/AllMails")
           const r2=await response.data
           if(r2.length>0){
             setVe(false)
@@ -95,7 +95,7 @@ const Etape7 = (props) => {
           emails:t
         }
         
-         const r3=await axios.post("http://localhost:8080/etape6/"+props.id,b)
+         const r3=await axios.post("http://localhost:8080/api/dmcde/etape8/"+props.id,b)
         setOpen(false)
         }
          // missingi dosssier achat in props
@@ -152,4 +152,4 @@ const Etape7 = (props) => {
      );
 }
  
-export default Etape7;
+export default Etape8;

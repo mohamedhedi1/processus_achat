@@ -78,7 +78,7 @@ public class StructureService {
                 return user ;
             }).collect(Collectors.toSet()) ;
             structure.setUserList(users);}
-
+        structure.setRegion(s.getRegion());
         structure.setStructureId(s.getId());
         structure.setName(s.getName());
         structure.setAbrivation(s.getAbrivation());

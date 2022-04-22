@@ -26,7 +26,6 @@ public interface StructureRepository extends JpaRepository<Structure,Long> {
             "    v.answer")*/
     public List<StructureNameAndID> getStructureNameAndID ();
 
-
-
-
+    @Query("select s from Structure s where s.name=?1")
+    List<Structure> findStuructureachat(String s);
 }

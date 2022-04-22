@@ -72,7 +72,7 @@ const AfficherDemandeDetails =(demande) =>
     <AfficheFichiers fichier={fichier} />
     )}
     <ul className="list-group list-group-flush">
-        <Etape7></Etape7>
+        <Etape7 id={appdossier.demandeAchat}></Etape7>
     </ul>
    <ul className="list-group list-group-flush">
   

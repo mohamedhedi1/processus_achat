@@ -49,6 +49,7 @@ public class Structure {
     )
     private List<AppPermission> appPermission;
     private String abrivation ;
+    private String region;
     @OneToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER

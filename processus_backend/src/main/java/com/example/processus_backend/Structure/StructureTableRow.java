@@ -12,6 +12,7 @@ import java.util.List;
 @Builder
 public class StructureTableRow {
         private Long id;
+        private  String region;
         private String name  ;
         private String role ;
         private  String abrivation ;

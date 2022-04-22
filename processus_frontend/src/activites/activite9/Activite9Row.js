@@ -13,7 +13,7 @@ import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import Filepng from './file2.png';
 import axios from "axios"
 import Etape9 from './Etape9';
-
+import format from 'date-fns/format';
 const AfficherDemandeDetails =(demande) =>
 { let demand=demande.demande.demande
   let demandeId=demand.demandeAchatId
@@ -38,6 +38,13 @@ const AfficherDemandeDetails =(demande) =>
   console.log(dossier)
   
   const res = await axios.post("http://localhost:8080/approuvationDossier/add",dossier);
+  let b={
+    date1:format(value, 'dd/MM/yyyy'),
+    date:format(value1, 'dd/MM/yyyy')
+  }
+  console.log(b)
+   
+  const res1 = await axios.post("http://localhost:8080/api/dmcde/etape7/"+dossier.demandeAchat,b);
 
   }
   const rejeterdossier=async(e)=>
@@ -51,6 +58,8 @@ const AfficherDemandeDetails =(demande) =>
   const res = await axios.post("http://localhost:8080/approuvationDossier/add",dossier);
 
   }
+  const [value, setValue] = React.useState(new Date());
+  const [value1, setValue1] = React.useState(new Date());
   return (
     <>
  
@@ -76,7 +85,7 @@ const AfficherDemandeDetails =(demande) =>
     <div className="card-body">
   <ul className="list-group list-group-flush">
   
-        <Etape9></Etape9>
+      <Etape9 value={value} value1={value1} setValue={setValue} setValue1={setValue1}></Etape9>
        
     </ul>
     </div>

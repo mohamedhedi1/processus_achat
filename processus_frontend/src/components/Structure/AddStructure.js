@@ -88,7 +88,7 @@ const AddStructure= () => {
         
       };
      const [commission,setCommission]=useState({
-       name:"",permission:[],abrivation:"",emails:[]})
+       name:"",permission:[],abrivation:"",region:"",emails:[]})
        const handleChange=(e)=>{
         const value = e.target.value;
         console.log(value)
@@ -227,6 +227,12 @@ const AddStructure= () => {
                                                             <input defaultValue={commission.abrivation} name="abrivation" onChange={(e)=> handleChange(e)} 
                                                        type="text" className="form-control" id="nom" aria-describedby="emailHelp" placeholder="Nom" />
                                                         </div>
+                                                        <div className="form-group">
+                                                            <label for="abrivation">Region</label>
+                                                            <input defaultValue={commission.region} name="region" onChange={(e)=> handleChange(e)} 
+                                                       type="text" className="form-control" id="nom" aria-describedby="emailHelp" placeholder="region" />
+                                                        </div>
+                                                        
                                                         <FormLabel component="legend"><h5> choisir un des privelage</h5></FormLabel>
                                                         <FormGroup>
                                                       {privelageName.map((p) => (

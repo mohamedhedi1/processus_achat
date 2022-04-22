@@ -47,22 +47,8 @@ public class dMCDe {
     private  Long idDossierAchat ;
     private String DateDeLancementDeAO;
     private String DateDeLancementdesPills ;
-    @ManyToMany(
-            fetch = FetchType.EAGER
-    )
-    @JoinTable(
-            name="dmcde_user_structure_achat_map",
-            joinColumns = @JoinColumn(
-                    name = "id",
-                    referencedColumnName = "id"
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "userId",
-                    referencedColumnName = "userId"
-            )
 
-    )
-    private List<User> usersStructureDachata;
+    private Long StructureDachata;
 
 
 }

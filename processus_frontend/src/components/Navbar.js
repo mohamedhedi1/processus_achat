@@ -26,9 +26,9 @@ const Navbar = () => {
     const [admin,setAdmin]=useState(false)
     const {auth  }=useAuth();
     const [activeList,setActiveList]=useState([false ,false,false])
-
+    const [Notification,setNotification]=useState({})
     /* ******** snackbar ******** */
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
 
     const handleClick = () => {
      
@@ -57,6 +57,14 @@ const Navbar = () => {
            const response=await axios.get("http://localhost:8080/api/v1/user/navbar/"+user)
            const r2=await response.data
            setNavbar(r2)
+          
+           const response3=await axios.get("http://localhost:8080/notification/"+user)
+           const r3=await response3.data
+            
+           if(r3==true){
+             setOpen(true)
+
+           }
            
          }
         fetchData();
@@ -73,7 +81,7 @@ const Navbar = () => {
         <nav className="pcoded-navbar">
           <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
   <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-    This is a success message!
+  votre demande achat est publié sur TUNEPS .
   </Alert>
 </Snackbar>
         <div className="navbar-wrapper">
