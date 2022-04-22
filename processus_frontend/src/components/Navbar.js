@@ -6,6 +6,18 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import useAuth from './hooks/useAuth';
 import axios from 'axios';
+
+
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 const Navbar = () => {
   
     let navigate = useNavigate();
@@ -14,6 +26,23 @@ const Navbar = () => {
     const [admin,setAdmin]=useState(false)
     const {auth  }=useAuth();
     const [activeList,setActiveList]=useState([false ,false,false])
+
+    /* ******** snackbar ******** */
+    const [open, setOpen] = useState(true);
+
+    const handleClick = () => {
+     
+      setOpen(true);
+    };
+  
+    const handleClose = (event, reason) => {
+     /* if (reason === 'clickaway') {
+        return;
+      }*/
+      setOpen(false);
+    };
+      /************************************ */
+
     const toggleClass =()=>{
       setActive(!active)
        
@@ -34,11 +63,19 @@ const Navbar = () => {
         
          
        },[] );
+       /* ********** alert ************* */
+      
+      
 
    
   return (
          
         <nav className="pcoded-navbar">
+          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+  <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+    This is a success message!
+  </Alert>
+</Snackbar>
         <div className="navbar-wrapper">
             <div className="navbar-brand header-logo">
                 <a href="index.html" className="b-brand">
@@ -86,16 +123,19 @@ const Navbar = () => {
 
 
 
-                    
+          
                
                     
-                    
-
+                
                     <li  data-username="Disabled Menu" className="nav-item"><a href="javascript:" className="nav-link"><span className="pcoded-micon"><i className="feather icon-upload"></i></span><span className="pcoded-mtext"><Link to='/ajoutdemandeachat'>Ajouter une demande</Link></span></a></li>
                     <li  data-username="Disabled Menu" className="nav-item"><a href="javascript:" className="nav-link"><span className="pcoded-micon"><i className="feather icon-power"></i></span><span className="pcoded-mtext"><Link to='/login'>se déconnecter</Link></span></a></li>
                 </ul>
             </div>
         </div>
+   
+   
+
+
     </nav>
       )
     }
