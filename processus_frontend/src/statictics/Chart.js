@@ -3,6 +3,8 @@ import ReactApexChart from "react-apexcharts";
 import { useState } from "react";
 import Card from '@mui/material/Card';
 import { Box } from "@mui/system";
+import { useEffect } from "react";
+import axios from "axios";
 function RedBar() {
     return (
       <Box
@@ -17,93 +19,130 @@ function RedBar() {
     );
   }
 const ChartTest =()=> {
-   
-
-   const    [series,setSeries] =useState([{
-        name: 'Demande Achat rejeté',
-        data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
-      }, {
-        name: 'Demande Achat Approuvé',
-        data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
-      }])
-          
- const    [options,setOption]=useState( {
-            chart: {
-              type: 'bar',
-              height: 350
-            },
-            plotOptions: {
-              bar: {
-                horizontal: false,
-                columnWidth: '55%',
-                endingShape: 'rounded'
-              },
-            },
-            dataLabels: {
-              enabled: false
-            },
-            stroke: {
-              show: true,
-              width: 2,
-              colors: ['transparent']
-            },
-            xaxis: {
-              categories: ['Traitemenet de demande Achat', 'Approuvation de CPT','Prépartion de Projet de CCAP', 'Finalisaiton de CC',  'Approuvationde CC', "Affecatation de Dossier d'achat", "Plantifiacation les dates de lancement de l'AO","Désignation des membres de la commission d'evaluation"],
-            },
-            yaxis: {
-              title: {
-                text: 'nombre de Demande achat'
-              }
-            },
-            fill: {
-              opacity: 1
-            },
-            tooltip: {
-              y: {
-                formatter: function (val) {
-                  return  val 
-                }
-              }
+  const    [series,setSeries] =useState([{
+    name: 'Demande Achat rejeté',
+    data: [44, 55, 57, 56, 61, 58, 63, 60]
+  }, {
+    name: 'Demande Achat Approuvé',
+    data: [76, 85, 101, 98, 87, 105, 91, 114]
+  }])
+      
+const    [options,setOption]=useState( {
+        chart: {
+          type: 'bar',
+          height: 350
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: '55%',
+            endingShape: 'rounded'
+          },
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ['transparent']
+        },
+        xaxis: {
+          categories: ['Traitemenet de demande Achat', 'Approuvation de CPT','Prépartion de Projet de CCAP', 'Finalisaiton de CC',  'Approuvationde CC', "Affecatation de Dossier d'achat", "Plantifiacation les dates de lancement de l'AO","Désignation des membres de la commission d'evaluation"],
+        },
+        yaxis: {
+          title: {
+            text: 'nombre de Demande achat'
+          }
+        },
+        fill: {
+          opacity: 1
+        },
+        tooltip: {
+          y: {
+            formatter: function (val) {
+              return  val 
             }
-          })
-        
-        
-     
-
+          }
+        }
+      })
     
+    
+ 
 
-          const    [optionsPie,setOptionPie]=useState( {
-           
-            chart: {
-                width: 380,
-                type: 'pie',
+
+
+      const    [optionsPie,setOptionPie]=useState( {
+       
+        chart: {
+            width: 380,
+            type: 'pie',
+          
+          },
+       labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
+          responsive: [{
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 200
               },
-              labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
-              responsive: [{
-                breakpoint: 480,
-                options: {
-                  chart: {
-                    width: 200
-                  },
-                  legend: {
-                    position: 'bottom'
-                  }
-                }   
-                    
-                  }]})
+              legend: {
+                position: 'bottom'
+              }
+            }   
                 
+              }]})
+            
+            
+         
+    
+        
+              const    [seriesPie,setSeriesPie] =useState([44, 55, 13, 43, 22])
+              const [fin,setFin]=useState(0)
+              const [a,setA]=useState(0)
+                  
+        
                 
              
         
             
-                  const    [seriesPie,setSeriesPie] =useState([44, 55, 13, 43, 22])
-                      
-            
-                    
-                 
-            
-                
-            
+        
+  useEffect(  () => {
+       
+    async function fetchData() {
+      
+      
+      const response=await axios.get("http://localhost:8080/stat")
+      const r2=await response.data
+     /* let s1 =series
+      let s2 =seriesPie
+      let o =optionsPie 
+      s1[0].data= r2.demandeachatrejete
+      s1[1].data=r2.demandeachataccepte
+      o.labels=r2.pieNames */
+       setSeriesPie(r2.pieSeries)
+       setOptionPie({...optionsPie ,labels:r2.pieNames})
+      let p = [{
+        name: 'Demande Achat rejeté',
+        data: r2.demandeachatrejete
+      }, 
+      {
+        name: 'Demande Achat Approuvé',
+        data:r2.demandeachataccepte
+      }
+    ]
+      setSeries(p)
+      setA(r2.fin)
+      setFin(r2.entrain)
+      
+  
+    }
+   fetchData();
+    
+  } ,[setSeriesPie,setOptionPie,setSeries,setA,setFin]);
+   
+
+  
           
                 return (
                   
@@ -137,7 +176,7 @@ const ChartTest =()=> {
                                             <h6  className="mb-4">Demande Achat en cours de Traitemenet</h6>
                                             <div  className="row d-flex align-items-center">
                                                 <div  className="col-9">
-                                                    <h3  className="f-w-300 d-flex align-items-center  m-b-0"><i className="feather icon-arrow-up text-c-green f-30 m-r-10"></i>$ 8.638.32</h3>
+                                                    <h3  className="f-w-300 d-flex align-items-center  m-b-0"><i className="feather icon-arrow-up text-c-green f-30 m-r-10"></i>{a}</h3>
                                                 </div>
                                                 
                                             </div>
@@ -149,7 +188,7 @@ const ChartTest =()=> {
                                             <h6  className="mb-4">demande d'achat finalisée</h6>
                                             <div  className="row d-flex align-items-center">
                                                 <div  className="col-9">
-                                                    <h3  className="f-w-300 d-flex align-items-center  m-b-0"><i className="feather icon-arrow-up text-c-green f-30 m-r-10"></i>$ 8.638.32</h3>
+                                                    <h3  className="f-w-300 d-flex align-items-center  m-b-0"><i className="feather icon-arrow-up text-c-green f-30 m-r-10"></i>{fin}</h3>
                                                 </div>
                                                
                                             </div>
