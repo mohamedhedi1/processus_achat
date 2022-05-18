@@ -29,13 +29,13 @@ export default function StructureTable() {
 const columns = [
   { field: 'name', headerName: 'Nom', width: 300 ,editable: false},
 
-  {field: 'abrivation',headerName: 'Abriviation',width: 120,editable: false
+  {field: 'abrivation',headerName: 'Abbreviation',width: 120,editable: false
   },
   
   {field: 'region',headerName: 'Region',width: 120,editable: false
   },
   {
-    field: "Activtie",width:160,
+    field: "Activtité",width:160,
     renderCell: (cellValues) => {
       return (
         <div >
@@ -60,7 +60,7 @@ const columns = [
     }
   },
   {
-    field: "utilisateurs",width:100,
+    field: "Utilisateurs",width:100,
     renderCell: (cellValues) => {
       return (
         <div >
@@ -147,7 +147,7 @@ useEffect(  () => {
         </h4>
         <Fab  onClick={()=>{navigate('/addStructure')}} className="label theme-bg2 text-white f-12" variant="extended">
         <AddIcon size="small"  sx={{ mr: 1 }} />
-           Ajouter un Commission
+           Ajouter une Structure
              </Fab>
     </Stack>
 

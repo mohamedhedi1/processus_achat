@@ -27,7 +27,7 @@ function ModalUser(props) {
 
   return (
     <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>utilisateurs</DialogTitle>
+      <DialogTitle>Utilisateurs</DialogTitle>
       <List sx={{ pt: 0 }}>
       { emails !== undefined  && emails.map((email) => (
           <ListItem key={email}>

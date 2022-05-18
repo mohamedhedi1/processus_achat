@@ -246,7 +246,7 @@ const AddCommission = () => {
                                 <div className="col-sm-10">
                                     <div className="card">
                                         <div className="card-header">
-                                            <h5>Ajouter un commission</h5>
+                                            <h5>Ajouter une commission</h5>
                                         </div>
                                         <div className="card-body">
                                            
@@ -277,7 +277,7 @@ const AddCommission = () => {
                                                             <option value="nonpermanante">nonpermanante</option>  
                                                          </select>
                                                         </div>  
-                                                        <FormLabel component="legend"><h5> choisir un ou des activites</h5></FormLabel>
+                                                        <FormLabel component="legend"><h5> Activtités</h5></FormLabel>
                                                         <FormGroup>
                                                       {privelageName.map((p) => (
                                                      <FormControlLabel
@@ -301,7 +301,7 @@ const AddCommission = () => {
                                                         <button type="submit" onClick={post} className="btn btn-primary">Ajouter</button>
                                                         { !form_check && <Alert severity="error">
                                      
-                                     un on des inputs ne sont pas validee — <strong>les-verifie!</strong>
+                                    Formulaire n'est pas validée — <strong>les-verifie!</strong>
                                    </Alert> }
                                                       </div>
                                                     </form>
@@ -310,7 +310,7 @@ const AddCommission = () => {
                                                
                                                 <Box sx={{ display: "flex" }}>
       <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-        <FormLabel component="legend"><h5> choisir un ou des utlisateurs</h5></FormLabel>
+        <FormLabel component="legend"><h5> Utilisateurs</h5></FormLabel>
         <FormGroup>
                  {email_labels.map((p) => (
                        <FormControlLabel

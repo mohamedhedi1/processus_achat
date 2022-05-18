@@ -209,7 +209,7 @@ const AddStructure= () => {
                                 <div className="col-sm-8">
                                     <div className="card">
                                         <div className="card-header">
-                                            <h5>Ajouter un commission</h5>
+                                            <h5>Ajouter une Structure</h5>
                                         </div>
                                         <div className="card-body">
                                            
@@ -218,14 +218,14 @@ const AddStructure= () => {
                                                 <div className="col-md-8">
                                                     <form>
                                                         <div className="form-group">
-                                                            <label for="name">Name</label>
+                                                            <label for="name">Nom</label>
                                                             <input defaultValue={commission.name} name="name" onChange={(e)=> handleChange(e)} 
-                                                            type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="email" />
+                                                            type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="nom" />
                                                         </div>
                                                         <div className="form-group">
                                                             <label for="abrivation">Abbrivation</label>
-                                                            <input defaultValue={commission.abrivation} name="abrivation" onChange={(e)=> handleChange(e)} 
-                                                       type="text" className="form-control" id="nom" aria-describedby="emailHelp" placeholder="Nom" />
+                                                            <input defaultValue={commission.abrivation} name="Abbreviation" onChange={(e)=> handleChange(e)} 
+                                                       type="text" className="form-control" id="nom" aria-describedby="emailHelp" placeholder="abbreviation" />
                                                         </div>
                                                         <div className="form-group">
                                                             <label for="abrivation">Region</label>
@@ -233,7 +233,7 @@ const AddStructure= () => {
                                                        type="text" className="form-control" id="nom" aria-describedby="emailHelp" placeholder="region" />
                                                         </div>
                                                         
-                                                        <FormLabel component="legend"><h5> choisir un des privelage</h5></FormLabel>
+                                                        <FormLabel component="legend"><h5> Activtiés</h5></FormLabel>
                                                         <FormGroup>
                                                       {privelageName.map((p) => (
                                                      <FormControlLabel
@@ -271,7 +271,7 @@ const AddStructure= () => {
                                                               
                                               <  Box sx={{ display: "flex" }}>
       <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-        <FormLabel component="legend"><h5> choisir un des privelage</h5></FormLabel>
+        <FormLabel component="legend"><h5> Utilisateurs</h5></FormLabel>
         <FormGroup>
                  {email_labels.map((p) => (
                        <FormControlLabel

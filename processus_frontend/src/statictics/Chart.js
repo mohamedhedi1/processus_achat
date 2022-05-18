@@ -21,10 +21,10 @@ function RedBar() {
 const ChartTest =()=> {
   const    [series,setSeries] =useState([{
     name: 'Demande Achat rejeté',
-    data: [44, 55, 57, 56, 61, 58, 63, 60]
+    data: [4, 5, 5, 6, 1, 8, 3,0 ]
   }, {
     name: 'Demande Achat Approuvé',
-    data: [76, 85, 101, 98, 87, 105, 91, 114]
+    data: [6, 8, 1, 9, 7, 0, 1, 1]
   }])
       
 const    [options,setOption]=useState( {
@@ -79,7 +79,7 @@ const    [options,setOption]=useState( {
             type: 'pie',
           
           },
-       labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
+       labels: ["Structure d'achat ", 'Structure de plantification', 'Structure Informatique'],
           responsive: [{
             breakpoint: 480,
             options: {
@@ -97,9 +97,9 @@ const    [options,setOption]=useState( {
          
     
         
-              const    [seriesPie,setSeriesPie] =useState([44, 55, 13, 43, 22])
-              const [fin,setFin]=useState(0)
-              const [a,setA]=useState(0)
+              const    [seriesPie,setSeriesPie] =useState([44, 55, 13])
+              const [fin,setFin]=useState(10)
+              const [a,setA]=useState(3)
                   
         
                 
@@ -145,8 +145,13 @@ const    [options,setOption]=useState( {
   
           
                 return (
-                  
-        <>
+                  <div className="pcoded-main-container">
+                  <div className="pcoded-wrapper">
+                      <div className="pcoded-content">
+                          <div className="pcoded-inner-content">
+                              <div className="main-body">
+                                  <div className="page-wrapper">
+        
                     <Card  elevation={5}  sx={{
                         marginTop: 10 ,
                         margin:10,
@@ -158,7 +163,7 @@ const    [options,setOption]=useState( {
         </div>
         </Card>
         <div className="row">
-        <div className="col-md-5">
+        <div className="col-md-6">
         <Card  elevation={5}  sx={{
                        marginLeft:10,
                          width:500,
@@ -169,14 +174,14 @@ const    [options,setOption]=useState( {
          
           </Card>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-4">
           <RedBar />
                           <div className="card yearly-sales ">
                                         <div  className="card-block">
                                             <h6  className="mb-4">Demande Achat en cours de Traitemenet</h6>
                                             <div  className="row d-flex align-items-center">
                                                 <div  className="col-9">
-                                                    <h3  className="f-w-300 d-flex align-items-center  m-b-0"><i className="feather icon-arrow-up text-c-green f-30 m-r-10"></i>{a}</h3>
+                                                    <h3  className="f-w-300 d-flex align-items-center  m-b-0"><i className="feather icon-arrow-down text-c-red f-30 m-r-10"></i>{a}</h3>
                                                 </div>
                                                 
                                             </div>
@@ -199,7 +204,17 @@ const    [options,setOption]=useState( {
                                     </div>
                                     
 </div>
-          </>
+</div>
+
+                                    </div>
+                                    
+</div>
+</div>
+
+                                    </div>
+                                    
+</div>
+          
               );
             
           }

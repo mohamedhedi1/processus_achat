@@ -203,7 +203,9 @@ export default function ModalEditCommission(props) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
+          <h2>Commission</h2>
         <div className="card-body">
+          
                                            
                                             
                                            <div className="row">
@@ -213,12 +215,12 @@ export default function ModalEditCommission(props) {
                                                    <div className="form-group">
                                                             <label for="name">Name</label>
                                                             <input defaultValue={commission.name} name="name" onChange={(e)=> handleChange(e)} 
-                                                            type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="email" />
+                                                            type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="nom" />
                                                         </div>
                                                         <div className="form-group">
-                                                            <label for="abrivation">Abbrivation</label>
+                                                            <label for="abrivation">Abbreviation</label>
                                                             <input defaultValue={commission.abrivation} name="abrivation" onChange={(e)=> handleChange(e)} 
-                                                       type="text" className="form-control" id="nom" aria-describedby="emailHelp" placeholder="Nom" />
+                                                       type="text" className="form-control" id="nom" aria-describedby="emailHelp" placeholder="abbreviation" />
                                                         </div>
                                                         
                                                       
@@ -243,7 +245,7 @@ export default function ModalEditCommission(props) {
                                                               
                                                           <Box sx={{ display: "flex" }}>
       <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-        <FormLabel component="legend"><h5> choisir un ou des utilisateurs</h5></FormLabel>
+        <FormLabel component="legend"><h5> Utilisateurs</h5></FormLabel>
         <FormGroup>
                  {email_labels.map((p) => (
                        <FormControlLabel
@@ -273,8 +275,8 @@ export default function ModalEditCommission(props) {
                                             </div>
                                         </div>
                                     
-          <Button onClick={props.handleClose}>Fermer</Button>
-          <Button onClick={post} >Valider</Button>
+          <Button onClick={props.handleClose}>Quitter</Button>
+          <button onClick={post} className="btn btn-primary" >Valider</button>
         </Box>
       </Modal>
     </div>

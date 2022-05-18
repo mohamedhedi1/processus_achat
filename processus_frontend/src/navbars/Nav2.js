@@ -4,7 +4,7 @@ import { Location } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import useAuth from './hooks/useAuth';
+
 import axios from 'axios';
 
 
@@ -18,13 +18,13 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const Navbar = () => {
+const Nav2 = () => {
   
     let navigate = useNavigate();
-    const [loc,setLoc]=useState(false)
+    
     const [active,setActive]=useState(false)
     const [admin,setAdmin]=useState(false)
-    const {auth  }=useAuth();
+  
     const [activeList,setActiveList]=useState([false ,false,false])
     const [Notification,setNotification]=useState({})
     /* ******** snackbar ******** */
@@ -57,10 +57,11 @@ const Navbar = () => {
            const response=await axios.get("http://localhost:8080/api/v1/user/navbar/"+user)
            const r2=await response.data
            setNavbar(r2)
+           console.log(r2)
           
            const response3=await axios.get("http://localhost:8080/notification/"+user)
            const r3=await response3.data
-           setLoc(window.location.pathname); 
+            
            if(r3==true){
              setOpen(true)
 
@@ -72,13 +73,7 @@ const Navbar = () => {
          
        },[] );
        /* ********** alert ************* */
-      const s=(p)=>{
-        return(<>
-        { p.link==loc && <h6>found</h6>}
-        </>
-        )
-
-      }
+      
       
 
    
@@ -103,49 +98,62 @@ const Navbar = () => {
             <div className="navbar-content scroll-div">
             
                 <ul className="nav pcoded-inner-navbar">
-                {navbar.map(e=>  (
-
-              <li className="nav-item  pcoded-menu-caption">
-                  <label >{e.name}</label>
+                <li className="nav-item  pcoded-menu-caption">
+                  <label > jihed ben Foulen   </label>
                   <ul className="nav pcoded-inner-navbar">
-                      {e.privelages.map(p =>(
-                       <>
-                       {p.link==loc && 
-                       <li  
-                       data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"  className=  'nav-item active' >
-                      <a   className="nav-link "><span className="pcoded-micon">
-                        
-                      <i className={p.icon}></i>
                      
-                      </span><span className="pcoded-mtext">
-                          
-                            
-                          
-                          <Link to={p.link}  replace >{p.privelages}</Link></span></a>
-                         </li>
-                       }
-                        
-                        {!(p.link==loc )&& 
-                        <li  
-                data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"  className=  'nav-item ' >
+             <li  
+                data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"  className=  'nav-item  ' >
                <a   className="nav-link "><span className="pcoded-micon">
                  
-               <i className={p.icon}></i>
+               <i className=	"feather icon-save"></i>
               
                </span><span className="pcoded-mtext">
                    
                      
                    
-                   <Link to={p.link}  replace >{p.privelages}</Link></span></a>
-                  </li>}
-                  </>
-                      ))}
+                   <Link to='/demandeachatenregister'  replace >demandes achats enregistre</Link></span></a>
+                  </li>
+                  <li  
+                data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"  className=  'nav-item  ' >
+               <a   className="nav-link "><span className="pcoded-micon">
+                 
+               <i className=	"feather icon-upload"></i>
+              
+               </span><span className="pcoded-mtext">
+                   
+                     
+                   
+                   <Link to='/demandeachatenvoye'  replace >demandes achats envoyés</Link></span></a>
+                  </li>
+
+                 
+                   </ul>
+                  </li>
+                 
+              <li className="nav-item  pcoded-menu-caption">
+                  <label >Structure d’approbation <br/>  des CPT   </label>
+                  <ul className="nav pcoded-inner-navbar">
+                     
+                        <li  
+                data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"  className=  'nav-item active ' >
+               <a   className="nav-link "><span className="pcoded-micon">
+                 
+               <i className=	"feather icon-arrow-right"></i>
+              
+               </span><span className="pcoded-mtext">
+                   
+                     
+                   
+                   <Link to='/activite2'  replace >Approuvation de CPT</Link></span></a>
+                  </li>
+
                  
                    </ul>
                   </li>
 
 
-                      ))}
+           
                   
 
 
@@ -171,4 +179,4 @@ const Navbar = () => {
       )
     }
     
-    export default Navbar
+    export default Nav2

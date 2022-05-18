@@ -12,20 +12,16 @@ import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import { PropaneSharp } from "@mui/icons-material";
 import axios from "axios";
-export default function CheckBoxPrivelage(props) {
+export default function CheckBoxPrivelageUser(props) {
   const  state=props.state
   const setState =props.setState
   const id =props.id 
   const updateUrl=props.updateUrl
   
-     const privelageName=[
-       "privelage1","privelage2","privelage3","privelage4","privelage5","privelage6","privelage7","privelage8"
-     ]
-     const Labels=["Traitement de  demande d'achat","Approuvation de CPT","Préparation de projet de CCAP","Finalisation de CC "
-    ,"Approuvation de la CC","Affectation de dossier d'achat à une structure d 'achat",
-    "Plantification des date de lancement de demande d'achat sur TUNEPS","Désignation des membres de la commission d'evaluation"
-    ]
-     
+  const privelageName=[
+    "privelage9","privelage10"
+  ]
+  const Labels=["Demandeur","Administrateur"]
    
   const handleChange = (event) => {
     console.log(state)

@@ -145,7 +145,7 @@ function AjouterDemandeAchat() {
                                                                      
                                                          </select>
                                                 </div>
-                                                <button onClick={()=>{console.log(demande)}}>test</button>
+                                            
 
                                                   {/*   <div className="form-group">
                                                         <label for="exampleInputEmail1">Projet d'achat</label>

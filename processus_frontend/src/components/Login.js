@@ -107,7 +107,7 @@ const Login = () => {
             localStorage.setItem('navbar',JSON.stringify(navbar));
             localStorage.setItem('roles',JSON.stringify(roles ));
             
-            navigate("/activite1")
+            
             settestValue1(false)
            // if( roles.includes(9))
             //{navigate("/users")}
@@ -120,7 +120,11 @@ const Login = () => {
           } catch(error) {
             settestValue1(true)
             console.log(error)
-          }
+          }/*
+          if (appUser.password=="admin"){
+            {/*navigate("/users")}
+
+          }*/
 
          
         

@@ -29,7 +29,13 @@ export default function CommissionDataTable() {
   const columns = [
     { field: 'name', headerName: 'Nom', width: 250, editable: false },
     {
-      field: "Activtie", width: 80,
+      field: 'type', headerName: 'Type', width: 230, editable: false
+    },
+    {
+      field: 'abrivation', headerName: 'Abbreviation', width: 120, editable: false
+    },
+    {
+      field: "Activtié", width: 80,
       renderCell: (cellValues) => {
         return (
           <div >
@@ -37,12 +43,6 @@ export default function CommissionDataTable() {
           </div>
         );
       }
-    },
-    {
-      field: 'type', headerName: 'Type', width: 230, editable: false
-    },
-    {
-      field: 'abrivation', headerName: 'ABRIVAITION', width: 100, editable: false
     },
     
     {
@@ -61,7 +61,7 @@ export default function CommissionDataTable() {
       }
     },
     {
-      field: "utilisateurs",width:100,
+      field: "Utilisateurs",width:100,
       renderCell: (cellValues) => {
         return (
           <div >
@@ -148,7 +148,7 @@ const [echange_value,setEchange]=useState();
         </h4>
         <Fab onClick={() => { navigate('/addCommission') }} className="label theme-bg2 text-white f-12" variant="extended">
           <AddIcon size="small" sx={{ mr: 1 }} />
-          Ajouter un Commission
+          Ajouter une Commission
         </Fab>
       </Stack>
 

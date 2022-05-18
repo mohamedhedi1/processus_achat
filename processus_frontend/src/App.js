@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes, useLocation }from 'react-router-dom';
-
+import ModifierDemande from './demandeAchat/modifierDemandeAchat/ModifierDemande';
 import Activite1 from './activites/activite1/Activite1';
 import Activite2 from './activites/Activite2/Activite2';
 import Activite3 from './activites/activite3/Activite3';
@@ -9,9 +9,11 @@ import Activite7 from './activites/activite7/Activite7';
 import DemandesAchatEnvoye from './demandeAchat/previewdemandeenvoye/DemandesAchatEnvoye';
 import AddUser from './components/user/AddUser'
 import ResetPassword from "./components/ResetPassword"
+import Nav9 from './navbars/Nav9';
 import Login from './components/Login'
 import Header from './components/Header'
 import Layout from './components/Layout';
+import Nav4 from './navbars/Nav4';
 import Missing from './components/Missing';
 import Unauthorized from './components/Unauthorized';
 import RequireAuth from './components/RequireAuth';
@@ -25,18 +27,20 @@ import Commission from './components/commission/commission';
 import NavAdmin from './components/NavAdmin';
 import CheckBoxPrivelage from './components/AppRole/CheckBoxPrivelage';
 import AppRole from './components/AppRole/AppRole'
-
+import Nav7 from './navbars/Nav7.js';
+import Nav8 from './navbars/Nav8';
 import AddDossier from './components/dossierAchat/AddDossier';
 import FileApp from './components/dossierAchat/FileApp';
 import FilePdf from './components/dossierAchat/FilePdf'
 import DemandeAchatTable from './components/dossierAchat/DemandeAchatTable';
 import ListeDemandeEnregistrer from './components/dossierAchat/tableauxDemande/ListeDemandeEnregistrer';
 
-
+import Nav5 from './navbars/Nav5';
 import  HorizontalStepper from './demandeAchat/previewdemandeenvoye/HorizontalStepper';
 import DemandeAchatEnregistrer from './demandeAchat/previewdossier/DemandeAchatEnregistrer';
 import { Navigate } from 'react-router-dom';
-
+import Nav2 from './navbars/Nav2';
+import Newpass from './Newpass'
 import Activite6 from './activites/activite6/Activite6';
 import Activite8 from './activites/activite8/Activite8';
 import Home from'./components/OTHERS/home';
@@ -55,6 +59,7 @@ import AjouterProjet from './Projet/AjouterProjet';
 import { useState } from 'react';
 import ChartTest from './statictics/Chart';
 import axios from 'axios';
+import Reset from './components/Reset';
 
 function App() {
   const { auth,setAuth } = useAuth();
@@ -113,19 +118,21 @@ function App() {
     <Routes>
       
       <Route path="/" element={<Layout />}>
-      
-      <Route path="navbar" element={ 
+      <Route path="new" element={<ResetPassword />}/>
+      <Route path="reset" element={<Reset />}/>
+      <Route path="stat" element={ 
         
     <>
+      <Nav9></Nav9> 
      <ChartTest></ChartTest>
     </>}/>
       <Route path="login" element={<Login/>}/>
-      
+      <Route path="2" element={<Nav2/>}/>
       <Route path="demandeachatenregister" element={ <> 
         <Navbar></Navbar> 
-          <DemandeAchatEnregistrer> 
+          
 
-          </DemandeAchatEnregistrer> </> 
+          <ModifierDemande  idDemandeAchat={7  } /> </> 
         
         }/>
       <Route path="demandeachatenvoye" element={  <> 
@@ -140,12 +147,12 @@ function App() {
       </>}/>
       <Route path="activite2" element={  
         <> 
-        <Navbar></Navbar>
+        <Nav2></Nav2>
         <Activite2></Activite2>
         </>
         }/>
       <Route path="activite3" element={ <> 
-        <Navbar></Navbar>
+        <Nav9></Nav9>
            <Activite3></Activite3>
            </>
           }/>
@@ -157,7 +164,7 @@ function App() {
           
           <>
           
-           <Navbar></Navbar>  
+           <Nav4></Nav4>  
            <Activite4></Activite4>
         </>
         )
@@ -172,20 +179,20 @@ function App() {
         
         </>}/>
       <Route path="activite5" element={ <> 
-        <Navbar></Navbar>   <Activite5></Activite5></>}/>
+        <Nav5></Nav5>   <Activite5></Activite5></>}/>
       <Route path="activite6" element={ <> 
         
         <Navbar></Navbar>   <Activite6></Activite6>
        
         </>}/>
         <Route path="activite7" element={ <> 
-        <Navbar></Navbar>   <Activite7></Activite7></>}/>
+        <Nav7></Nav7>   <Activite7></Activite7></>}/>
         <Route path="activite9" element={ <> 
-        <Navbar></Navbar>   <Activite9></Activite9></>}/>
+        <Nav9></Nav9>   <Activite9></Activite9></>}/>
         <Route path="activite8" element={ <> 
         
         
-        <Navbar></Navbar>   <Activite8></Activite8></>}/>
+        <Nav8></Nav8>   <Activite8></Activite8></>}/>
       <Route path="commission" element={  <> 
         <Navbar></Navbar> <Commission/> </> } />
         <Route path="users" element={

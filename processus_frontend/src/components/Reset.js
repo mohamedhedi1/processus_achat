@@ -1,6 +1,29 @@
-import React from 'react'
-
+import React, { useState } from 'react'
+import axios from 'axios';
 const Reset = () => {
+    const [username,setUserName]=useState('email');
+    const handleChange = (e) =>
+     {   console.log(e.target.name)
+        console.log(e.target.value)
+         const value = e.target.value;
+         setUserName(value)
+         
+     }
+    const reset=()=>{
+        
+       /* console.log(window.location.pathname); 
+        const queryParams = new URLSearchParams(window.location.search); 
+        const id = queryParams.get('token');
+        console.log(id)*/
+        
+
+    }
+    const send_email=async()=>{
+        const response = await axios.get('http://localhost:8080/api/v1/user/reset/'+username);
+        let data=response.data;
+
+        
+    }
   return (
     <div className="auth-wrapper">
     <div className="auth-content">
@@ -15,12 +38,12 @@ const Reset = () => {
                 <div className="mb-4">
                     <i className="feather icon-mail auth-icon"></i>
                 </div>
-                <h3 className="mb-4">Reset Password</h3>
+                <h3 className="mb-4">Email</h3>
                 <div className="input-group mb-3">
-                    <input type="email" className="form-control" placeholder="Email" />
+                    <input  defaultValue={username} onChange={(e)=> handleChange(e)} type="email" className="form-control"/>
                 </div>
-                <button className="btn btn-primary mb-4 shadow-2">Reset Password</button>
-                <p className="mb-0 text-muted">Don’t have an account? <a href="auth-signup.html">Signup</a></p>
+                <button className="btn btn-primary mb-4 shadow-2" onClick={send_email}>Envoyer</button>
+                
             </div>
         </div>
     </div>

@@ -88,6 +88,7 @@ export default function ModalEditUser(props) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
+          <h2>Modifier Utilisateur</h2> 
         <div className="card-body">
                                            
                                             
@@ -114,24 +115,15 @@ export default function ModalEditUser(props) {
                                                            <input defaultValue={user.post} name="post" onChange={(e)=> handleChange(e)} 
                                                     type="text" className="form-control" id="poste" aria-describedby="emailHelp" placeholder="Poste" />
                                                        </div>
-                                                       <div className="form-group">
-                                                           <label for="poste">Role</label>
-                                                       <select value={user.appRoleName} onChange={(e)=> handleChangeSelectAppRole(e)} 
-                                                       class="mb-3 form-control">
-                                        
-                                                        {appRolesList.map((appRole) => (
-                                                         <option value={appRole.label}>{appRole.label}</option>
-                                                          ))}
-                                                        </select>
-                                                        </div>
+                                                    
                                                       
                                                        <div className="form-group">
-                                                           <label for="cin">cin</label>
+                                                           <label for="cin">Matircule</label>
                                                            <input  name="cin" defaultValue={user.cin} onChange={(e)=> handleChange(e)} 
                                                             type="text" className="form-control" id="cin" aria-describedby="emailHelp" placeholder="Cin" />
                                                        </div>
                                                        <div className="form-group">
-                                                           <label for="structure">structure</label>
+                                                           <label for="structure">Structure</label>
                                                            <select value={user.structureName}   onChange={(e)=> handleChangeSelectStrucutre(e)} className="mb-3 form-control">
                                                            
                                                            {structuresList.map((structure) => (
@@ -139,7 +131,7 @@ export default function ModalEditUser(props) {
                                                            ))}
                                                         </select>
                                                        </div>
-
+                                                     
                                                        
                                                       
                                                    </form>
@@ -147,9 +139,9 @@ export default function ModalEditUser(props) {
                                             </div>
                                         </div>
                                     
-          <Button onClick={props.handleClose}>close</Button>
-        
-          <button  onClick={update} className="btn btn-primary">Ajouter</button>
+          <Button onClick={props.handleClose}>Quitter</Button>
+         
+          <button  onClick={update} className=" ml-1 btn btn-primary">Ajouter</button>
         </Box>
       </Modal>
     </div>

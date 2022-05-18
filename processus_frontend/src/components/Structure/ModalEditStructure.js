@@ -194,6 +194,7 @@ export default function ModalEditStructure(props) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
+          <h2>Modifier Structure</h2>
         <div className="card-body">
                                            
                                             
@@ -229,8 +230,8 @@ export default function ModalEditStructure(props) {
                                                <div className="col-md-6">
                                                                               
                                                <Box sx={{ display: "flex" }}>
-      <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-        <FormLabel component="legend"><h5> choisir un ou des utilisateur</h5></FormLabel>
+      <FormControl sx={{ m: 1 }} component="fieldset" variant="standard">
+        <FormLabel component="legend"><h5> choisir un ou des utilisateurs</h5></FormLabel>
         <FormGroup>
                  {email_labels.map((p) => (
                        <FormControlLabel
@@ -260,8 +261,8 @@ export default function ModalEditStructure(props) {
                                             </div>
                                         </div>
                                     
-          <Button onClick={props.handleClose}>close</Button>
-          <button type="submit" onClick={post} className="btn btn-primary">Ajouter</button>
+          <Button onClick={props.handleClose}>Quitter</Button>
+          <button type="submit" onClick={post} className="btn btn-primary">Valider</button>
         </Box>
       </Modal>
     </div>

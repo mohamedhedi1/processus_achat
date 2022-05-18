@@ -7,7 +7,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import CheckBoxPrivelage from './CheckBoxPrivelage';
+import CheckBoxPrivelageUser from './CheckBoxPrivelageUser';
 import  axios  from 'axios';
 import { Fab } from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -16,14 +16,9 @@ export default function FormDialog(props) {
   const id=props.id ; 
   const [state, setState] = React.useState(
     {
-      privelage1:false,
-      privelage2:false ,
-      privelage3:false,
-      privelage4:false,
-      privelage5:false,
-      privelage6:false,
-      privelage7:false,
-      privelage8:false
+      privelage9:false,
+      privelage10:false ,
+      
     
 
     });
@@ -38,37 +33,14 @@ export default function FormDialog(props) {
     let f=state
     p.map(p_id=>{
       switch(p_id){
-        case 1:
-            f.privelage1=true
+        case 9:
+            f.privelage9=true
             break
-        case 2:
-            f.privelage2=true
+        case 10:
+            f.privelage10=true
             console.log("setting to true")
              break
-        case 3:
-             state.privelage3=true
-             console.log("setting to true")
-             break
-        case 4:
-          state.privelage4=true 
-          console.log("setting to true")
-            break
-        case   5:
-             state.privelage5=true
-             console.log("setting to true")
-             break
-        case 6:
-          state.privelage6=true   
-          console.log("setting to true")    
-           break
-        case 7:
-            state.privelage7=true
-            console.log("setting to true")
-            break
-        case 8:
-              state.privelage8=true
-              console.log("setting to true")
-              break
+        
 
 }
     })
@@ -81,11 +53,11 @@ export default function FormDialog(props) {
             Object.entries(state).map(p=>{
               if(p[1]==true){
                   switch(p[0]){
-                      case "privelage1":
-                          t.push(1)
+                      case "privelage9":
+                          t.push(9)
                           break
-                      case "privelage2":
-                           t.push(2)
+                      case "privelage10":
+                           t.push(10)
                            break
                       case "privelage3":
                            t.push(3)
@@ -130,7 +102,7 @@ export default function FormDialog(props) {
      
       <Dialog  style={{height:'600px'}} open={open} onClose={handleClose}>
        
-            <CheckBoxPrivelage setState={setState} state={state} id={id} UpdateURL={UpdateURL} ></CheckBoxPrivelage>
+            <CheckBoxPrivelageUser setState={setState} state={state} id={id} UpdateURL={UpdateURL} ></CheckBoxPrivelageUser>
   
         <DialogActions>
           <Button onClick={handleClose}>Quitter</Button>

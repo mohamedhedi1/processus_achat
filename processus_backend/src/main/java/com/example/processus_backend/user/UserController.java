@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,6 +48,7 @@ public class UserController {
         this.structureRepository = structureRepository;
         this.emailSenderService = emailSenderService;
     }
+
     @GetMapping
     public List<UserTableRow> getUsers()
     {
@@ -96,11 +98,20 @@ public class UserController {
                 .build();
         String token = userService.signUpUser(user);
         String link = "http://localhost:8080/api/v1/user/confirm?token=" + token;
-
+        String n=userRequest.getFirstName()+" "+userRequest.getLastName();
         System.out.print("sendin mail");
-      //  emailSenderService.sendSimpleEmail(user.getEmail(),link,"please confirm your app");
+        try {
+            emailSenderService.sendSimpleEmail("jihedgaraouch7@gmail.com",link,n,"f");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
 
         //send mail
+    }
+    @GetMapping(path="/reset/{email}")
+    public  void reset(@PathVariable("email")String email) throws MessagingException {
+        emailSenderService.sendResetEmail("jihedgaraouch7@gmail.com","",email,"f");
+
     }
     @GetMapping(path = "confirm")
     public String confirm(@RequestParam("token") String token) {

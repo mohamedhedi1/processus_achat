@@ -169,7 +169,7 @@ const AddUser = () => {
                                                             <label for="exampleInputEmail1">Email</label>
                                                             <input defaultValue={user.email} name="email" onChange={(e)=> handleChange(e)} 
                                                             type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="email" />
-                                                              {!email_check && <Alert   sx={{ mt: 1 }}  severity="error">format no validée!</Alert>}
+                                                              {!email_check && <Alert   sx={{ mt: 1 }}  severity="error">Vérifier votre email!</Alert>}
                                                         </div>
                                                         <div className="form-group">
                                                             <label for="nom">Nom</label>
@@ -191,8 +191,8 @@ const AddUser = () => {
                                                         <div className="form-group">
                                                             <label for="cin">Matircule</label>
                                                             <input  name="cin"   defaultValue={user.cin} onChange={(e)=> handleChange(e)} 
-                                                             type="text" className="form-control" id="cin" aria-describedby="emailHelp" placeholder="Cin" />
-                                                            {!CIN_check && <Alert   sx={{ mt: 1 }} severity="error">if faut que la matircule contient 6 chiffre </Alert>}
+                                                             type="text" className="form-control" id="cin" aria-describedby="emailHelp" placeholder="matircule" />
+                                                            {!CIN_check && <Alert   sx={{ mt: 1 }} severity="error">if faut que la matircule contient 6 chiffre  </Alert>}
                                                         </div>
                                                         <div className="form-group">
                                                             <label for="structure">structure</label>
@@ -204,6 +204,7 @@ const AddUser = () => {
                                                          </select>
                                                         </div>
                                                         <div className='row'>
+                                                         <div className='col-md-1'></div> 
                                                         <button type="submit" onClick={post} className="btn btn-primary">Ajouter</button>
                                                         { !form_error && <Alert severity="error">
                                      
@@ -213,7 +214,7 @@ const AddUser = () => {
                                                     </form>
                                                 </div>
                                                 <div className="col-md-4">
-                                                <FormLabel component="legend"><h5> choisir un des privelage</h5></FormLabel>
+                                                <FormLabel component="legend"><h5> Activtiés</h5></FormLabel>
                                                    <FormGroup>
                                                       {privelageName.map((p) => (
                                                      <FormControlLabel
