@@ -104,7 +104,7 @@ const Etape8 = (props) => {
     return ( 
 
         <>
-        <Button onClick={handleOpen}>open</Button>
+        <Button onClick={handleOpen}>désigner les membres de commission d'évaluation</Button>
         <Dialog onClose={handleClose} open={open}>
       <DialogTitle> choisir un ou des utlisateurs</DialogTitle>
         
@@ -140,7 +140,7 @@ const Etape8 = (props) => {
              <RedBar/>
              </>
           )}
-        <Button className="label theme-bg2 text-white f-12" onClick={post}>post </Button>
+        <Button className="label theme-bg2 text-white f-12" onClick={post}>Valider </Button>
    
        
       </FormControl>

@@ -118,12 +118,12 @@ function App() {
     <Routes>
       
       <Route path="/" element={<Layout />}>
-      <Route path="new" element={<ResetPassword />}/>
+      <Route path="new/" element={<ResetPassword />}/>
       <Route path="reset" element={<Reset />}/>
       <Route path="stat" element={ 
         
     <>
-      <Nav9></Nav9> 
+      <Navbar></Navbar> 
      <ChartTest></ChartTest>
     </>}/>
       <Route path="login" element={<Login/>}/>
@@ -132,7 +132,7 @@ function App() {
         <Navbar></Navbar> 
           
 
-          <ModifierDemande  idDemandeAchat={7  } /> </> 
+          <DemandeAchatEnregistrer></DemandeAchatEnregistrer> </> 
         
         }/>
       <Route path="demandeachatenvoye" element={  <> 
@@ -147,12 +147,12 @@ function App() {
       </>}/>
       <Route path="activite2" element={  
         <> 
-        <Nav2></Nav2>
+       <Navbar></Navbar>
         <Activite2></Activite2>
         </>
         }/>
       <Route path="activite3" element={ <> 
-        <Nav9></Nav9>
+        <Navbar></Navbar>
            <Activite3></Activite3>
            </>
           }/>
@@ -164,7 +164,7 @@ function App() {
           
           <>
           
-           <Nav4></Nav4>  
+          <Navbar></Navbar>
            <Activite4></Activite4>
         </>
         )
@@ -179,20 +179,19 @@ function App() {
         
         </>}/>
       <Route path="activite5" element={ <> 
-        <Nav5></Nav5>   <Activite5></Activite5></>}/>
+        <Navbar></Navbar>  <Activite5></Activite5></>}/>
       <Route path="activite6" element={ <> 
         
         <Navbar></Navbar>   <Activite6></Activite6>
        
         </>}/>
         <Route path="activite7" element={ <> 
-        <Nav7></Nav7>   <Activite7></Activite7></>}/>
+          <Navbar></Navbar>  <Activite7></Activite7></>}/>
         <Route path="activite9" element={ <> 
-        <Nav9></Nav9>   <Activite9></Activite9></>}/>
+          <Navbar></Navbar> <Activite9></Activite9></>}/>
         <Route path="activite8" element={ <> 
         
-        
-        <Nav8></Nav8>   <Activite8></Activite8></>}/>
+          <Navbar></Navbar> <Activite8></Activite8></>}/>
       <Route path="commission" element={  <> 
         <Navbar></Navbar> <Commission/> </> } />
         <Route path="users" element={

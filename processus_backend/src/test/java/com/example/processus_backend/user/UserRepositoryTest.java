@@ -156,7 +156,7 @@ class UserRepositoryTest {
         List<Structure> strucutres= structureRepository.findAll();
         List<AppPermission> appPermission=appPermissionRepository.findAll();
         User user= User.builder()
-
+                .structure(strucutres.get(0))
                 .appPermission( appPermission)
                 .cin("012453")
                 .structure(strucutres.get(0))

@@ -9,7 +9,7 @@ import AjouterAutreFichier from './AjouterAutreFichier';
 function AjouterDemandeAchat() {
     const {auth} = useAuth();
 
-    const [projetList, setProjetList] = useState([])
+    const [projetList, setProjetList] = useState(["renouvellement des imprimantes","maintenance de servers"])
 
     useEffect(() => {
         async function fetchData() {

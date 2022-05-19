@@ -9,6 +9,7 @@ import com.example.processus_backend.security.PasswordEncoder;
 import com.example.processus_backend.security.config.AppPermission.AppPermission;
 import com.example.processus_backend.security.config.AppPermission.AppPermissionService;
 
+import com.example.processus_backend.user.AccountReset.PasswordResetService;
 import com.example.processus_backend.user.delteledUser.DuserRepository;
 import com.example.processus_backend.user.emailSender.EmailSenderService;
 
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(path = "api/v1/user")
 public class UserController {
+    private  final PasswordResetService passwordResetService;
     private  final  UserRepository userRepository;
     private final DuserRepository duserRepository ;
     private final StructureService structureService ;
@@ -36,7 +38,8 @@ public class UserController {
     private  final StructureRepository structureRepository;
     private final EmailSenderService emailSenderService;
     @Autowired
-    public UserController(UserRepository userRepository, DuserRepository duserRepository, StructureService structureService, UserService userService, CommissionRepository commissionRepository, PasswordEncoder passwordEncoder, AppPermissionService appPermissionService, StructureRepository structureRepository, EmailSenderService emailSenderService) {
+    public UserController(PasswordResetService passwordResetService, UserRepository userRepository, DuserRepository duserRepository, StructureService structureService, UserService userService, CommissionRepository commissionRepository, PasswordEncoder passwordEncoder, AppPermissionService appPermissionService, StructureRepository structureRepository, EmailSenderService emailSenderService) {
+        this.passwordResetService = passwordResetService;
         this.userRepository = userRepository;
         this.duserRepository = duserRepository;
         this.structureService = structureService;
@@ -110,7 +113,20 @@ public class UserController {
     }
     @GetMapping(path="/reset/{email}")
     public  void reset(@PathVariable("email")String email) throws MessagingException {
-        emailSenderService.sendResetEmail("jihedgaraouch7@gmail.com","",email,"f");
+        String token = passwordResetService.save(email);
+        String s=email+"&token="+token;
+        emailSenderService.sendResetEmail("jihed.garaouch@istic.ucar.tn","",s,"f");
+
+    }
+    @GetMapping(path="/newpass/{email}/{token}/{p}")
+    public  void reset(@PathVariable("email")String email,@PathVariable("token") String token,@PathVariable("p")String p) {
+       Boolean b =passwordResetService.find(email,token)  ;
+
+       User u=userRepository.getByEmail(email);
+       u.setPassword(passwordEncoder.bCryptPasswordEncoder().encode(p));
+       userRepository.save(u);
+
+
 
     }
     @GetMapping(path = "confirm")
@@ -325,6 +341,15 @@ public class UserController {
                     return p;
                 }
         ).collect(Collectors.toList());
+        if(s.getName().equals("Structure d'achat")){
+            PrivelageObjet p10=PrivelageObjet.builder()
+                    .link("/stat")
+                    .privelages("statistique")
+                    .icon("feather icon-user")
+                    .build();
+            permisssion.add(p10);
+
+        }
 
         List<NavbarItem> navbarItems=new ArrayList<NavbarItem>();
         NavbarItem navbarItem= NavbarItem.builder()

@@ -20,26 +20,18 @@ const AddUser = () => {
     }])
     const [state, setState] = React.useState(
         {
-          privelage1:false,
-          privelage2:false ,
-          privelage3:false,
-          privelage4:false,
-          privelage5:false,
-          privelage6:false,
-          privelage7:false,
-          privelage8:false,
-          privelage9:false 
+          privelage9:false,
+          privelage10:false ,
+          
         
     
         }
          );
          const privelageName=[
-           "privelage1","privelage2","privelage3","privelage4","privelage5","privelage6","privelage7","privelage8","privelage9"
+           "privelage9","privelage10"
          ]
-         const Labels=["traitement la demane d'achat","Approuvation de CPT","Préparation de projet de CCAP","Finalisation le CC et Preparation la methodologie de depouillement"
-        ,"Approuvation le CC","Affectaion de dossier d'achat a une structure d 'achat",
-        "Plantification les date de lancement de l'AO et de La séance d'ouvertur de plis","designation les membres de ma commission d'evaluation","Administrateur"
-        ]
+         const Labels=["Administrateur","demandeur"]
+        
          
        
       const handleChangeAppPermission = (event) => {
@@ -105,11 +97,11 @@ const AddUser = () => {
            Object.entries(state).map(p=>{
              if(p[1]==true){
                  switch(p[0]){
-                     case "privelage1":
-                         t.push(1)
+                     case "privelage9":
+                         t.push(9)
                          break
-                     case "privelage2":
-                          t.push(2)
+                     case "privelage10":
+                          t.push(10)
                           break
                      case "privelage3":
                           t.push(3)

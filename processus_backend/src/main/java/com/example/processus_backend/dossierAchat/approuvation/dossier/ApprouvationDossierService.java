@@ -10,6 +10,7 @@ import com.example.processus_backend.dossierAchat.etape.EtapeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,10 +63,10 @@ public class ApprouvationDossierService {
         List<Etat> etats=new ArrayList<Etat>();
         List<Approuvation_dossier> approuvation_dossiers=approuvationDoosierRepository.getApprouvationDossierbyIdDossier(Id);
         for (int i =0 ;i<approuvation_dossiers.size();i++){
+
             Approuvation_dossier approuvation_dossier=approuvation_dossiers.get(i);
             List<Long> allFilesIds =approuvation_dossier.getDemandeAchat().getFiles().stream().map(f ->{
-                return  f.getFileId();
-                    }
+                return  f.getFileId();}
             ).collect(Collectors.toList());
             List<Approuvation_file> approuvation_files=approuvation_file_repository.getApprouvationFileby(allFilesIds,approuvation_dossier.getEtape().getEtapeId());
             List<Approuvation_file_Request> approuvation_file_requestList=approuvation_files.stream().map(
@@ -90,6 +91,22 @@ public class ApprouvationDossierService {
                     .build();
             etats.add(etat);
 
+        }
+        List<Integer> ids=new ArrayList<Integer>();
+        for (int j=0;j<0;etats.size()){
+            String t=etats.get(j).getApprouvation();
+            Long id=etats.get(j).getEtape();
+            if(t== "r") {
+                for (int k=0;k<0;etats.size()){
+                    int compareValue = etats.get(k).getEtape().compareTo(id);
+                    if(compareValue==0 && j!=k){
+                        ids.get(k);
+                    }
+                }
+            }
+        }
+        for(int l =0 ;l< ids.size();l++){
+            etats.remove(l);
         }
         return  etats ;
     }
@@ -118,7 +135,7 @@ public class ApprouvationDossierService {
                 .date(LocalDate.now())
                 .build();
         String traitement=approuvation_dossier_n.getApprouvation();
-
+         /*
         if(traitement.equals("r")) {
             int compareValue = etape.getEtapeId().compareTo(1L);
             int compareValue1 = etape.getEtapeId().compareTo(2L);
@@ -127,11 +144,12 @@ public class ApprouvationDossierService {
                  etape1 =etapeRepository.getById(1L);
             }
             else{
-           etape1 =etapeRepository.getById(etape.getEtapeId()-1L);}
+
+            etape1 =etapeRepository.getById(etape.getEtapeId()-1L);}
             approuvation_dossier_n.setEtape(etape1);
             approuvation_dossier_n.setApprouvation("notraite");
             approuvation_dossier_n.setDate(LocalDate.now());
-        }
+        }*/
         if(traitement.equals("a")) {
             Long e_s=approuvation_dossier_request.getEtape()+1L;
 
@@ -139,8 +157,9 @@ public class ApprouvationDossierService {
             approuvation_dossier_n.setEtape(etapes);
             approuvation_dossier_n.setApprouvation("notraite");
             approuvation_dossier_n.setDate(LocalDate.now());
+            approuvationDoosierRepository.save(approuvation_dossier_n);
         }
-        approuvationDoosierRepository.save(approuvation_dossier_n);
+
 
     }
 }

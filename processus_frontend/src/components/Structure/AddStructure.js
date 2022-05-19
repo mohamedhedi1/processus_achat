@@ -42,7 +42,7 @@ const AddStructure= () => {
         "Plantification les date de lancement de l'AO et de La séance d'ouvertur de plis","designation les membres de ma commission d'evaluation"
         ]
         const handleChangeAppPermission = (event) => {
-        
+            console.log("changed")
             setState({
               ...state,
               [event.target.name]: event.target.checked,
@@ -146,7 +146,7 @@ const AddStructure= () => {
          }
              
             )
-            if((t.size==0)||(commission2.abrivation=="")||(commission2.name="")){
+            if((t.size==0)||(commission2.name="")){
               set_form_check(false)
               return ("")
           }

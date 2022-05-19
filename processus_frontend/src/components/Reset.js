@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
 import axios from 'axios';
+import Alert from '@mui/material/Alert';
 const Reset = () => {
     const [username,setUserName]=useState('email');
+    const [test,setTest]=useState(false)
     const handleChange = (e) =>
      {   console.log(e.target.name)
         console.log(e.target.value)
          const value = e.target.value;
          setUserName(value)
+         
          
      }
     const reset=()=>{
@@ -21,7 +24,7 @@ const Reset = () => {
     const send_email=async()=>{
         const response = await axios.get('http://localhost:8080/api/v1/user/reset/'+username);
         let data=response.data;
-
+        setTest(true)
         
     }
   return (
@@ -42,6 +45,8 @@ const Reset = () => {
                 <div className="input-group mb-3">
                     <input  defaultValue={username} onChange={(e)=> handleChange(e)} type="email" className="form-control"/>
                 </div>
+                { test &&
+                <Alert severity="success">vérifiez votre email</Alert> }
                 <button className="btn btn-primary mb-4 shadow-2" onClick={send_email}>Envoyer</button>
                 
             </div>

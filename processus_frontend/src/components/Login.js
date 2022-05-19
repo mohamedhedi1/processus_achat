@@ -90,7 +90,7 @@ const Login = () => {
             
             const response = await axios.post('http://localhost:8080/login',f);
             let data=response.data;
-            const response2=await axios.get("http://localhost:8080/api/v1/user/navbar")
+            const response2=await axios.get("http://localhost:8080/api/v1/user/navbar/"+appUser.username)
           const r2=await response2.data
             const roles=data.privelages
             const user=data.email
@@ -109,10 +109,10 @@ const Login = () => {
             
             
             settestValue1(false)
-           // if( roles.includes(9))
-            //{navigate("/users")}
-           // if( roles.includes(2))
-            //{navigate("/non_admin")}
+            if( roles.includes(9))
+            {navigate("/users")}
+          else{
+            navigate("/demandeachatenregister")}
             
             
           
@@ -170,7 +170,7 @@ const Login = () => {
                 <button
                 onClick={login}
                 className="btn btn-primary shadow-2 mb-4">Connexion</button>
-                <p className="mb-2 text-muted"> <a href="">Mot de passe oublié ?</a></p>
+                <p className="mb-2 text-muted"> <a href="/reset">Mot de passe oublié ?</a></p>
            
             </div>
         </div>

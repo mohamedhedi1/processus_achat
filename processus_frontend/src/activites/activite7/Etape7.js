@@ -94,7 +94,7 @@ const Etape7 = (props) => {
     return ( 
 
         <>
-        <Button onClick={handleOpen}>open</Button>
+        <Button onClick={handleOpen}>choisir un structure</Button>
         <Dialog onClose={handleClose} open={open}>
       <DialogTitle></DialogTitle>
         
@@ -119,7 +119,7 @@ const Etape7 = (props) => {
              <RedBar/>
              </>
           )}
-        <Button className="label theme-bg2 text-white f-12" onClick={post}>post </Button>
+        <Button className="label theme-bg2 text-white f-12" onClick={post}>valider </Button>
    
        
       </FormControl>
