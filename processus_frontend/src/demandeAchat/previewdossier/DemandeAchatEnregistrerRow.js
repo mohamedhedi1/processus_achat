@@ -12,24 +12,60 @@ import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import Filepng from './file2.png';
 import axios from 'axios' ;
+import { useNavigate } from 'react-router-dom';
+localStorage.setItem('idDemandeAchat',-1)
+
 
 const AfficherDemandeDetails =(demande) =>
-{let demand=demande.demande.demande
+{const navigate = useNavigate();
+  let demand=demande.demande.demande
   console.log("oui")
   const listfichier = demand.files
+
+  const ModifierDemande = async(e) =>
+    {
+      e.preventDefault()
+       const navigate = useNavigate();
+      console.log("45555555555555555555555555555555555555555555555555")
+      
+      console.log(demand.demandeAchatId)
+         
+      localStorage.setItem('idDemandeAchat', 7);
+
+      //navigate("/modifierDemande?id="+demand.idDemandeAchat)
+     
+    
+
+    }
+   
      const EnvoyerDemande = async(e) =>
      {
         
          
          console.log(demand.demandeAchatId)
          const res = await  axios.post(`http://localhost:8080/api/DemandeAchat/envoyer/${demand.demandeAchatId}`);
+              navigate("/demandeachatenregister")
+        // console.log(res.data)
+     }
+     const EnvoyerDemande2 = async(e) =>
+     {
+       
+      
+        
+         // localStorage.removeItem('idDemandeAchat')
+        // console.log(demand.demandeAchatId)
+        // localStorage.setItem('idDemandeAchat', demand.demandeAchatId);
+         navigate("/modifierDemande")
+        // const res = await  axios.post(`http://localhost:8080/api/DemandeAchat/envoyer/${demand.demandeAchatId}`);
               
-         console.log(res.data)
+        // console.log(res.data)
      }
      const SupprimerDemande =async(e) =>
      {
         e.preventDefault()
         const res = await  axios.delete(`http://localhost:8080/api/DemandeAchat/envoyer/${demand.demandeAchatId}`);
+        navigate("/demandeachatenregister")
+        
               
         console.log(res.data)
 
@@ -58,10 +94,18 @@ const AfficherDemandeDetails =(demande) =>
     <ul className="list-group list-group-flush">
   
   
-<li className="list-group-item"><form><button onClick={EnvoyerDemande} className="btn btn-outline-success">Envoyer la demande
-</button> <button href="#" className="btn btn-outline-secondary">Modifier la demande
-</button> <button onClick={SupprimerDemande} className="btn btn-outline-danger">Supprimer la demande
-</button></form></li>
+<li className="list-group-item">
+  {/* <form> </form>  */}
+  <button onClick={EnvoyerDemande} className="btn btn-outline-success">Envoyer la demande
+</button>  
+
+<button  onClick={()=>{
+  localStorage.setItem('idDemandeAchat', demand.demandeAchatId);
+  navigate("/modifierDemande")}} className="btn btn-outline-secondary">Modifier la demande
+</button> 
+<button onClick={SupprimerDemande} className="btn btn-outline-danger">Supprimer la demande
+</button>
+</li>
   
 </ul>
   

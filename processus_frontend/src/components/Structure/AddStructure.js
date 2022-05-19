@@ -37,9 +37,9 @@ const AddStructure= () => {
          const privelageName=[
            "privelage1","privelage2","privelage3","privelage4","privelage5","privelage6","privelage7","privelage8"
          ]
-         const Labels=["traitement la demane d'achat","Approuvation de CPT","Préparation de projet de CCAP","Finalisation le CC et Preparation la methodologie de depouillement"
+         const Labels=["traitement la demande d'achat","Approuvation de CPT","Préparation de projet de CCAP","Finalisation le CC et Preparation la methodologie de depouillement"
         ,"Approuvation le CC","Affectaion de dossier d'achat a une structure d 'achat",
-        "Plantification les date de lancement de l'AO et de La séance d'ouvertur de plis","designation les membres de ma commission d'evaluation"
+        "Plantification les date de lancement de l'AO et de La séance de plis","désignation des membres de la commission d'evaluation"
         ]
         const handleChangeAppPermission = (event) => {
             console.log("changed")

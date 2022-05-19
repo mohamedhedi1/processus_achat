@@ -126,6 +126,12 @@ function App() {
       <Navbar></Navbar> 
      <ChartTest></ChartTest>
     </>}/>
+    <Route path="modifierDemande" element={  <> 
+        <Navbar></Navbar>
+        {/* localStorage.getItem("idDemandeAchat") */}
+          <ModifierDemande idDemandeAchat={localStorage.getItem("idDemandeAchat")
+}/> 
+        </> }/>
       <Route path="login" element={<Login/>}/>
       <Route path="2" element={<Nav2/>}/>
       <Route path="demandeachatenregister" element={ <> 
@@ -178,20 +184,20 @@ function App() {
              
         
         </>}/>
+        <Route path="app" element={ <> 
+        <Navbar></Navbar>  <Activite6></Activite6></>}/>
       <Route path="activite5" element={ <> 
         <Navbar></Navbar>  <Activite5></Activite5></>}/>
       <Route path="activite6" element={ <> 
         
-        <Navbar></Navbar>   <Activite6></Activite6>
+        <Navbar></Navbar>   <Activite7></Activite7>
        
         </>}/>
         <Route path="activite7" element={ <> 
-          <Navbar></Navbar>  <Activite7></Activite7></>}/>
-        <Route path="activite9" element={ <> 
-          <Navbar></Navbar> <Activite9></Activite9></>}/>
+          <Navbar></Navbar>  <Activite9></Activite9></>}/>
         <Route path="activite8" element={ <> 
-        
           <Navbar></Navbar> <Activite8></Activite8></>}/>
+       
       <Route path="commission" element={  <> 
         <Navbar></Navbar> <Commission/> </> } />
         <Route path="users" element={

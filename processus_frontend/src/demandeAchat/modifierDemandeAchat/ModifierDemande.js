@@ -78,7 +78,6 @@ function ModifierDemande(idDemandeAchat) {
                    //setOldCptId(r)
                     setOldCpt(cpt)
                     setCptExist(true)
-
                 } else
                 if(files[i].titre==="AED")
                 {
@@ -101,16 +100,13 @@ function ModifierDemande(idDemandeAchat) {
                    
                    
             
-
                 }
                 else
                 {
                     files1.push(files[i])
                     setFilesF([... files1])
                     //apres  => a modifier map of files par filesF 
-
                 }
-
             }*/
             
             
@@ -185,6 +181,26 @@ function ModifierDemande(idDemandeAchat) {
       }
       const post2=async(e) =>
       {
+        e.preventDefault()
+        
+        let t =demandeAchat
+        let  r=listfichierInfo
+        t.estimation=parseInt(t.estimation)
+        for(let i=0;i<files.length;i++)
+        {
+            if(!listFileSupp.includes(files[i].fileId))
+            {
+                r.push(files[i])
+
+            }
+        }
+        t.files=r
+        console.log(r)
+        const res = await  axios.put("http://localhost:8080/api/DemandeAchat/modifierDemandeEnvoye2",t);
+        
+        const res2 = await  axios.delete(`http://localhost:8080/api/DemandeAchat/envoyer/${idDemandeAchat.idDemandeAchat}`);
+              
+       console.log(res.data)
 
       }
       
@@ -279,8 +295,7 @@ function ModifierDemande(idDemandeAchat) {
                                                    
                                          
                                                 </form>
-                                                <button onClick={()=>{console.log(listFileSupp)
-                                                console.log(listFileSupp)}}>test</button>
+                                               
                                             </div>
                                         </div>
                                  

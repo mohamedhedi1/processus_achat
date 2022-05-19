@@ -269,6 +269,8 @@ public List<DemandeAchat> getAllDemande(@PathVariable("email")String email)
         return demandeAchats;
     }
  /* ****** partie modification */
+
+
     @PutMapping(path="modifierDemandeEnvoye")
     public void DemandeAchatModifier(@RequestBody DemandeAchat demandeAchat){
         boolean Vcpt =false;
@@ -323,4 +325,61 @@ public List<DemandeAchat> getAllDemande(@PathVariable("email")String email)
                 .build();
         approuvationDoosierRepository.save(approuvation_dossier);
     }
+
+    @PutMapping(path="modifierDemandeEnvoye2")
+    public void DemandeAchatModifier2(@RequestBody DemandeAchat demandeAchat){
+        boolean Vcpt =false;
+        boolean Vaed = false;
+        List<File> files = demandeAchat.getFiles();
+        List<File> filesFinale= new ArrayList<File>();
+        for(int i=0;i<files.size();i++)
+        {
+            if(Vcpt == false && files.get(i).getTitre().length()>3 && files.get(i).getObjet()!="")
+            {
+                Vcpt=true;
+                filesFinale.add(files.get(i));
+            }else if(Vaed == false && files.get(i).getTitre()=="AED") {
+                Vaed=true;
+                filesFinale.add(files.get(i));
+            }else if(files.get(i).getTitre()=="")
+            {
+                filesFinale.add(files.get(i));
+
+            }
+
+        }
+        DemandeAchat demandeAchatF = DemandeAchat.builder()
+                .projet(demandeAchat.getProjet())
+                .estimation(demandeAchat.getEstimation())
+                .delais(demandeAchat.getDelais())
+                .envoye(false)
+                .datenvoi(LocalDate.now())
+                .files(filesFinale)
+                .useremail(demandeAchat.getUseremail())
+                .build();
+
+        demandeAchatRepository.save(demandeAchatF);
+        Long id=demandeAchatRepository.getIdbyProjetName(demandeAchat.getProjet());
+
+
+        Etape etape=  etapeRepository.findById(Integer.toUnsignedLong(1)).orElse(null);
+        Approuvation_dossier_Request approuvation_dossier_request= Approuvation_dossier_Request.builder()
+                .demandeAchat(id)
+                .remarque("")
+                .approuvation("notraite")
+                .etape(Integer.toUnsignedLong(1))
+                .build();
+        DemandeAchat demandeAchat1=demandeAchatRepository.findById(approuvation_dossier_request.getDemandeAchat()).orElse(null);
+
+        Approuvation_dossier approuvation_dossier= Approuvation_dossier.builder()
+                .approuvation(approuvation_dossier_request.getApprouvation())
+                .demandeAchat(demandeAchat1)
+                .remarque(approuvation_dossier_request.getRemarque())
+                .etape(etape)
+                .date(LocalDate.now())
+                .build();
+        approuvationDoosierRepository.save(approuvation_dossier);
+    }
+
 }
+

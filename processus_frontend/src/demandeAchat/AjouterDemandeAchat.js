@@ -6,10 +6,12 @@ import AjouterAED from './AjouterAED';
 import AjouterFichier from './AjouterFichier';
 import useAuth from "../components/hooks/useAuth"
 import AjouterAutreFichier from './AjouterAutreFichier';
+import { useNavigate } from 'react-router-dom';
 function AjouterDemandeAchat() {
+    const navigate = useNavigate();
     const {auth} = useAuth();
 
-    const [projetList, setProjetList] = useState(["renouvellement des imprimantes","maintenance de servers"])
+    const [projetList, setProjetList] = useState([])
 
     useEffect(() => {
         async function fetchData() {
@@ -60,6 +62,7 @@ function AjouterDemandeAchat() {
         
               
        console.log(res.data)
+       navigate("/demandeachatenvoye")
     }
    
     const  post2 =async(e) => 
@@ -75,6 +78,7 @@ function AjouterDemandeAchat() {
         const res = await  axios.post("http://localhost:8080/api/DemandeAchat/nonenvoye",t);
               
        console.log(res.data)
+       navigate("/demandeachatenregister")
     }
     const handleChange =(e) =>
     {
