@@ -155,7 +155,7 @@ const AddStructure= () => {
             setCommission(commission2)
             console.log(commission2)
             const response=await axios.post("http://localhost:8080/api/structure/addStructure",commission2)
-            //dnavigate("/structure")
+            navigate("/structure")
       
          }
          const handleCheckbox =(e)=>{
@@ -224,7 +224,7 @@ const AddStructure= () => {
                                                         </div>
                                                         <div className="form-group">
                                                             <label for="abrivation">Abbrivation</label>
-                                                            <input defaultValue={commission.abrivation} name="Abbreviation" onChange={(e)=> handleChange(e)} 
+                                                            <input defaultValue={commission.abrivation} name="abrivation" onChange={(e)=> handleChange(e)} 
                                                        type="text" className="form-control" id="nom" aria-describedby="emailHelp" placeholder="abbreviation" />
                                                         </div>
                                                         <div className="form-group">

@@ -30,7 +30,7 @@ const Login = () => {
     const from = location.state?.from?.pathname || "/";
     const [appUser, setUser] = useState(
         {
-         username:"",
+         username:"email",
          password:""
         }    
         );
@@ -109,10 +109,10 @@ const Login = () => {
             
             
             settestValue1(false)
-            if( roles.includes(9))
-            {navigate("/users")}
+            /*if( roles.includes(9))
+            {navigate("/demandeachatenregister")}
           else{
-            navigate("/demandeachatenregister")}
+            navigate("/demandeachatenregister")}*/
             
             
           
@@ -164,7 +164,7 @@ const Login = () => {
                 <div className="input-group mb-4">
                     <input type="password"  name="password"
                     defaultValue={appUser.password} onChange={(e)=> handleChange(e)} 
-                    className="form-control" placeholder="password" />
+                    className="form-control" placeholder="mot de passe" />
                 </div>
                
                 <button

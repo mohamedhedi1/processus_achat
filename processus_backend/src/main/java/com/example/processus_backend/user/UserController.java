@@ -104,7 +104,7 @@ public class UserController {
         String n=userRequest.getFirstName()+" "+userRequest.getLastName();
         System.out.print("sendin mail");
         try {
-            emailSenderService.sendSimpleEmail("jihedgaraouch7@gmail.com",link,n,"f");
+            emailSenderService.sendSimpleEmail("jihed.garaouch@istic.ucar.tn",link,n,"f");
         } catch (MessagingException e) {
             e.printStackTrace();
         }

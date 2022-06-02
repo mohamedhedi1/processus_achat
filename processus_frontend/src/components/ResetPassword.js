@@ -2,11 +2,14 @@ import React from 'react'
 import { useState } from 'react';
 import Alert from '@mui/material/Alert';
 import axios from 'axios';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 const ResetPassword = () => {
     const [pass1,setPass1]=useState('');
     const [pass2,setPass2]=useState('');
-    const [test,setTest]=useState(false)
+    const [test,setTest]=useState(false);
+    const navigate=useNavigate();
     const search=async()=>{
+
       console.log(window.location.pathname); 
       const queryParams = new URLSearchParams(window.location.search); 
       const id = queryParams.get('email');
@@ -19,6 +22,7 @@ const ResetPassword = () => {
       }
       else{
       const response = await axios.get('http://localhost:8080/api/v1/user/newpass/'+id+'/'+token+'/'+pass1);
+      navigate("/login")
       }
     
     }

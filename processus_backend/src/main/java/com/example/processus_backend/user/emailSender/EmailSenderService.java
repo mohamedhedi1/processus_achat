@@ -136,7 +136,7 @@ public class EmailSenderService {
                 "                                                                                    </td>\n" +
                 "                                                                                </tr>\n" +
                 "                                                                                <tr>\n" +
-                "                                                                                    <td class=\"esd-block-button es-p20t es-p20b\" align=\"center\"><span class=\"es-button-border\"><a href=\""+body+"\" class=\"es-button es-button-1652019510830\" target=\"_blank\" style=\"border-width: 10px 25px;\">Activer </a></span></td>\n" +
+                "                                                                                    <td class=\"esd-block-button es-p20t es-p20b\" align=\"center\"><span class=\"es-button-border\"><a href=\"http://localhost:3000/login\" class=\"es-button es-button-1652019510830\" target=\"_blank\" style=\"border-width: 10px 25px;\">Activer </a></span></td>\n" +
                 "                                                                                </tr>\n" +
                 "                                                                            </tbody>\n" +
                 "                                                                        </table>\n" +
@@ -192,8 +192,8 @@ public class EmailSenderService {
         message.setContent(htmlMsg, "text/html");
 
         helper.setFrom("noreply.pfe.2022@gmail.com");
-        helper.setTo("jihedgaraouch7@gmail.com");
-        helper.setSubject("Test send HTML email");
+        helper.setTo(toEmail);
+        helper.setSubject("Activer votre compte");
 
 
         mailSender.send(message);
@@ -344,8 +344,8 @@ public class EmailSenderService {
         message.setContent(htmlMsg, "text/html");
 
         helper.setFrom("noreply.pfe.2022@gmail.com");
-        helper.setTo("jihedgaraouch7@gmail.com");
-        helper.setSubject("Test send HTML email");
+        helper.setTo(toEmail);
+        helper.setSubject("Réinitialiser le mot de passe");
 
 
         mailSender.send(message);
